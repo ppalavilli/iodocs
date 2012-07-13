@@ -354,12 +354,10 @@ li {
   font-weight: bold;
   display: block;
   margin-bottom: 3px;
-  width: 500px;
 }
 
 .credentials input {
-  width: 400px;
- margin-bottom: 8px;
+  width: 200px;
 }
 
 .credentials #oauth-auth {
@@ -497,17 +495,21 @@ li {
 
 .method .title {
   overflow: hidden;
-  /*-moz-border-radius: 5px;
+  -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   -o-border-radius: 5px;
   -ms-border-radius: 5px;
   -khtml-border-radius: 5px;
-  background-color:#F4F4E1;*/
- l}
+  border-radius: 5px;
+}
 
 .method .title:hover {
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.5);
   cursor: pointer;
+}
+
+.method .title:hover span {
+  text-decoration: underline;
 }
 
 .method .title:hover span.http-method {
@@ -518,17 +520,6 @@ li {
   margin: 0 10px 0;
   line-height: 33px;
   float: left;
-  width: 180px;
-  font-weight: normal;
-}
-
-.type{
-  float: left;
-  font-size: 12px;
-  text-align: left;
-  width: 100px;
-  font-weight: normal;
-  margin: 10px 0;
 }
 
 .method .title .uri {
@@ -542,11 +533,7 @@ li {
 .method .title .description {
   float: right;
   font-size: 12px;
-  text-align: left;
-  width: 314px;
-  font-weight: normal;
-  line-height:130%;
-  padding:10px;
+  text-align: right;
 }
 
 .method .title .http-method {
@@ -594,7 +581,12 @@ li {
   color:#CC0000;
 }
 
-
+.complexMethod{
+    font-weight: bold;
+    color: #FFFFFF;
+    background-color: #336699;
+    
+}
 
 .complexTypePos{
     position:relative;
@@ -670,8 +662,8 @@ li {
 }
 
 .post {
-  background: #F4F4E1;
-  border-color: #CBCB71;
+  background: #e7f6ec;
+  border-color: #afe1c0;
 }
 
 .post .http-method {
@@ -810,60 +802,3 @@ li {
     page-break-after: avoid;
   }
 }
-
-.header{
-	margin-right:160px;
-	font-weight:bold;
-        	
-}
-
-.horizontalDiv{
-width:100%; 
-text-align:left; 
-		
-}
-.horizontalDiv > div{
-	float:left; 
-	clear:both;
-}
-.complexMethod{
-    font-weight: bold;
-    color: #FFFFFF;
-    background-color: #336699;
-    
-}
-
-.comx{
-	font-weight: bold;
-    color: black;
-}
-.borderbox{
-      background-color: #F4F4E1;
-    border: 1px solid #CBCB71;
-    border-radius: 5px 5px 5px 5px;
-    overflow: hidden;
-    padding: 5px;
-      margin-bottom:10px;
-}
-.comx a{
-	float:left;
-	display:block;
-        margin-top: 5px;
-}
-
-.comx > span{
-	float: left; 
-    overflow: hidden;
-}
-
-ul{
-    position:relative;
-    padding-left:10px;
-}
-
-
-.clear {
-	clear: both;
-}
-
-

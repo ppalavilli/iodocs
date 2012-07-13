@@ -28,9 +28,19 @@ form#credentials
                  - var defaultSecret =apiInfo.auth.defaultSecret
              - else
                  - var defaultSecret =''
+                //
+                     div
+                         label(for='key') API Key
+                         input(id='key', name='key', value=defaultKey, style='color=#EEEEEE')
              div
-                 label(for='key') API Key
-                 input(id='key', name='key', value=defaultKey, style='color=#EEEEEE')
+                 label(for='userName') API UserName
+                 input(id='userName', name='userName', value=defaultKey, style='color=#EEEEEE')
+             div
+                 label(for='password') API Password
+                 input(id='password', name='password', value=defaultKey, style='color=#EEEEEE')
+             div
+                 label(for='signature') API Signature
+                 input(id='signature', name='signature', value=defaultKey, style='color=#EEEEEE')
              div
                  - if (apiInfo.oauth || apiInfo.signature)
                      label(for='secret') Shared Secret
@@ -67,60 +77,103 @@ ul
                     li(class='method ' + httpmethod + ' ' + secure)
                         div.title
                             span.http-method #{method.HTTPMethod}
-                            span.name #{method.MethodName}
+                            span.name #{method.Name}
                             span.uri #{method.URI}
                         form.hidden
                             input(type='hidden', name='httpMethod', value=method.HTTPMethod)
                             input(type='hidden', name='oauth', value=secure)
-                            input(type='hidden', name='methodUri', value=method.URI)
+                            input(type='hidden', name='methodUri', value=method.Name)
 
-                            span.description #{method.Synopsis}
+                            span.description #{method.Name}
                             br
                             br
-                            - if (method.parameters.length > 0)
-                                table.parameters
-                                    thead
-                                        tr
-                                            th Parameter
-                                            th Value
-                                            th Type
-                                            th Description
-                                    tbody
-                                        - var paramCount =0
-                                        - each parameter in method.parameters
-                                            - paramCount++
-                                            div(id='param' + paramCount)
-                                              - if (parameter.Required =='Y')
-                                                  - var required =true
-                                                  - var className ='required'
-                                              - else
-                                                  - var required =false
-                                                  - var className =''
-                                              tr(class=className)
-                                                  td.name=parameter.Name
-                                                  td.parameter
-                                                      - if (parameter.Type =='enumerated')
-                                                          select(name='params[' + parameter.Name + ']', placeholder=className)
-                                                            - if (parameter.Default =='')
-                                                                option(value='') 
-                                                            - each choice in parameter.EnumeratedList
-                                                                - if (parameter.Default ==choice)
-                                                                        option(value=choice, selected=true) #{choice}
-                                                                - else
-                                                                        option(value=choice) #{choice}
-                                                      - else if (parameter.Type =='boolean')
-                                                           select(name='params[' + parameter.Name + ']', placeholder=className)
-                                                                - if (parameter.Default =='')
+                            - if (method.Parameters.length > 0)
+                                    <div class="parameter">
+                                    <span class='header'>Parameter</span>
+                                    <span class='header'>Value</span>
+                                    <span class='header'>Type</span>
+                                    <span class='header'>Description</span>
+                                    </div>    
+                                    <ul>
+                                    - var paramCount =0
+                                        - var check = 'false'
+                                        - var elemName = ''
+                                        - generateElements(method.Parameters,elemName)
+                                        - function generateElements(parameters,elemName,check){
+                                            - parameters.forEach(function(parameter,check){
+                                                - var className = ''
+                                                - paramCount++
+                                                - if(check =='true')
+                                                - check = 'false'
+                                                - if(elemName =='undefined')
+                                                    - elemName = parameter.Name
+                                                - if (parameter.Required =='Y')
+                                                      - var required =true
+                                                      - className ='required'
+                                                  - else
+                                                      - var required =false
+                                                      - className =''
+                                                <li class='title'>
+                                                - if (Object.prototype.toString.call(parameter) === '[object Array]')
+                                                    - tmpVal = elemName
+                                                    - elemName = elemName + '(0)'
+                                                    - console.log(' parameter[0].Name - ' +  parameter[0].Name)
+                                                    - console.log(' parameter[0].Members - ' +  parameter[0].Type)
+                                                    - generateElements(parameter,elemName);
+                                                    - elemName = tmpVal
+                                                - else if(parameter.Type !='complex')
+                                                        <span class='title'>#{parameter.Name}</span>
+                                                        <span class='title'>
+                                                        - if (parameter.Type =='enumerated')
+                                                                select(name='params[' + elemName + '.' + parameter.Name + ']', placeholder=className)
+                                                                    - if (parameter.Default =='')
                                                                         option(value='') 
-                                                                - each choice in [apiInfo.booleanTrueVal,apiInfo.booleanFalseVal]
-                                                                   - if (parameter.Default ==choice)
-                                                                           option(value=choice, selected=true) #{choice}
-                                                                   - else
-                                                                           option(value=choice) #{choice}
-                                                      - else
-                                                          input(name='params[' + parameter.Name + ']', value=parameter.Default, placeholder=className)
-                                                  td.type=parameter.Type
-                                                  td.description=parameter.Description || 'No description'
+                                                                    - each choice in parameter.EnumeratedList
+                                                                        - if (parameter.Default ==choice)
+                                                                                option(value=choice, selected=true) #{choice}
+                                                                        - else
+                                                                                option(value=choice) #{choice}
+                                                        - else if (parameter.Type =='boolean')
+                                                                <span class='titl'>
+                                                                select(name='params[' + elemName + '.' + parameter.Name + ']', placeholder=className)
+                                                                        - if (parameter.Default =='')
+                                                                                 option(value='') 
+                                                                        - each choice in ['',0,1]
+                                                                           - if (parameter.Default ==choice)
+                                                                                   option(value=choice, selected=true) #{choice}
+                                                                           - else
+                                                                                   option(value=choice) #{choice}
+                                                        - else
+                                                                  input(name='params[' + elemName + '.' + parameter.Name + ']', value=parameter.Default, placeholder=className)
+                                                        </span>          
+                                                        <div class='type'>#{parameter.Type}</div>
+                                                        <span class='description'>#{parameter.Description}</span>
+                                                - else if(parameter.Type == 'complex')
+                                                        - check = 'true'
+                                                        - var attr='id'+paramCount
+                                                        - var tempVal = ''
+                                                        - ++paramCount
+                                                        - var tableId='id'+paramCount
+                                                        <li class="trigger title comx">
+                                                        <span class="title">#{parameter.Name}</span>
+                                                        <span class="title"></span>
+                                                        <div class="type">#{parameter.Type}</div>
+                                                        <span class="description">#{parameter.Description}</span>
+                                                        </li>
+                                                        <ul>
+                                                        <div class="borderbox">
+                                                        - tempVal = elemName
+                                                        - if (elemName == '')
+                                                                - elemName = parameter.Name
+                                                        - else
+                                                                - elemName = elemName + '.' + parameter.Name
+                                                        - generateElements(parameter.Members,elemName);
+                                                        - elemName = tempVal
+                                                        </ul>
+                                                </li>
+                                            - })
+                                        - }
+                                        </ul>
                             - if (method.headers && method.headers.length > 0)
                                 div.headers
                                     h4.title

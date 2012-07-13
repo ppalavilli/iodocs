@@ -1,0 +1,27 @@
+		.trigger{
+			cursor:pointer;
+                        background:rgba(255, 255, 255, 0.5);
+		}		
+		.trigger:hover{
+			cursor:pointer;
+			background:white;
+		}		
+		.expanded{
+			cursor:pointer;
+		}
+		.expanded:hover{
+			background:#eef;
+			cursor:pointer;
+		}
+		.show{
+             position:static;
+             display: table;
+
+		}
+		.hide{
+			position:absolute;
+			left:-999em;
+			height:1px;
+			width:100px;
+			overflow:hidden;
+		}

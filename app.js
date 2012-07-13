@@ -279,8 +279,11 @@ function processRequest(req, res, next) {
         methodURL = reqQuery.methodUri,
         httpMethod = reqQuery.httpMethod,
         apiKey = reqQuery.apiKey,
+        apiUserName = reqQuery.userName,
+        apiSignature = reqQuery.signature,
+        apiPassword = reqQuery.password,
         apiSecret = reqQuery.apiSecret,
-        apiName = reqQuery.apiName
+        apiName = reqQuery.apiName,
         apiConfig = apisConfig[apiName],
         key = req.sessionID + ':' + apiName;
 
@@ -307,14 +310,18 @@ function processRequest(req, res, next) {
         baseHostPort = (baseHostInfo.length > 1) ? baseHostInfo[1] : "";
 
     var paramString = query.stringify(params),
-        privateReqURL = apiConfig.protocol + '://' + apiConfig.baseURL + apiConfig.privatePath + methodURL + ((paramString.length > 0) ? '?' + paramString : ""),
+    paramString = "apiName=" + apiName + "&method=" + methodURL + "&" + paramString; 
+// [PayPal Specific] - metodUrl is removed from url and added to params
+ privateReqURL = apiConfig.protocol + '://' + apiConfig.baseURL + apiConfig.privatePath  + ((paramString.length > 0) ? '?' + paramString : ""),
+//        privateReqURL = apiConfig.protocol + '://' + apiConfig.baseURL + apiConfig.privatePath + methodURL + ((paramString.length > 0) ? '?' + paramString : ""),
         options = {
             headers: {},
             protocol: apiConfig.protocol + ':',
             host: baseHostUrl,
             port: baseHostPort,
             method: httpMethod,
-            path: apiConfig.publicPath + methodURL + ((paramString.length > 0) ? '?' + paramString : "")
+          //  path: apiConfig.publicPath + methodURL + ((paramString.length > 0) ? '?' + paramString : "")
+	    path: apiConfig.publicPath +  ((paramString.length > 0) ? '?' + paramString : "")
         };
 
     if (apiConfig.oauth) {
@@ -477,6 +484,36 @@ function processRequest(req, res, next) {
             }
             options.path += apiConfig.keyParam + '=' + apiKey;
         }
+        // Add API UserNAme to params, if any.
+        if (apiUserName != '' && apiUserName != 'undefined' && apiUserName != undefined) {
+            if (options.path.indexOf('?') !== -1) {
+                options.path += '&';
+            }
+            else {
+                options.path += '?';
+            }
+            options.path +='apiUserName=' + apiUserName;
+        }
+        // Add API Password to params, if any.
+        if (apiPassword != '' && apiPassword != 'undefined' && apiPassword != undefined) {
+            if (options.path.indexOf('?') !== -1) {
+                options.path += '&';
+            }
+            else {
+                options.path += '?';
+            }
+            options.path += 'apiPassword=' + apiPassword;
+        }
+        // Add API Signature to params, if any.
+        if (apiSignature != '' && apiSignature != 'undefined' && apiSignature != undefined) {
+            if (options.path.indexOf('?') !== -1) {
+                options.path += '&';
+            }
+            else {
+                options.path += '?';
+            }
+            options.path += 'apiSignature=' + apiSignature;
+        }
 
         // Perform signature routine, if any.
         if (apiConfig.signature) {
@@ -522,6 +559,7 @@ function processRequest(req, res, next) {
         };
 
         // API Call. response is the response from the API, res is the response we will send back to the user.
+        console.log(options);
         var apiCall = http.request(options, function(response) {
             response.setEncoding('utf-8');
             if (config.debug) {
@@ -629,10 +667,20 @@ app.get('/', function(req, res) {
 
 // Process the API request
 app.post('/processReq', oauth, processRequest, function(req, res) {
+    var respArray = req.result.split('#SEPERATOR#');
+    var temp = respArray[2].split('&')  ;  
+        temp = temp.join('&\n');
+    var temp1 = respArray[1].split('&');
+        temp1 = temp1.join('&\n');   	
     var result = {
-        headers: req.resultHeaders,
-        response: req.result,
-        call: req.call
+        reqHeaders:respArray[4].split('&'),
+        headers:respArray[3].split('\r\n'),
+        //headers: req.resultHeaders,
+	response: temp,
+	call: temp1,
+	endPoint: respArray[0]
+        //response: req.result,
+        //call: req.call
     };
 
     res.send(result);
@@ -663,5 +711,5 @@ app.get('/:api([^\.]+)', function(req, res) {
 if (!module.parent) {
     var port = process.env.PORT || config.port;
     app.listen(port);
-    console.log("Express server listening on port %d", app.address().port);
+   // console.log("Express server listening on port %d", app.address().port);
 }

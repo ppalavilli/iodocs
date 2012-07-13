@@ -70,3 +70,18 @@ function selectElementText(el, win) {
         range.select();
     }
 }
+
+function showHide(EL,PM)
+   {
+      var ELpntr=document.getElementById(EL);
+      if (ELpntr.style.display=='none')
+      {
+         document.getElementById(PM).innerHTML=' - ';
+         ELpntr.style.display='block';
+      }
+      else
+      {
+         document.getElementById(PM).innerHTML=' + ';
+         ELpntr.style.display='none';
+      }
+   }

@@ -173,9 +173,12 @@
         var params = $(this).serializeArray(),
             apiKey = { name: 'apiKey', value: $('input[name=key]').val() },
             apiSecret = { name: 'apiSecret', value: $('input[name=secret]').val() },
+            apiUserName = { name: 'userName', value: $('input[name=userName]').val() },
+            apiPassword = { name: 'password', value: $('input[name=password]').val() },
+            apiSignature = { name: 'signature', value: $('input[name=signature]').val() },
             apiName = { name: 'apiName', value: $('input[name=apiName]').val() };
 
-        params.push(apiKey, apiSecret, apiName);
+        params.push(apiKey, apiSecret, apiName, apiUserName, apiPassword, apiSignature);
 
         // Setup results container
         var resultContainer = $('.result', self);
@@ -204,11 +207,19 @@
                 .insertAfter($('input[type=submit]', self));
 
             // Call that was made, add pre elements
-            resultContainer.append($(document.createElement('h4')).text('Call'));
+            resultContainer.append($(document.createElement('h4')).text('Endpoint'));
+            resultContainer.append($(document.createElement('pre')).addClass('endPoint'));
+
+            //Request Headers
+          resultContainer.append($(document.createElement('h4')).text('Request Headers'));
+          resultContainer.append($(document.createElement('pre')).addClass('reqHeaders prettyprint'));
+
+            resultContainer.append($(document.createElement('h4')).text('Request Body'));
             resultContainer.append($(document.createElement('pre')).addClass('call'));
 
+
             // Header
-            resultContainer.append($(document.createElement('h4')).text('Response Headers'));
+           resultContainer.append($(document.createElement('h4')).text('Response Headers'));
             resultContainer.append($(document.createElement('pre')).addClass('headers prettyprint'));
 
             // Response
@@ -256,6 +267,15 @@
                     .text(response.call);
             }
 
+	    if (response.endPoint) {
+                $('pre.endPoint', resultContainer)
+                    .text(response.endPoint);
+            }
+
+            if (response.reqHeaders) {
+                $('pre.reqHeaders', resultContainer)
+                    .text(formatJSON(response.reqHeaders));
+            }
             if (response.headers) {
                 $('pre.headers', resultContainer)
                     .text(formatJSON(response.headers));
