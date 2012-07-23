@@ -208,14 +208,14 @@
 
             // Call that was made, add pre elements
             resultContainer.append($(document.createElement('h4')).text('Endpoint'));
-            resultContainer.append($(document.createElement('pre')).addClass('endPoint'));
+            resultContainer.append($(document.createElement('pre')).addClass('endPoint prettyprint'));
 
             //Request Headers
           resultContainer.append($(document.createElement('h4')).text('Request Headers'));
           resultContainer.append($(document.createElement('pre')).addClass('reqHeaders prettyprint'));
 
             resultContainer.append($(document.createElement('h4')).text('Request Body'));
-            resultContainer.append($(document.createElement('pre')).addClass('call'));
+            resultContainer.append($(document.createElement('pre')).addClass('call prettyprint'));
 
 
             // Header
@@ -242,7 +242,7 @@
 
         console.log(params);
 
-        $.post('/processReq', params, function(result, text) {
+        $.post('/apiexplorer/processReq', params, function(result, text) {
             // If we get passed a signin property, open a window to allow the user to signin/link their account
             if (result.signin) {
                 window.open(result.signin,"_blank","height=900,width=800,menubar=0,resizable=1,scrollbars=1,status=0,titlebar=0,toolbar=0");
@@ -267,7 +267,7 @@
                     .text(response.call);
             }
 
-	    if (response.endPoint) {
+	        if (response.endPoint) {
                 $('pre.endPoint', resultContainer)
                     .text(response.endPoint);
             }

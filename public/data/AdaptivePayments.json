@@ -18,20 +18,14 @@
 				"Members": [{
 					"Name": "requestEnvelope",
 					"Description": null,
-					"Required": null,
+					"Required": "Y",
 					"Type": "complex",
 					"Members": [{
 						"Name": "detailLevel",
 						"Required": "N",
-						"Type": "complex",
+						"Type": "enumerated",
 						"Description": "\n\t\t\t\t\t\t\t\tThis specifies the required detail level\n\t\t\t\t\t\t\t\tthat is needed by a client application\n\t\t\t\t\t\t\t\tpertaining to a particular data\n\t\t\t\t\t\t\t\tcomponent (e.g., Item, Transaction,\n\t\t\t\t\t\t\t\tetc.). The detail level is specified in\n\t\t\t\t\t\t\t\tthe DetailLevelCodeType which has all\n\t\t\t\t\t\t\t\tthe enumerated values of the detail\n\t\t\t\t\t\t\t\tlevel for each component.\n\t\t\t\t\t\t\t",
-						"Members": [{
-							"Name": "detailLevelCode",
-							"Required": "N",
-							"Type": "enumerated",
-							"Description": "\n\t\t\t\t\t\tDetailLevelCodeType\n\t\t\t\t\t",
-							"EnumeratedList": ["ReturnAll"]
-						}]
+						"EnumeratedList": ["ReturnAll"]
 					},
 					{
 						"Name": "errorLanguage",
@@ -65,20 +59,14 @@
 				"Members": [{
 					"Name": "requestEnvelope",
 					"Description": null,
-					"Required": null,
+					"Required": "Y",
 					"Type": "complex",
 					"Members": [{
 						"Name": "detailLevel",
 						"Required": "N",
-						"Type": "complex",
+						"Type": "enumerated",
 						"Description": "\n\t\t\t\t\t\t\t\tThis specifies the required detail level\n\t\t\t\t\t\t\t\tthat is needed by a client application\n\t\t\t\t\t\t\t\tpertaining to a particular data\n\t\t\t\t\t\t\t\tcomponent (e.g., Item, Transaction,\n\t\t\t\t\t\t\t\tetc.). The detail level is specified in\n\t\t\t\t\t\t\t\tthe DetailLevelCodeType which has all\n\t\t\t\t\t\t\t\tthe enumerated values of the detail\n\t\t\t\t\t\t\t\tlevel for each component.\n\t\t\t\t\t\t\t",
-						"Members": [{
-							"Name": "detailLevelCode",
-							"Required": "N",
-							"Type": "enumerated",
-							"Description": "\n\t\t\t\t\t\tDetailLevelCodeType\n\t\t\t\t\t",
-							"EnumeratedList": ["ReturnAll"]
-						}]
+						"EnumeratedList": ["ReturnAll"]
 					},
 					{
 						"Name": "errorLanguage",
@@ -124,20 +112,14 @@
 				"Members": [{
 					"Name": "requestEnvelope",
 					"Description": null,
-					"Required": null,
+					"Required": "Y",
 					"Type": "complex",
 					"Members": [{
 						"Name": "detailLevel",
 						"Required": "N",
-						"Type": "complex",
+						"Type": "enumerated",
 						"Description": "\n\t\t\t\t\t\t\t\tThis specifies the required detail level\n\t\t\t\t\t\t\t\tthat is needed by a client application\n\t\t\t\t\t\t\t\tpertaining to a particular data\n\t\t\t\t\t\t\t\tcomponent (e.g., Item, Transaction,\n\t\t\t\t\t\t\t\tetc.). The detail level is specified in\n\t\t\t\t\t\t\t\tthe DetailLevelCodeType which has all\n\t\t\t\t\t\t\t\tthe enumerated values of the detail\n\t\t\t\t\t\t\t\tlevel for each component.\n\t\t\t\t\t\t\t",
-						"Members": [{
-							"Name": "detailLevelCode",
-							"Required": "N",
-							"Type": "enumerated",
-							"Description": "\n\t\t\t\t\t\tDetailLevelCodeType\n\t\t\t\t\t",
-							"EnumeratedList": ["ReturnAll"]
-						}]
+						"EnumeratedList": ["ReturnAll"]
 					},
 					{
 						"Name": "errorLanguage",
@@ -149,12 +131,12 @@
 				{
 					"Name": "baseAmountList",
 					"Description": null,
-					"Required": null,
+					"Required": "Y",
 					"Type": "complex",
 					"Members": [[{
 						"Name": "currency",
 						"Description": null,
-						"Required": null,
+						"Required": "Y",
 						"Type": "complex",
 						"Members": [{
 							"Name": "code",
@@ -173,7 +155,7 @@
 				{
 					"Name": "convertToCurrencyList",
 					"Description": null,
-					"Required": null,
+					"Required": "Y",
 					"Type": "complex",
 					"Members": [{
 						"Name": "currencyCode",
@@ -213,20 +195,14 @@
 				"Members": [{
 					"Name": "requestEnvelope",
 					"Description": null,
-					"Required": null,
+					"Required": "Y",
 					"Type": "complex",
 					"Members": [{
 						"Name": "detailLevel",
 						"Required": "N",
-						"Type": "complex",
+						"Type": "enumerated",
 						"Description": "\n\t\t\t\t\t\t\t\tThis specifies the required detail level\n\t\t\t\t\t\t\t\tthat is needed by a client application\n\t\t\t\t\t\t\t\tpertaining to a particular data\n\t\t\t\t\t\t\t\tcomponent (e.g., Item, Transaction,\n\t\t\t\t\t\t\t\tetc.). The detail level is specified in\n\t\t\t\t\t\t\t\tthe DetailLevelCodeType which has all\n\t\t\t\t\t\t\t\tthe enumerated values of the detail\n\t\t\t\t\t\t\t\tlevel for each component.\n\t\t\t\t\t\t\t",
-						"Members": [{
-							"Name": "detailLevelCode",
-							"Required": "N",
-							"Type": "enumerated",
-							"Description": "\n\t\t\t\t\t\tDetailLevelCodeType\n\t\t\t\t\t",
-							"EnumeratedList": ["ReturnAll"]
-						}]
+						"EnumeratedList": ["ReturnAll"]
 					},
 					{
 						"Name": "errorLanguage",
@@ -272,20 +248,14 @@
 				"Members": [{
 					"Name": "requestEnvelope",
 					"Description": null,
-					"Required": null,
+					"Required": "Y",
 					"Type": "complex",
 					"Members": [{
 						"Name": "detailLevel",
 						"Required": "N",
-						"Type": "complex",
+						"Type": "enumerated",
 						"Description": "\n\t\t\t\t\t\t\t\tThis specifies the required detail level\n\t\t\t\t\t\t\t\tthat is needed by a client application\n\t\t\t\t\t\t\t\tpertaining to a particular data\n\t\t\t\t\t\t\t\tcomponent (e.g., Item, Transaction,\n\t\t\t\t\t\t\t\tetc.). The detail level is specified in\n\t\t\t\t\t\t\t\tthe DetailLevelCodeType which has all\n\t\t\t\t\t\t\t\tthe enumerated values of the detail\n\t\t\t\t\t\t\t\tlevel for each component.\n\t\t\t\t\t\t\t",
-						"Members": [{
-							"Name": "detailLevelCode",
-							"Required": "N",
-							"Type": "enumerated",
-							"Description": "\n\t\t\t\t\t\tDetailLevelCodeType\n\t\t\t\t\t",
-							"EnumeratedList": ["ReturnAll"]
-						}]
+						"EnumeratedList": ["ReturnAll"]
 					},
 					{
 						"Name": "errorLanguage",
@@ -319,20 +289,14 @@
 				"Members": [{
 					"Name": "requestEnvelope",
 					"Description": null,
-					"Required": null,
+					"Required": "Y",
 					"Type": "complex",
 					"Members": [{
 						"Name": "detailLevel",
 						"Required": "N",
-						"Type": "complex",
+						"Type": "enumerated",
 						"Description": "\n\t\t\t\t\t\t\t\tThis specifies the required detail level\n\t\t\t\t\t\t\t\tthat is needed by a client application\n\t\t\t\t\t\t\t\tpertaining to a particular data\n\t\t\t\t\t\t\t\tcomponent (e.g., Item, Transaction,\n\t\t\t\t\t\t\t\tetc.). The detail level is specified in\n\t\t\t\t\t\t\t\tthe DetailLevelCodeType which has all\n\t\t\t\t\t\t\t\tthe enumerated values of the detail\n\t\t\t\t\t\t\t\tlevel for each component.\n\t\t\t\t\t\t\t",
-						"Members": [{
-							"Name": "detailLevelCode",
-							"Required": "N",
-							"Type": "enumerated",
-							"Description": "\n\t\t\t\t\t\tDetailLevelCodeType\n\t\t\t\t\t",
-							"EnumeratedList": ["ReturnAll"]
-						}]
+						"EnumeratedList": ["ReturnAll"]
 					},
 					{
 						"Name": "errorLanguage",
@@ -366,20 +330,14 @@
 				"Members": [{
 					"Name": "requestEnvelope",
 					"Description": null,
-					"Required": null,
+					"Required": "Y",
 					"Type": "complex",
 					"Members": [{
 						"Name": "detailLevel",
 						"Required": "N",
-						"Type": "complex",
+						"Type": "enumerated",
 						"Description": "\n\t\t\t\t\t\t\t\tThis specifies the required detail level\n\t\t\t\t\t\t\t\tthat is needed by a client application\n\t\t\t\t\t\t\t\tpertaining to a particular data\n\t\t\t\t\t\t\t\tcomponent (e.g., Item, Transaction,\n\t\t\t\t\t\t\t\tetc.). The detail level is specified in\n\t\t\t\t\t\t\t\tthe DetailLevelCodeType which has all\n\t\t\t\t\t\t\t\tthe enumerated values of the detail\n\t\t\t\t\t\t\t\tlevel for each component.\n\t\t\t\t\t\t\t",
-						"Members": [{
-							"Name": "detailLevelCode",
-							"Required": "N",
-							"Type": "enumerated",
-							"Description": "\n\t\t\t\t\t\tDetailLevelCodeType\n\t\t\t\t\t",
-							"EnumeratedList": ["ReturnAll"]
-						}]
+						"EnumeratedList": ["ReturnAll"]
 					},
 					{
 						"Name": "errorLanguage",
@@ -425,20 +383,14 @@
 				"Members": [{
 					"Name": "requestEnvelope",
 					"Description": null,
-					"Required": null,
+					"Required": "Y",
 					"Type": "complex",
 					"Members": [{
 						"Name": "detailLevel",
 						"Required": "N",
-						"Type": "complex",
+						"Type": "enumerated",
 						"Description": "\n\t\t\t\t\t\t\t\tThis specifies the required detail level\n\t\t\t\t\t\t\t\tthat is needed by a client application\n\t\t\t\t\t\t\t\tpertaining to a particular data\n\t\t\t\t\t\t\t\tcomponent (e.g., Item, Transaction,\n\t\t\t\t\t\t\t\tetc.). The detail level is specified in\n\t\t\t\t\t\t\t\tthe DetailLevelCodeType which has all\n\t\t\t\t\t\t\t\tthe enumerated values of the detail\n\t\t\t\t\t\t\t\tlevel for each component.\n\t\t\t\t\t\t\t",
-						"Members": [{
-							"Name": "detailLevelCode",
-							"Required": "N",
-							"Type": "enumerated",
-							"Description": "\n\t\t\t\t\t\tDetailLevelCodeType\n\t\t\t\t\t",
-							"EnumeratedList": ["ReturnAll"]
-						}]
+						"EnumeratedList": ["ReturnAll"]
 					},
 					{
 						"Name": "errorLanguage",
@@ -450,7 +402,7 @@
 				{
 					"Name": "clientDetails",
 					"Description": null,
-					"Required": null,
+					"Required": "N",
 					"Type": "complex",
 					"Members": [{
 						"Name": "ipAddress",
@@ -552,12 +504,12 @@
 				{
 					"Name": "receiverList",
 					"Description": null,
-					"Required": null,
+					"Required": "Y",
 					"Type": "complex",
 					"Members": [[{
 						"Name": "receiver",
 						"Description": null,
-						"Required": null,
+						"Required": "Y",
 						"Type": "complex",
 						"Members": [{
 							"Name": "amount",
@@ -574,7 +526,7 @@
 						{
 							"Name": "phone",
 							"Description": null,
-							"Required": null,
+							"Required": "N",
 							"Type": "complex",
 							"Members": [{
 								"Name": "countryCode",
@@ -648,17 +600,17 @@
 				{
 					"Name": "fundingConstraint",
 					"Description": null,
-					"Required": null,
+					"Required": "N",
 					"Type": "complex",
 					"Members": [{
 						"Name": "allowedFundingType",
 						"Description": null,
-						"Required": null,
+						"Required": "N",
 						"Type": "complex",
 						"Members": [[{
 							"Name": "fundingTypeInfo",
 							"Description": null,
-							"Required": null,
+							"Required": "Y",
 							"Type": "complex",
 							"Members": [{
 								"Name": "fundingType",
@@ -672,7 +624,7 @@
 				{
 					"Name": "sender",
 					"Description": null,
-					"Required": null,
+					"Required": "N",
 					"Type": "complex",
 					"Members": [{
 						"Name": "useCredentials",
@@ -700,20 +652,14 @@
 				"Members": [{
 					"Name": "requestEnvelope",
 					"Description": null,
-					"Required": null,
+					"Required": "Y",
 					"Type": "complex",
 					"Members": [{
 						"Name": "detailLevel",
 						"Required": "N",
-						"Type": "complex",
+						"Type": "enumerated",
 						"Description": "\n\t\t\t\t\t\t\t\tThis specifies the required detail level\n\t\t\t\t\t\t\t\tthat is needed by a client application\n\t\t\t\t\t\t\t\tpertaining to a particular data\n\t\t\t\t\t\t\t\tcomponent (e.g., Item, Transaction,\n\t\t\t\t\t\t\t\tetc.). The detail level is specified in\n\t\t\t\t\t\t\t\tthe DetailLevelCodeType which has all\n\t\t\t\t\t\t\t\tthe enumerated values of the detail\n\t\t\t\t\t\t\t\tlevel for each component.\n\t\t\t\t\t\t\t",
-						"Members": [{
-							"Name": "detailLevelCode",
-							"Required": "N",
-							"Type": "enumerated",
-							"Description": "\n\t\t\t\t\t\tDetailLevelCodeType\n\t\t\t\t\t",
-							"EnumeratedList": ["ReturnAll"]
-						}]
+						"EnumeratedList": ["ReturnAll"]
 					},
 					{
 						"Name": "errorLanguage",
@@ -753,20 +699,14 @@
 				"Members": [{
 					"Name": "requestEnvelope",
 					"Description": null,
-					"Required": null,
+					"Required": "Y",
 					"Type": "complex",
 					"Members": [{
 						"Name": "detailLevel",
 						"Required": "N",
-						"Type": "complex",
+						"Type": "enumerated",
 						"Description": "\n\t\t\t\t\t\t\t\tThis specifies the required detail level\n\t\t\t\t\t\t\t\tthat is needed by a client application\n\t\t\t\t\t\t\t\tpertaining to a particular data\n\t\t\t\t\t\t\t\tcomponent (e.g., Item, Transaction,\n\t\t\t\t\t\t\t\tetc.). The detail level is specified in\n\t\t\t\t\t\t\t\tthe DetailLevelCodeType which has all\n\t\t\t\t\t\t\t\tthe enumerated values of the detail\n\t\t\t\t\t\t\t\tlevel for each component.\n\t\t\t\t\t\t\t",
-						"Members": [{
-							"Name": "detailLevelCode",
-							"Required": "N",
-							"Type": "enumerated",
-							"Description": "\n\t\t\t\t\t\tDetailLevelCodeType\n\t\t\t\t\t",
-							"EnumeratedList": ["ReturnAll"]
-						}]
+						"EnumeratedList": ["ReturnAll"]
 					},
 					{
 						"Name": "errorLanguage",
@@ -778,7 +718,7 @@
 				{
 					"Name": "clientDetails",
 					"Description": null,
-					"Required": null,
+					"Required": "N",
 					"Type": "complex",
 					"Members": [{
 						"Name": "ipAddress",
@@ -850,22 +790,16 @@
 				{
 					"Name": "dayOfWeek",
 					"Required": "N",
-					"Type": "complex",
+					"Type": "enumerated",
 					"Description": null,
-					"Members": [{
-						"Name": "dayOfWeek",
-						"Required": "N",
-						"Type": "enumerated",
-						"Description": "",
-						"EnumeratedList": ["NO_DAY_SPECIFIED",
-						"SUNDAY",
-						"MONDAY",
-						"TUESDAY",
-						"WEDNESDAY",
-						"THURSDAY",
-						"FRIDAY",
-						"SATURDAY"]
-					}]
+					"EnumeratedList": ["NO_DAY_SPECIFIED",
+					"SUNDAY",
+					"MONDAY",
+					"TUESDAY",
+					"WEDNESDAY",
+					"THURSDAY",
+					"FRIDAY",
+					"SATURDAY"]
 				},
 				{
 					"Name": "endingDate",
@@ -970,20 +904,14 @@
 				"Members": [{
 					"Name": "requestEnvelope",
 					"Description": null,
-					"Required": null,
+					"Required": "Y",
 					"Type": "complex",
 					"Members": [{
 						"Name": "detailLevel",
 						"Required": "N",
-						"Type": "complex",
+						"Type": "enumerated",
 						"Description": "\n\t\t\t\t\t\t\t\tThis specifies the required detail level\n\t\t\t\t\t\t\t\tthat is needed by a client application\n\t\t\t\t\t\t\t\tpertaining to a particular data\n\t\t\t\t\t\t\t\tcomponent (e.g., Item, Transaction,\n\t\t\t\t\t\t\t\tetc.). The detail level is specified in\n\t\t\t\t\t\t\t\tthe DetailLevelCodeType which has all\n\t\t\t\t\t\t\t\tthe enumerated values of the detail\n\t\t\t\t\t\t\t\tlevel for each component.\n\t\t\t\t\t\t\t",
-						"Members": [{
-							"Name": "detailLevelCode",
-							"Required": "N",
-							"Type": "enumerated",
-							"Description": "\n\t\t\t\t\t\tDetailLevelCodeType\n\t\t\t\t\t",
-							"EnumeratedList": ["ReturnAll"]
-						}]
+						"EnumeratedList": ["ReturnAll"]
 					},
 					{
 						"Name": "errorLanguage",
@@ -1019,12 +947,12 @@
 				{
 					"Name": "receiverList",
 					"Description": null,
-					"Required": null,
+					"Required": "N",
 					"Type": "complex",
 					"Members": [[{
 						"Name": "receiver",
 						"Description": null,
-						"Required": null,
+						"Required": "Y",
 						"Type": "complex",
 						"Members": [{
 							"Name": "amount",
@@ -1041,7 +969,7 @@
 						{
 							"Name": "phone",
 							"Description": null,
-							"Required": null,
+							"Required": "N",
 							"Type": "complex",
 							"Members": [{
 								"Name": "countryCode",
@@ -1107,20 +1035,14 @@
 				"Members": [{
 					"Name": "requestEnvelope",
 					"Description": null,
-					"Required": null,
+					"Required": "Y",
 					"Type": "complex",
 					"Members": [{
 						"Name": "detailLevel",
 						"Required": "N",
-						"Type": "complex",
+						"Type": "enumerated",
 						"Description": "\n\t\t\t\t\t\t\t\tThis specifies the required detail level\n\t\t\t\t\t\t\t\tthat is needed by a client application\n\t\t\t\t\t\t\t\tpertaining to a particular data\n\t\t\t\t\t\t\t\tcomponent (e.g., Item, Transaction,\n\t\t\t\t\t\t\t\tetc.). The detail level is specified in\n\t\t\t\t\t\t\t\tthe DetailLevelCodeType which has all\n\t\t\t\t\t\t\t\tthe enumerated values of the detail\n\t\t\t\t\t\t\t\tlevel for each component.\n\t\t\t\t\t\t\t",
-						"Members": [{
-							"Name": "detailLevelCode",
-							"Required": "N",
-							"Type": "enumerated",
-							"Description": "\n\t\t\t\t\t\tDetailLevelCodeType\n\t\t\t\t\t",
-							"EnumeratedList": ["ReturnAll"]
-						}]
+						"EnumeratedList": ["ReturnAll"]
 					},
 					{
 						"Name": "errorLanguage",
@@ -1138,12 +1060,12 @@
 				{
 					"Name": "initiatingEntity",
 					"Description": null,
-					"Required": null,
+					"Required": "N",
 					"Type": "complex",
 					"Members": [{
 						"Name": "institutionCustomer",
 						"Description": null,
-						"Required": null,
+						"Required": "N",
 						"Type": "complex",
 						"Members": [{
 							"Name": "institutionId",
@@ -1192,7 +1114,7 @@
 				{
 					"Name": "displayOptions",
 					"Description": null,
-					"Required": null,
+					"Required": "N",
 					"Type": "complex",
 					"Members": [{
 						"Name": "emailHeaderImageUrl",
@@ -1228,7 +1150,7 @@
 				{
 					"Name": "senderOptions",
 					"Description": null,
-					"Required": null,
+					"Required": "N",
 					"Type": "complex",
 					"Members": [{
 						"Name": "requireShippingAddressSelection",
@@ -1246,7 +1168,7 @@
 				[{
 					"Name": "receiverOptions",
 					"Description": null,
-					"Required": null,
+					"Required": "N",
 					"Type": "complex",
 					"Members": [{
 						"Name": "description",
@@ -1263,12 +1185,12 @@
 					{
 						"Name": "invoiceData",
 						"Description": null,
-						"Required": null,
+						"Required": "N",
 						"Type": "complex",
 						"Members": [[{
 							"Name": "item",
 							"Description": null,
-							"Required": null,
+							"Required": "N",
 							"Type": "complex",
 							"Members": [{
 								"Name": "name",
@@ -1317,7 +1239,7 @@
 					{
 						"Name": "receiver",
 						"Description": null,
-						"Required": null,
+						"Required": "Y",
 						"Type": "complex",
 						"Members": []
 					},
@@ -1347,20 +1269,14 @@
 				"Members": [{
 					"Name": "requestEnvelope",
 					"Description": null,
-					"Required": null,
+					"Required": "Y",
 					"Type": "complex",
 					"Members": [{
 						"Name": "detailLevel",
 						"Required": "N",
-						"Type": "complex",
+						"Type": "enumerated",
 						"Description": "\n\t\t\t\t\t\t\t\tThis specifies the required detail level\n\t\t\t\t\t\t\t\tthat is needed by a client application\n\t\t\t\t\t\t\t\tpertaining to a particular data\n\t\t\t\t\t\t\t\tcomponent (e.g., Item, Transaction,\n\t\t\t\t\t\t\t\tetc.). The detail level is specified in\n\t\t\t\t\t\t\t\tthe DetailLevelCodeType which has all\n\t\t\t\t\t\t\t\tthe enumerated values of the detail\n\t\t\t\t\t\t\t\tlevel for each component.\n\t\t\t\t\t\t\t",
-						"Members": [{
-							"Name": "detailLevelCode",
-							"Required": "N",
-							"Type": "enumerated",
-							"Description": "\n\t\t\t\t\t\tDetailLevelCodeType\n\t\t\t\t\t",
-							"EnumeratedList": ["ReturnAll"]
-						}]
+						"EnumeratedList": ["ReturnAll"]
 					},
 					{
 						"Name": "errorLanguage",
@@ -1394,20 +1310,14 @@
 				"Members": [{
 					"Name": "requestEnvelope",
 					"Description": null,
-					"Required": null,
+					"Required": "Y",
 					"Type": "complex",
 					"Members": [{
 						"Name": "detailLevel",
 						"Required": "N",
-						"Type": "complex",
+						"Type": "enumerated",
 						"Description": "\n\t\t\t\t\t\t\t\tThis specifies the required detail level\n\t\t\t\t\t\t\t\tthat is needed by a client application\n\t\t\t\t\t\t\t\tpertaining to a particular data\n\t\t\t\t\t\t\t\tcomponent (e.g., Item, Transaction,\n\t\t\t\t\t\t\t\tetc.). The detail level is specified in\n\t\t\t\t\t\t\t\tthe DetailLevelCodeType which has all\n\t\t\t\t\t\t\t\tthe enumerated values of the detail\n\t\t\t\t\t\t\t\tlevel for each component.\n\t\t\t\t\t\t\t",
-						"Members": [{
-							"Name": "detailLevelCode",
-							"Required": "N",
-							"Type": "enumerated",
-							"Description": "\n\t\t\t\t\t\tDetailLevelCodeType\n\t\t\t\t\t",
-							"EnumeratedList": ["ReturnAll"]
-						}]
+						"EnumeratedList": ["ReturnAll"]
 					},
 					{
 						"Name": "errorLanguage",
@@ -1441,20 +1351,14 @@
 				"Members": [{
 					"Name": "requestEnvelope",
 					"Description": null,
-					"Required": null,
+					"Required": "Y",
 					"Type": "complex",
 					"Members": [{
 						"Name": "detailLevel",
 						"Required": "N",
-						"Type": "complex",
+						"Type": "enumerated",
 						"Description": "\n\t\t\t\t\t\t\t\tThis specifies the required detail level\n\t\t\t\t\t\t\t\tthat is needed by a client application\n\t\t\t\t\t\t\t\tpertaining to a particular data\n\t\t\t\t\t\t\t\tcomponent (e.g., Item, Transaction,\n\t\t\t\t\t\t\t\tetc.). The detail level is specified in\n\t\t\t\t\t\t\t\tthe DetailLevelCodeType which has all\n\t\t\t\t\t\t\t\tthe enumerated values of the detail\n\t\t\t\t\t\t\t\tlevel for each component.\n\t\t\t\t\t\t\t",
-						"Members": [{
-							"Name": "detailLevelCode",
-							"Required": "N",
-							"Type": "enumerated",
-							"Description": "\n\t\t\t\t\t\tDetailLevelCodeType\n\t\t\t\t\t",
-							"EnumeratedList": ["ReturnAll"]
-						}]
+						"EnumeratedList": ["ReturnAll"]
 					},
 					{
 						"Name": "errorLanguage",
@@ -1488,20 +1392,14 @@
 				"Members": [{
 					"Name": "requestEnvelope",
 					"Description": null,
-					"Required": null,
+					"Required": "Y",
 					"Type": "complex",
 					"Members": [{
 						"Name": "detailLevel",
 						"Required": "N",
-						"Type": "complex",
+						"Type": "enumerated",
 						"Description": "\n\t\t\t\t\t\t\t\tThis specifies the required detail level\n\t\t\t\t\t\t\t\tthat is needed by a client application\n\t\t\t\t\t\t\t\tpertaining to a particular data\n\t\t\t\t\t\t\t\tcomponent (e.g., Item, Transaction,\n\t\t\t\t\t\t\t\tetc.). The detail level is specified in\n\t\t\t\t\t\t\t\tthe DetailLevelCodeType which has all\n\t\t\t\t\t\t\t\tthe enumerated values of the detail\n\t\t\t\t\t\t\t\tlevel for each component.\n\t\t\t\t\t\t\t",
-						"Members": [{
-							"Name": "detailLevelCode",
-							"Required": "N",
-							"Type": "enumerated",
-							"Description": "\n\t\t\t\t\t\tDetailLevelCodeType\n\t\t\t\t\t",
-							"EnumeratedList": ["ReturnAll"]
-						}]
+						"EnumeratedList": ["ReturnAll"]
 					},
 					{
 						"Name": "errorLanguage",
@@ -1513,7 +1411,7 @@
 				{
 					"Name": "user",
 					"Description": "\n\t\t\t\t\t\t\t\tThe account identifier for the user\n\t\t\t\t\t\t\t",
-					"Required": null,
+					"Required": "Y",
 					"Type": "complex",
 					"Members": [{
 						"Name": "email",
@@ -1524,7 +1422,7 @@
 					{
 						"Name": "phone",
 						"Description": null,
-						"Required": null,
+						"Required": "N",
 						"Type": "complex",
 						"Members": [{
 							"Name": "countryCode",

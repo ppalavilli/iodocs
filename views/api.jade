@@ -8,13 +8,13 @@ h1=apiInfo.name
 form#credentials
     input(type='hidden', name='apiName', value=apiName)
     - if (apiInfo.auth) 
-        section(class='credentials ' + authed)
+        div(class='credentials ' + authed)
          - if (authed && apiInfo.oauth)
              span Authenticated with OAuth
              img(src='/images/accept.png')
          - else
              h2 API Credentials
-               img(src='/images/key.png')
+               img(src='/apiexplorer/images/key.png')
 
              - if (apiInfo.oauth)
                  input(type='hidden', name='oauth', value='authrequired')
@@ -83,10 +83,6 @@ ul
                             input(type='hidden', name='httpMethod', value=method.HTTPMethod)
                             input(type='hidden', name='oauth', value=secure)
                             input(type='hidden', name='methodUri', value=method.Name)
-
-                            span.description #{method.Name}
-                            br
-                            br
                             - if (method.Parameters.length > 0)
                                     <div class="parameter">
                                     <span class='header'>Parameter</span>
@@ -113,7 +109,6 @@ ul
                                                   - else
                                                       - var required =false
                                                       - className =''
-                                                <li class='title'>
                                                 - if (Object.prototype.toString.call(parameter) === '[object Array]')
                                                     - tmpVal = elemName
                                                     - elemName = elemName + '(0)'
@@ -122,6 +117,7 @@ ul
                                                     - generateElements(parameter,elemName);
                                                     - elemName = tmpVal
                                                 - else if(parameter.Type !='complex')
+                                                        <li class='title'>
                                                         <span class='title'>#{parameter.Name}</span>
                                                         <span class='title'>
                                                         - if (parameter.Type =='enumerated')
@@ -134,7 +130,6 @@ ul
                                                                         - else
                                                                                 option(value=choice) #{choice}
                                                         - else if (parameter.Type =='boolean')
-                                                                <span class='titl'>
                                                                 select(name='params[' + elemName + '.' + parameter.Name + ']', placeholder=className)
                                                                         - if (parameter.Default =='')
                                                                                  option(value='') 
@@ -148,6 +143,7 @@ ul
                                                         </span>          
                                                         <div class='type'>#{parameter.Type}</div>
                                                         <span class='description'>#{parameter.Description}</span>
+                                                        </li>
                                                 - else if(parameter.Type == 'complex')
                                                         - check = 'true'
                                                         - var attr='id'+paramCount
@@ -169,8 +165,8 @@ ul
                                                                 - elemName = elemName + '.' + parameter.Name
                                                         - generateElements(parameter.Members,elemName);
                                                         - elemName = tempVal
+                                                        </div>
                                                         </ul>
-                                                </li>
                                             - })
                                         - }
                                         </ul>

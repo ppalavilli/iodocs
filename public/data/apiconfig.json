@@ -3,8 +3,8 @@
 	"AdaptivePayments":{
 		"name": "PayPal API",
         "protocol": "http",
-        "baseURL": "d-maa-00387081",
-        "publicPath": "/apiexplorer/PayPal.php",
+        "baseURL": "127.0.0.1:8010",
+        "publicPath": "/PayPal.php",
         "auth": "key",
         "keyParam": "key"
 	}

@@ -24,7 +24,8 @@
 //
 // Module dependencies
 //
-var express     = require('express'),
+var Cluster = require('cluster2'),
+    express     = require('express'),
     util        = require('util'),
     fs          = require('fs'),
     OAuth       = require('oauth').OAuth,
@@ -105,7 +106,7 @@ app.configure(function() {
 
     app.use(app.router);
 
-    app.use(express.static(__dirname + '/public'));
+    app.use('/apiexplorer',express.static(__dirname + '/public'));
 });
 
 app.configure('development', function() {
@@ -659,14 +660,18 @@ app.dynamicHelpers({
 //
 // Routes
 //
-app.get('/', function(req, res) {
+app.get('/apiexplorer', function(req, res) {
     res.render('listAPIs', {
         title: config.title
     });
+    
+    if(!serving)  {
+        req.connection.end();
+    }
 });
 
 // Process the API request
-app.post('/processReq', oauth, processRequest, function(req, res) {
+app.post('/apiexplorer/processReq', oauth, processRequest, function(req, res) {
     var respArray = req.result.split('#SEPERATOR#');
     var temp = respArray[2].split('&')  ;  
         temp = temp.join('&\n');
@@ -682,34 +687,75 @@ app.post('/processReq', oauth, processRequest, function(req, res) {
         //response: req.result,
         //call: req.call
     };
-
+console.log('Results Sent');
     res.send(result);
 });
 
 // Just auth
-app.all('/auth', oauth);
+app.all('/apiexplorer/auth', oauth);
 
 // OAuth callback page, closes the window immediately after storing access token/secret
-app.get('/authSuccess/:api', oauthSuccess, function(req, res) {
+app.get('/apiexplorer/authSuccess/:api', oauthSuccess, function(req, res) {
     res.render('authSuccess', {
         title: 'OAuth Successful'
     });
 });
 
-app.post('/upload', function(req, res) {
+app.post('/apiexplorer/upload', function(req, res) {
   console.log(req.body.user);
   res.redirect('back');
 });
 
 // API shortname, all lowercase
-app.get('/:api([^\.]+)', function(req, res) {
+app.get('/apiexplorer/:api([^\.]+)', function(req, res) {
     res.render('api');
 });
 
 // Only listen on $ node app.js
 
-if (!module.parent) {
+/* if (!module.parent) {
     var port = process.env.PORT || config.port;
     app.listen(port);
    // console.log("Express server listening on port %d", app.address().port);
 }
+*/
+
+
+// Cluster2 Specific code starts
+
+var serving = true;
+
+app.on('close', function() {
+    serving = false;
+})
+
+var c = new Cluster({
+    port: 20000,
+    cluster: true,
+    timeout: 30000,
+    ecv: {
+        path: '/apiexplorer/ecv', // Send GET to this for a heartbeat
+        control: true, // send POST to /ecv/disable to disable the heartbeat, and to /ecv/enable to enable again
+        monitor: '/apiexplorer/monitor',
+        validator: function() {
+            return true;
+        }
+    }
+});
+
+c.on('died', function(pid) {
+    console.log('Worker ' + pid + ' died');
+});
+c.on('forked', function(pid) {
+    console.log('Worker ' + pid + ' forked');
+});
+
+c.listen(function(cb) {
+    cb(app);
+});
+
+// Cluster2 Specific code ends
+
+
+
+
