@@ -1,5 +1,5 @@
 API Explorer set up guide
------------------------------
+=================================
 
 BUILD/RUNTIME DEPENDENCIES
 
@@ -14,14 +14,16 @@ BUILD/RUNTIME DEPENDENCIES
    
    
 INSTALLATION INSTRUCTIONS FOR NODE, NPM, REDIS, APACHE, PHP
+--------------------------------------------------------------
 
-   Node.js - https://github.com/joyent/node/wiki/Installation
-   npm (Node package manager) - https://github.com/isaacs/npm
-   Redis -[linux] - http://redis.io/download
+   1. Node.js - https://github.com/joyent/node/wiki/Installation
+   2. npm (Node package manager) - https://github.com/isaacs/npm
+   3. Redis -[linux] - http://redis.io/download
 		 -[windows] - https://github.com/rgl/redis/downloads
-   Apache & PHP - [windows] - http://www.wampserver.com/en/
+   4. Apache & PHP - [windows] - http://www.wampserver.com/en/
 				- [ubuntu] - https://help.ubuntu.com/community/ApacheMySQLPHP
 				- [mac] - http://www.mamp.info/en/index.html
+				
    Note: Make sure 'curl' and 'openssl' extensions are enabled in PHP
    
 ------------------------------------------------------------------------
@@ -29,12 +31,20 @@ INSTALLATION INSTRUCTIONS FOR NODE, NPM, REDIS, APACHE, PHP
 INSTALLATION INSTRUCTIONS FOR APIExplorer
 
    From the command line type in:
-
+<pre>
    git clone https://github.com/ganeshx/iodocs.git
    cd iodocs
    npm install
-   
-RUNNING APIExplorer
+ </pre> 
 
+Cut the folder 'apiexplorer' from the clone and paste it in Apache public root (c:/wamp/www  or /var/www) 
+
+RUNNING APIExplorer
+=======================================================
+   From command line 'cd' to Redis directory and run redis-server.exe
+   
+   in another commandline window type in:
+   
    node ./app.js
+   
    Point your browser to: http://localhost:20000
