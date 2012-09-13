@@ -1,0 +1,2404 @@
+<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:types="http://svcs.paypal.com/types/pt" xmlns:common="http://svcs.paypal.com/types/common" xmlns:services="http://svcs.paypal.com/services" xmlns:ns="http://svcs.paypal.com/services" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" ns:version="1.6.0" targetNamespace="http://svcs.paypal.com/services">
+
+	<wsdl:types>
+		<xs:schema xmlns:annox="http://annox.dev.java.net" xmlns:ov="http://annox.dev.java.net/net.sf.oval.constraint" xmlns:sec="http://annox.dev.java.net/com.paypal.foundation.security.annotation" xmlns:ppv="http://annox.dev.java.net/com.paypal.foundation.validation.oval" xmlns:ppc="http://annox.dev.java.net/com.paypal.foundation.validation.oval.constraint" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://svcs.paypal.com/types/common">
+
+			<xs:simpleType name="AckCode">
+				<xs:annotation>
+					<xs:documentation>
+						AckCodeType This code identifies the
+						acknowledgment code types that could be used to
+						communicate the status of processing a (request)
+						message to an application. This code would be
+						used as part of a response message that contains
+						an application level acknowledgment element.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Success">
+						<xs:annotation>
+							<xs:documentation>
+								Request processing succeeded.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="Failure">
+						<xs:annotation>
+							<xs:documentation>
+								Request processing failed.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="Warning">
+						<xs:annotation>
+							<xs:documentation>
+								Request processing completed with
+								warning information being included in
+								the response message.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="SuccessWithWarning">
+						<xs:annotation>
+							<xs:documentation>
+								Request processing completed successful
+								with some with some warning information
+								that could be useful for the requesting
+								application to process and/or record.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="FailureWithWarning">
+						<xs:annotation>
+							<xs:documentation>
+								Request processing failed with some
+								error and warning information that
+								requesting application should process to
+								determine cause(s) of failure.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+				</xs:restriction>
+			</xs:simpleType>
+
+
+
+			<xs:complexType name="BaseAddress">
+				<xs:sequence maxOccurs="1" minOccurs="1">
+					<xs:element name="line1" type="xs:string" maxOccurs="1" minOccurs="1">
+						
+					</xs:element>
+					<xs:element name="line2" type="xs:string" maxOccurs="1" minOccurs="0">
+						
+					</xs:element>	
+					<xs:element name="city" type="xs:string" maxOccurs="1" minOccurs="1">
+						
+					</xs:element>
+					<xs:element name="state" type="xs:string" maxOccurs="1" minOccurs="0">
+						
+					</xs:element>
+					<xs:element name="postalCode" type="xs:string" maxOccurs="1" minOccurs="0">
+						
+					</xs:element>
+					<xs:element name="countryCode" type="xs:string" maxOccurs="1" minOccurs="1">
+						
+					</xs:element>
+					<xs:element maxOccurs="1" minOccurs="0" name="type" type="xs:string">
+							
+					</xs:element>					
+					<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="lax"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="ClientDetailsType">
+				<xs:annotation>
+					<xs:documentation>
+						Details about the end user of the application
+						invoking this service.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element minOccurs="0" maxOccurs="1" name="ipAddress" type="xs:string"/>
+					<xs:element minOccurs="0" maxOccurs="1" name="deviceId" type="xs:string"/>
+					<xs:element minOccurs="0" maxOccurs="1" name="applicationId" type="xs:string"/>
+					<xs:element minOccurs="0" maxOccurs="1" name="model" type="xs:string"/>
+					<xs:element minOccurs="0" maxOccurs="1" name="geoLocation" type="xs:string"/>
+					<xs:element minOccurs="0" maxOccurs="1" name="customerType" type="xs:string"/>
+					<xs:element minOccurs="0" maxOccurs="1" name="partnerName" type="xs:string"/>
+					<xs:element minOccurs="0" maxOccurs="1" name="customerId" type="xs:string"/>
+					<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="lax"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="CurrencyType">
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="code" type="xs:string"/>
+					<xs:element minOccurs="1" maxOccurs="1" name="amount" type="xs:decimal"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:simpleType name="ReferrerCode">
+				<xs:annotation>
+					<xs:documentation>
+						BN code for tracking transactions with a particular partner.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:restriction base="xs:string">
+					<xs:maxLength value="32"/>
+				</xs:restriction>
+			</xs:simpleType>
+	
+			<xs:simpleType name="DayOfWeek">
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="NO_DAY_SPECIFIED"/>
+					<xs:enumeration value="SUNDAY"/>
+					<xs:enumeration value="MONDAY"/>
+					<xs:enumeration value="TUESDAY"/>
+					<xs:enumeration value="WEDNESDAY"/>
+					<xs:enumeration value="THURSDAY"/>
+					<xs:enumeration value="FRIDAY"/>
+					<xs:enumeration value="SATURDAY"/>
+				</xs:restriction>
+			</xs:simpleType>
+
+			<xs:simpleType name="DetailLevelCode">
+				<xs:annotation>
+					<xs:documentation>
+						DetailLevelCodeType
+					</xs:documentation>
+				</xs:annotation>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="ReturnAll">
+						<xs:annotation>
+							<xs:documentation>
+								Return in response message all detail
+								levels.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+				</xs:restriction>
+			</xs:simpleType>
+
+			<xs:simpleType name="ErrorCategory">
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="System"/>
+					<xs:enumeration value="Application"/>
+					<xs:enumeration value="Request"/>
+				</xs:restriction>
+			</xs:simpleType>
+
+			<xs:complexType name="ErrorData">
+				<xs:annotation>
+					<xs:documentation>
+						This type contains the detailed error
+						information resulting from the service
+						operation.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element name="errorId" type="xs:long"/>
+					<xs:element name="domain" type="xs:string"/>
+					<xs:element minOccurs="0" name="subdomain" type="xs:string"/>
+					<xs:element name="severity" type="common:ErrorSeverity"/>
+					<xs:element name="category" type="common:ErrorCategory"/>
+					<xs:element name="message" type="xs:string"/>
+					<xs:element minOccurs="0" name="exceptionId" type="xs:token"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="parameter" nillable="true" type="common:ErrorParameter"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="ErrorParameter">
+				<xs:simpleContent>
+					<xs:extension base="xs:string">
+						<xs:attribute name="name" type="xs:string"/>
+					</xs:extension>
+				</xs:simpleContent>
+			</xs:complexType>
+
+			<xs:simpleType name="ErrorSeverity">
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Error"/>
+					<xs:enumeration value="Warning"/>
+				</xs:restriction>
+			</xs:simpleType>
+
+			<xs:complexType name="FaultMessage">
+				<xs:annotation>
+					<xs:documentation>
+						This specifies a fault, encapsulating error
+						data, with specific error codes.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element minOccurs="1" name="responseEnvelope" type="common:ResponseEnvelope"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="error" nillable="true" type="common:ErrorData"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="PhoneNumberType">
+				<xs:sequence maxOccurs="1" minOccurs="1">
+					<xs:element minOccurs="1" maxOccurs="1" name="countryCode" type="xs:string">
+						
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="phoneNumber" type="xs:string">
+						
+					</xs:element>	
+					<xs:element minOccurs="0" maxOccurs="1" name="extension" type="xs:string">
+						
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="RequestEnvelope">
+				<xs:annotation>
+					<xs:documentation>
+						This specifies the list of parameters with every
+						request to the service.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element name="detailLevel" type="common:DetailLevelCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								This specifies the required detail level
+								that is needed by a client application
+								pertaining to a particular data
+								component (e.g., Item, Transaction,
+								etc.). The detail level is specified in
+								the DetailLevelCodeType which has all
+								the enumerated values of the detail
+								level for each component.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="errorLanguage" type="xs:string" minOccurs="1" default="en_US">
+						<xs:annotation>
+							<xs:documentation>
+								This should be the standard RFC 3066
+								language identification tag, e.g.,
+								en_US.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="lax"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="ResponseEnvelope">
+				<xs:annotation>
+					<xs:documentation>
+						This specifies a list of parameters with every
+						response from a service.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="timestamp" type="xs:dateTime"/>
+					<xs:element name="ack" minOccurs="1" type="common:AckCode">
+						<xs:annotation>
+							<xs:documentation>
+								Application level acknowledgment code.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="correlationId" type="xs:string"/>
+					<xs:element minOccurs="1" maxOccurs="1" name="build" type="xs:string"/>
+					<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="lax"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:element name="FaultMessage" nillable="true" type="common:FaultMessage"/>
+
+		</xs:schema>
+
+		<xs:schema xmlns:inv="http://svcs.paypal.com/types/pt" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:annox="http://annox.dev.java.net" xmlns:ov="http://annox.dev.java.net/net.sf.oval.constraint" xmlns:sec="http://annox.dev.java.net/com.paypal.foundation.security.annotation" xmlns:ppm="http://annox.dev.java.net/com.paypal.foundation.logging" xmlns:ppv="http://annox.dev.java.net/com.paypal.foundation.validation.oval" xmlns:ppvc="http://annox.dev.java.net/com.paypal.foundation.validation.oval.constraint" attributeFormDefault="unqualified" elementFormDefault="unqualified" jaxb:version="2.1" targetNamespace="http://svcs.paypal.com/types/pt">
+		<!-- NOTE: this schema target namespace will eventually be changed to http://svcs.paypal.com/types/invoice -->
+
+			<!--  jaxb:extensionBindingPrefixes="annox" -->
+
+			<xs:import namespace="http://svcs.paypal.com/types/common"/>
+
+			<!-- ###################################################### -->
+			<!-- Shared invoice related types definition, alphabetized  -->
+			<!-- ###################################################### -->
+
+			<xs:complexType name="BusinessInfoType">
+				
+				<xs:annotation>
+					<xs:documentation>
+						Contact information for a company participating in the invoicing system.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element name="firstName" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								First name of the company contact.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="lastName" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Last name of the company contact.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="businessName" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Business name of the company.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="phone" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Phone number for contacting the company.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="fax" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Fax number used by the company.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="website" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Website used by the company.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="customValue" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Custom value to be displayed in the contact information details.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="address" type="common:BaseAddress" maxOccurs="1" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Street address of the company.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:any maxOccurs="unbounded" minOccurs="0" processContents="lax" namespace="##other"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:simpleType name="PaymentTermsType">
+				<xs:annotation>
+					<xs:documentation>
+						Specifies the payment terms for this invoice.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="DueOnReceipt">
+						<xs:annotation>
+							<xs:documentation>
+								Due when the payer recieves the invoice.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="DueOnDateSpecified">
+						<xs:annotation>
+							<xs:documentation>
+								Due on the date specified elsewhere in the invoice.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="Net10">
+						<xs:annotation>
+							<xs:documentation>
+								Due ten days from the invoice date.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="Net15">
+						<xs:annotation>
+							<xs:documentation>
+								Due fifteen days from the invoice date.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="Net30">
+						<xs:annotation>
+							<xs:documentation>
+								Due thirty days from the invoice date.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="Net45">
+						<xs:annotation>
+							<xs:documentation>
+								Due forty five days from the invoice date.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+				</xs:restriction>
+			</xs:simpleType>
+			
+			<xs:simpleType name="PaymentMethodsType">
+				<xs:annotation>
+					<xs:documentation>
+						Specifies the payment methods that can be used to mark an invoice as paid.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="BankTransfer">
+						<xs:annotation>
+							<xs:documentation>
+								Payment done by a bank transfer.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="Cash">
+						<xs:annotation>
+							<xs:documentation>
+								Payment done by cash.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="Check">
+						<xs:annotation>
+							<xs:documentation>
+								Payment done by a check.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>					
+					<xs:enumeration value="CreditCard">
+						<xs:annotation>
+							<xs:documentation>
+								Payment done by a credit card.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="DebitCard">
+						<xs:annotation>
+							<xs:documentation>
+								Payment done by a debit card.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="Other">
+						<xs:annotation>
+							<xs:documentation>
+								Payment done by another method not specified in this enumeration.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>					
+					<xs:enumeration value="PayPal">
+						<xs:annotation>
+							<xs:documentation>
+								Payment done by PayPal.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="WireTransfer">
+						<xs:annotation>
+							<xs:documentation>
+								Payment done by a wire transfer.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+				</xs:restriction>
+			</xs:simpleType>
+			
+					
+			<xs:complexType name="InvoiceItemType">
+				<xs:annotation>
+					<xs:documentation>
+						Item information about a service or product listed in the invoice.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								SKU or item name.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Description of the item.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="date" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Date on which the product or service was provided.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="quantity" type="xs:decimal" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Item count.
+							</xs:documentation>
+								
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="unitPrice" type="xs:decimal" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Price of the item, in the currency specified by the invoice.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="taxName" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Name of an applicable tax, if any.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="taxRate" type="xs:decimal" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Rate of an applicable tax, if any.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:any maxOccurs="unbounded" minOccurs="0" processContents="lax" namespace="##other"/>
+				</xs:sequence>
+			</xs:complexType>
+			
+			<xs:complexType name="InvoiceItemListType">
+				<xs:annotation>
+					<xs:documentation>
+						A list of invoice items.
+					</xs:documentation>
+					
+				</xs:annotation>			
+				<xs:sequence>
+					<xs:element name="item" type="inv:InvoiceItemType" minOccurs="1" maxOccurs="unbounded">
+						
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="InvoiceType">
+				<xs:annotation>
+					<xs:documentation>
+						Invoice details about the merchant, payer, totals and terms.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element name="merchantEmail" type="xs:string" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Merchant's email.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="payerEmail" type="xs:string" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Email to which the invoice will be sent.
+							</xs:documentation>
+                            
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="number" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Unique identifier for the invoice.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="merchantInfo" type="inv:BusinessInfoType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Company contact information of the merchant company sending the invoice.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="itemList" type="inv:InvoiceItemListType" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								List of items included in this invoice.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="currencyCode" type="xs:string" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Currency used for all invoice item amounts and totals.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="invoiceDate" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Date on which the invoice will be enabled.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="dueDate" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Date on which the invoice payment is due.
+							</xs:documentation>
+								
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="paymentTerms" type="inv:PaymentTermsType" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Terms by which the invoice payment is due.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="discountPercent" type="xs:decimal" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								A discount percent applied to the invoice, if any.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="discountAmount" type="xs:decimal" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								A discount amount applied to the invoice, if any.  If DiscountPercent is provided, DiscountAmount is ignored.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="terms" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								General terms for the invoice.
+							</xs:documentation>
+								
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="note" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Note to the payer company.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="merchantMemo" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Memo for book keeping that is private to the Merchant.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="billingInfo" type="inv:BusinessInfoType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Billing information for the payer.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="shippingInfo" type="inv:BusinessInfoType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Shipping information for the payer.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="shippingAmount" type="xs:decimal" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Cost of shipping.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="shippingTaxName" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Name of the applicable tax on shipping cost, if any.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="shippingTaxRate" type="xs:decimal" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Rate of the applicable tax on shipping cost, if any.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					
+					
+					
+					<xs:element name="logoUrl" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								The external image URL of the invoice's logo, if any
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>	
+					<xs:element name="referrerCode" type="common:ReferrerCode" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								BN code for tracking transactions with a particular partner. 
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>					
+					
+                    <xs:element name="customAmountLabel" type="xs:string" minOccurs="0" maxOccurs="1">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Label used to display custom amount value.
+                                If a value is entered for customAmountLabel, then customAmountValue cannot be empty.
+                            </xs:documentation>
+                            
+                        </xs:annotation>
+                    </xs:element>
+                    
+                    <xs:element name="customAmountValue" type="xs:decimal" minOccurs="0" maxOccurs="1">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Value of custom amount.
+                                If a value is entered for customAmountValue, then customAmountLabel cannot be empty.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                 
+					<xs:any maxOccurs="unbounded" minOccurs="0" processContents="lax" namespace="##other"/>
+				</xs:sequence>
+			</xs:complexType>
+
+
+			<xs:simpleType name="StatusType">
+				<xs:annotation>
+					<xs:documentation>
+						Specifies the invoice status.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Draft"/>
+					<xs:enumeration value="Sent"/>
+					<xs:enumeration value="Paid"/>
+					<xs:enumeration value="MarkedAsPaid"/>
+					<xs:enumeration value="Canceled"/>
+					<xs:enumeration value="Refunded"/>
+					<xs:enumeration value="PartiallyRefunded"/>
+					<xs:enumeration value="MarkedAsRefunded"/>
+				</xs:restriction>
+			</xs:simpleType>
+
+			<xs:simpleType name="OriginType">
+				<xs:annotation>
+					<xs:documentation>
+						Specifies the merchant or payer.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Web"/>
+					<xs:enumeration value="API"/>
+				</xs:restriction>
+			</xs:simpleType>
+
+			<xs:simpleType name="ActorType">
+				<xs:annotation>
+					<xs:documentation>
+						Specifies the merchant or payer.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Merchant"/>
+					<xs:enumeration value="Payer"/>
+				</xs:restriction>
+			</xs:simpleType>
+
+			<xs:complexType name="InvoiceDetailsType">
+				<xs:annotation>
+					<xs:documentation>
+						Invoice details about the invoice status and state change dates.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element name="status" type="inv:StatusType" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Status of the invoice.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="totalAmount" type="xs:decimal" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								The total amount of the invoice (cost of items, shipping and tax, less any discount).
+								This field is set by the invoicing system and will ignore any changes made by API callers.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="origin" type="inv:OriginType" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Whether the invoice was created via the website or via an API call.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="createdDate" type="xs:dateTime" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Date when the invoice was created.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="createdBy" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Account that created the invoice.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="canceledDate" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								If canceled, date when the invoice was canceled.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="canceledByActor" type="inv:ActorType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Actor who canceled the invoice.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="canceledBy" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Account that canceled the invoice.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="lastUpdatedDate" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Date when the invoice was last edited.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="lastUpdatedBy" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Account that last edited the invoice.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="firstSentDate" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Date when the invoice was first sent.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="lastSentDate" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Date when the invoice was last sent.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="lastSentBy" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Account that last sent the invoice.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="paidDate" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								If the invoice was paid, date when the invoice was paid.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:any maxOccurs="unbounded" minOccurs="0" processContents="lax" namespace="##other"/>
+				</xs:sequence>
+			</xs:complexType>
+            <xs:complexType name="OtherPaymentRefundDetailsType">
+                <xs:annotation>
+                    <xs:documentation>
+                        Details of the refund made against this invoice.
+                    </xs:documentation>
+                    
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="note" type="xs:string" minOccurs="0" maxOccurs="1">
+                        <xs:annotation>
+							<xs:documentation>
+								Optional note associated with the refund.
+							</xs:documentation>
+                            
+						</xs:annotation>
+                    </xs:element>
+                    <xs:element name="date" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Date when the invoice was marked as refunded. If the date is not specified, the current date and time is used as a default.
+                                In addition, the date must be after the payment date of the invoice.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:any maxOccurs="unbounded" minOccurs="0" processContents="lax" namespace="##other"/>
+                </xs:sequence>
+            </xs:complexType>
+
+             <xs:complexType name="PayPalPaymentRefundDetailsType">
+                <xs:annotation>
+                    <xs:documentation>
+                        Details of the paypal refund made against this invoice.
+                    </xs:documentation>
+                    
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="date" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Date when the invoice was marked as refunded by PayPal.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:any maxOccurs="unbounded" minOccurs="0" processContents="lax" namespace="##other"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="PayPalPaymentDetailsType">
+				<xs:annotation>
+					<xs:documentation>
+						PayPal payment details about the invoice.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element name="transactionID" type="xs:string" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Transaction ID of the PayPal payment.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="date" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Date when the invoice was paid.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:any maxOccurs="unbounded" minOccurs="0" processContents="lax" namespace="##other"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:simpleType name="OtherPaymentMethodType">
+				<xs:annotation>
+					<xs:documentation>
+						Specifies the type of payment.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Bank_transfer"/>
+					<xs:enumeration value="Cash"/>
+					<xs:enumeration value="Check"/>
+					<xs:enumeration value="Credit_card"/>
+					<xs:enumeration value="Debit_card"/>
+					<xs:enumeration value="PayPal"/>
+					<xs:enumeration value="Wire_transfer"/>
+					<xs:enumeration value="Other"/>
+				</xs:restriction>
+			</xs:simpleType>
+
+			<xs:complexType name="OtherPaymentDetailsType">
+				<xs:annotation>
+					<xs:documentation>
+						Offline payment details about the invoice.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element name="method" type="inv:PaymentMethodsType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Method used for the offline payment.
+							</xs:documentation>						
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="note" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Optional note associated with the payment.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="date" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Date when the invoice was paid.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:any maxOccurs="unbounded" minOccurs="0" processContents="lax" namespace="##other"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="PaymentDetailsType">
+				<xs:annotation>
+					<xs:documentation>
+						Payment details about the invoice.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element name="viaPayPal" type="xs:boolean" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								True if the invoice was paid using PayPal.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="paypalPayment" type="inv:PayPalPaymentDetailsType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								PayPal payment details.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="otherPayment" type="inv:OtherPaymentDetailsType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Other payment details.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:any maxOccurs="unbounded" minOccurs="0" processContents="lax" namespace="##other"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="DateRangeType">
+				<xs:annotation>
+					<xs:documentation>
+						Determines an inclusive date range.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element name="startDate" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Start of the date range.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="endDate" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								End of the date range.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="SearchParametersType">
+				<xs:annotation>
+					<xs:documentation>
+						Search parameters criteria.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element name="email" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Email search string.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="recipientName" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Recipient search string.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="businessName" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Company search string.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="invoiceNumber" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Invoice number search string.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="status" type="inv:StatusType" minOccurs="0" maxOccurs="10">
+						<xs:annotation>
+							<xs:documentation>
+								Invoice status search.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="lowerAmount" type="xs:decimal" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Invoice amount search.  Specifies the smallest amount to be returned.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="upperAmount" type="xs:decimal" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Invoice amount search.  Specifies the largest amount to be returned.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="currencyCode" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Currency used for lower and upper amounts.  Required when lowerAmount or upperAmount is specified.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="memo" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Invoice memo search string.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="origin" type="inv:OriginType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Whether the invoice was created via the website or via an API call.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="invoiceDate" type="inv:DateRangeType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Invoice date range filter.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="dueDate" type="inv:DateRangeType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Invoice due date range filter.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="paymentDate" type="inv:DateRangeType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Invoice payment date range filter.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="creationDate" type="inv:DateRangeType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Invoice creation date range filter.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:any maxOccurs="unbounded" minOccurs="0" processContents="lax" namespace="##other"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="InvoiceSummaryType">
+				<xs:annotation>
+					<xs:documentation>
+						Summary of invoice information.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element name="invoiceID" type="xs:string" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								The created invoice's ID.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="merchantEmail" type="xs:string" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Invoice creator's email.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="payerEmail" type="xs:string" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Email to which the invoice will be sent.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="number" type="xs:string" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Unique identifier for the invoice.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="billingBusinessName" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Business name of the billing info.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="billingFirstName" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								First name of the billing info.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="billingLastName" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Last name of the billing info.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="shippingBusinessName" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Business name of the shipping info.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="shippingFirstName" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								First name of the shipping info.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="shippingLastName" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Last name of the shipping info.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="totalAmount" type="xs:decimal" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Total amount of the invoice.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="currencyCode" type="xs:string" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Currency used for all invoice item amounts and totals.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="invoiceDate" type="xs:dateTime" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Date on which the invoice will be enabled.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="dueDate" type="xs:dateTime" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Date on which the invoice payment is due.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="status" type="inv:StatusType" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Status of the invoice.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="origin" type="inv:OriginType" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Whether the invoice was created via the website or via an API call.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="referrerCode" type="common:ReferrerCode" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								BN code for tracking transactions with a particular partner. 
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>	
+					<xs:any maxOccurs="unbounded" minOccurs="0" processContents="lax" namespace="##other"/>
+				</xs:sequence>
+			</xs:complexType>
+			
+			<xs:complexType name="InvoiceSummaryListType">
+				<xs:annotation>
+					<xs:documentation>
+						A list of invoice summaries.
+					</xs:documentation>
+					
+				</xs:annotation>			
+				<xs:sequence>
+					<xs:element name="invoice" type="inv:InvoiceSummaryType" minOccurs="0" maxOccurs="unbounded">
+						
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+
+			<!-- ###################################################### -->
+			<!-- Request and Response types definition                  -->
+			<!-- ###################################################### -->
+
+			<xs:complexType name="CreateInvoiceRequest">
+				<xs:annotation>
+					<xs:documentation>
+						The request object for CreateInvoice.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="requestEnvelope" type="common:RequestEnvelope">
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoice" type="inv:InvoiceType">
+						<xs:annotation>
+							<xs:documentation>
+								Data to populate the newly created invoice.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="CreateInvoiceResponse">
+				<xs:annotation>
+					<xs:documentation>
+						The response object for CreateInvoice.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="responseEnvelope" type="common:ResponseEnvelope">	
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoiceID" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The created invoice's ID.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoiceNumber" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The created invoice's number.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoiceURL" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The URL which lead merchant to view the invoice details on web.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="totalAmount" type="xs:long">
+						<xs:annotation>
+							<xs:documentation>
+								The total amount of the invoice (cost of items, shipping and tax, less any discount).
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="SendInvoiceRequest">
+				<xs:annotation>
+					<xs:documentation>
+						The request object for SendInvoice.
+					</xs:documentation>				
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="requestEnvelope" type="common:RequestEnvelope">
+						
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoiceID" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								ID of the invoice to send.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="SendInvoiceResponse">
+				<xs:annotation>
+					<xs:documentation>
+						The response object for SendInvoice.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="responseEnvelope" type="common:ResponseEnvelope">	
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoiceID" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The sent invoice's ID.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoiceURL" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The URL which lead merchant to view the invoice details on web.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+			
+			<xs:complexType name="CreateAndSendInvoiceRequest">
+				<xs:annotation>
+					<xs:documentation>
+						The request object for CreateAndSendInvoice.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="requestEnvelope" type="common:RequestEnvelope">
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoice" type="inv:InvoiceType">
+						<xs:annotation>
+							<xs:documentation>
+								Data to populate the newly created invoice.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="CreateAndSendInvoiceResponse">
+				<xs:annotation>
+					<xs:documentation>
+						The response object for CreateAndSendInvoice.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="responseEnvelope" type="common:ResponseEnvelope">
+						
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoiceID" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The created invoice's ID.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoiceNumber" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The created invoice's number.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoiceURL" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The URL which lead merchant to view the invoice details on web.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="totalAmount" type="xs:long">
+						<xs:annotation>
+							<xs:documentation>
+								The total amount of the invoice (cost of items, shipping and tax, less any discount).
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="UpdateInvoiceRequest">
+				<xs:annotation>
+					<xs:documentation>
+						The request object for UpdateInvoice.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="requestEnvelope" type="common:RequestEnvelope">
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoiceID" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								invoice's ID
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoice" type="inv:InvoiceType">
+						<xs:annotation>
+							<xs:documentation>
+								Data to populate the newly created invoice.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="UpdateInvoiceResponse">
+				<xs:annotation>
+					<xs:documentation>
+						The response object for UpdateInvoice.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="responseEnvelope" type="common:ResponseEnvelope">
+						
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoiceID" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The invoice's ID.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoiceNumber" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The updated invoice's number.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoiceURL" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The URL which lead merchant to view the invoice details on web.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="totalAmount" type="xs:long">
+						<xs:annotation>
+							<xs:documentation>
+								The total amount of the invoice (cost of items, shipping and tax, less any discount).
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="GetInvoiceDetailsRequest">
+				<xs:annotation>
+					<xs:documentation>
+						The request object for GetInvoiceDetails.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="requestEnvelope" type="common:RequestEnvelope">
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoiceID" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								ID of the invoice to retrieve.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="GetInvoiceDetailsResponse">
+				<xs:annotation>
+					<xs:documentation>
+						The response object for CreateInvoice.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="responseEnvelope" type="common:ResponseEnvelope">
+						
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoice" type="inv:InvoiceType">
+						<xs:annotation>
+							<xs:documentation>
+								The requested invoice.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoiceDetails" type="inv:InvoiceDetailsType">
+						<xs:annotation>
+							<xs:documentation>
+								The requested invoice details.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="0" maxOccurs="1" name="paymentDetails" type="inv:PaymentDetailsType">
+						<xs:annotation>
+							<xs:documentation>
+								The requested invoice payment details.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+                    <xs:element minOccurs="0" maxOccurs="1" name="refundDetails" type="inv:PaymentRefundDetailsType">
+						<xs:annotation>
+							<xs:documentation>
+								The requested invoice refund details.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+
+					<xs:element minOccurs="1" maxOccurs="1" name="invoiceURL" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The URL which lead merchant to view the invoice details on web.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="CancelInvoiceRequest">
+				<xs:annotation>
+					<xs:documentation>
+						The request object for CancelInvoice.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="requestEnvelope" type="common:RequestEnvelope">
+					</xs:element>
+					<xs:element minOccurs="0" maxOccurs="1" name="invoiceID" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								invoice's ID
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<!-- xs:element minOccurs="0" maxOccurs="1" name="invoiceNumber" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								invoice's number
+							</xs:documentation>
+							<xs:appinfo>
+								<annox:annotate target="field">
+									<ov:NotNull when="groovy:_this.invoiceID == null" />
+								</annox:annotate>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element-->
+					<xs:element minOccurs="0" maxOccurs="1" name="subject" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								Subject of the cancellation notification
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="0" maxOccurs="1" name="noteForPayer" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								Note to send payer within the cancellation notification
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="0" maxOccurs="1" name="sendCopyToMerchant" type="xs:boolean">
+						<xs:annotation>
+							<xs:documentation>
+								send a copy of cancellation notification to merchant
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="CancelInvoiceResponse">
+				<xs:annotation>
+					<xs:documentation>
+						The response object for CancelInvoice.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="responseEnvelope" type="common:ResponseEnvelope">
+						
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoiceID" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The canceled invoice's ID.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoiceNumber" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The canceled invoice's number.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoiceURL" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The URL which lead merchant to view the invoice details on web.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="SearchInvoicesRequest">
+				<xs:annotation>
+					<xs:documentation>
+						The request object for SearchInvoices.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="requestEnvelope" type="common:RequestEnvelope">
+					</xs:element>
+					<xs:element name="merchantEmail" type="xs:string" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Invoice creator's email.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="parameters" type="inv:SearchParametersType">
+						<xs:annotation>
+							<xs:documentation>
+								Parameters constraining the search.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="page" type="xs:integer" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Page number of result set, starting with 1.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="pageSize" type="xs:integer" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Number of results per page, between 1 and 100.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="SearchInvoicesResponse">
+				<xs:annotation>
+					<xs:documentation>
+						The response object for SearchInvoices.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="responseEnvelope" type="common:ResponseEnvelope">
+						
+					</xs:element>
+					<xs:element name="count" type="xs:integer" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Number of invoices that matched the search.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="invoiceList" type="inv:InvoiceSummaryListType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Page of invoice summaries that matched the search.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="page" type="xs:integer" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Page number of result set.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="hasNextPage" type="xs:boolean" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								True if another page of invoice summary results exists.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="hasPreviousPage" type="xs:boolean" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								True if a previous page of invoice summary results exists.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="MarkInvoiceAsPaidRequest">
+				<xs:annotation>
+					<xs:documentation>
+						The request object for MarkInvoiceAsPaid.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="requestEnvelope" type="common:RequestEnvelope">
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoiceID" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								ID of the invoice to mark as paid.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="payment" type="inv:OtherPaymentDetailsType">
+						<xs:annotation>
+							<xs:documentation>
+								Details of the payment made against this invoice.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="MarkInvoiceAsPaidResponse">
+				<xs:annotation>
+					<xs:documentation>
+						The response object for MarkInvoiceAsPaid.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="responseEnvelope" type="common:ResponseEnvelope">
+						
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoiceID" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The paid invoice ID.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoiceNumber" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The paid invoice number.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoiceURL" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The URL which lead merchant to view the invoice details on web.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="MarkInvoiceAsRefundedRequest">
+                <xs:annotation>
+                    <xs:documentation>
+                        The request object for MarkInvoiceAsRefunded.
+                    </xs:documentation>
+
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="1" name="requestEnvelope" type="common:RequestEnvelope">
+                    </xs:element>
+                    <xs:element minOccurs="1" maxOccurs="1" name="invoiceID" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>
+                                ID of the invoice to mark as refunded.
+                            </xs:documentation>
+                            
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="1" maxOccurs="1" name="refundDetail" type="inv:OtherPaymentRefundDetailsType">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Details of the refund made against this invoice.
+                            </xs:documentation>
+                            
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="MarkInvoiceAsRefundedResponse">
+                <xs:annotation>
+                    <xs:documentation>
+                        The response object for MarkInvoiceAsRefunded.
+                    </xs:documentation>
+
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="1" name="responseEnvelope" type="common:ResponseEnvelope">
+
+                    </xs:element>
+                    <xs:element minOccurs="1" maxOccurs="1" name="invoiceID" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>
+                               The invoice ID of the invoice that was marked as refunded.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="1" maxOccurs="1" name="invoiceNumber" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>
+                               The invoice number of the invoice that was marked as refunded.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="1" maxOccurs="1" name="invoiceURL" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The URL of the details page of the invoice that was marked as refunded.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:complexType>
+			<xs:complexType name="MarkInvoiceAsUnpaidRequest">
+				<xs:annotation>
+					<xs:documentation>
+						The request object for MarkInvoiceAsUnpaid.
+					</xs:documentation>				
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="requestEnvelope" type="common:RequestEnvelope">
+						
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoiceID" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								ID of the invoice to mark as unpaid.
+							</xs:documentation>
+							
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="MarkInvoiceAsUnpaidResponse">
+				<xs:annotation>
+					<xs:documentation>
+						The response object for MarkInvoiceAsUnpaid.
+					</xs:documentation>
+					
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="responseEnvelope" type="common:ResponseEnvelope">	
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoiceID" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The invoice ID of the invoice that was marked as unpaid.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoiceNumber" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The invoice number of the invoice that was marked as unpaid.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="invoiceURL" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The URL of the details page of the invoice that was marked as unpaid.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+            <xs:complexType name="PaymentRefundDetailsType">
+	            <xs:annotation>
+	               <xs:documentation>
+	                  Payment refund details about the invoice.
+	               </xs:documentation>
+	               
+	            </xs:annotation>
+	            <xs:sequence>
+	               <xs:element name="viaPayPal" type="xs:boolean" minOccurs="1" maxOccurs="1">
+	                  <xs:annotation>
+	                     <xs:documentation>
+	                        True if the invoice was refunded using PayPal.
+	                     </xs:documentation>
+	                     
+	                  </xs:annotation>
+	               </xs:element>
+	               <xs:element name="paypalPayment" type="inv:PayPalPaymentRefundDetailsType" minOccurs="0" maxOccurs="1">
+	                  <xs:annotation>
+	                     <xs:documentation>
+	                        Other payment refund details.
+	                     </xs:documentation>
+	                     
+	                  </xs:annotation>
+	               </xs:element>
+	               <xs:element name="otherPayment" type="inv:OtherPaymentRefundDetailsType" minOccurs="0" maxOccurs="1">
+	                  <xs:annotation>
+	                     <xs:documentation>
+	                         details.
+	                     </xs:documentation>
+	                     
+	                  </xs:annotation>
+	               </xs:element>
+	               <xs:any maxOccurs="unbounded" minOccurs="0" processContents="lax" namespace="##other"/>
+	            </xs:sequence>
+      		</xs:complexType>
+			<xs:element name="CreateInvoiceRequest" nillable="true" type="inv:CreateInvoiceRequest"/>
+			<xs:element name="CreateInvoiceResponse" nillable="true" type="inv:CreateInvoiceResponse"/>
+			<xs:element name="SendInvoiceRequest" nillable="true" type="inv:SendInvoiceRequest"/>
+			<xs:element name="SendInvoiceResponse" nillable="true" type="inv:SendInvoiceResponse"/>
+			<xs:element name="CreateAndSendInvoiceRequest" nillable="true" type="inv:CreateAndSendInvoiceRequest"/>
+			<xs:element name="CreateAndSendInvoiceResponse" nillable="true" type="inv:CreateAndSendInvoiceResponse"/>
+			<xs:element name="UpdateInvoiceRequest" nillable="true" type="inv:UpdateInvoiceRequest"/>
+			<xs:element name="UpdateInvoiceResponse" nillable="true" type="inv:UpdateInvoiceResponse"/>
+			<xs:element name="GetInvoiceDetailsRequest" nillable="true" type="inv:GetInvoiceDetailsRequest"/>
+			<xs:element name="GetInvoiceDetailsResponse" nillable="true" type="inv:GetInvoiceDetailsResponse"/>
+			<xs:element name="CancelInvoiceRequest" nillable="true" type="inv:CancelInvoiceRequest"/>
+			<xs:element name="CancelInvoiceResponse" nillable="true" type="inv:CancelInvoiceResponse"/>
+			<xs:element name="SearchInvoicesRequest" nillable="true" type="inv:SearchInvoicesRequest"/>
+			<xs:element name="SearchInvoicesResponse" nillable="true" type="inv:SearchInvoicesResponse"/>
+			<xs:element name="MarkInvoiceAsPaidRequest" nillable="true" type="inv:MarkInvoiceAsPaidRequest"/>
+			<xs:element name="MarkInvoiceAsPaidResponse" nillable="true" type="inv:MarkInvoiceAsPaidResponse"/>
+			<xs:element name="MarkInvoiceAsUnpaidRequest" nillable="true" type="inv:MarkInvoiceAsUnpaidRequest"/>
+			<xs:element name="MarkInvoiceAsUnpaidResponse" nillable="true" type="inv:MarkInvoiceAsUnpaidResponse"/>
+            <xs:element name="MarkInvoiceAsRefundedRequest" nillable="true" type="inv:MarkInvoiceAsRefundedRequest"/>
+            <xs:element name="MarkInvoiceAsRefundedResponse" nillable="true" type="inv:MarkInvoiceAsRefundedResponse"/>
+		</xs:schema>
+	</wsdl:types>
+
+	<wsdl:message name="FaultException">
+		<wsdl:part name="body" element="common:FaultMessage"/>
+	</wsdl:message>
+	<wsdl:message name="CreateInvoiceRequest">
+		<wsdl:part name="body" element="types:CreateInvoiceRequest"/>
+	</wsdl:message>
+	<wsdl:message name="CreateInvoiceResponse">
+		<wsdl:part name="body" element="types:CreateInvoiceResponse"/>
+	</wsdl:message>
+	<wsdl:message name="SendInvoiceRequest">
+		<wsdl:part name="body" element="types:SendInvoiceRequest"/>
+	</wsdl:message>
+	<wsdl:message name="SendInvoiceResponse">
+		<wsdl:part name="body" element="types:SendInvoiceResponse"/>
+	</wsdl:message>
+	<wsdl:message name="CreateAndSendInvoiceRequest">
+		<wsdl:part name="body" element="types:CreateAndSendInvoiceRequest"/>
+	</wsdl:message>
+	<wsdl:message name="CreateAndSendInvoiceResponse">
+		<wsdl:part name="body" element="types:CreateAndSendInvoiceResponse"/>
+	</wsdl:message>
+	<wsdl:message name="UpdateInvoiceRequest">
+		<wsdl:part name="body" element="types:UpdateInvoiceRequest"/>
+	</wsdl:message>
+	<wsdl:message name="UpdateInvoiceResponse">
+		<wsdl:part name="body" element="types:UpdateInvoiceResponse"/>
+	</wsdl:message>
+	<wsdl:message name="GetInvoiceDetailsRequest">
+		<wsdl:part name="body" element="types:GetInvoiceDetailsRequest"/>
+	</wsdl:message>
+	<wsdl:message name="GetInvoiceDetailsResponse">
+		<wsdl:part name="body" element="types:GetInvoiceDetailsResponse"/>
+	</wsdl:message>
+	<wsdl:message name="CancelInvoiceRequest">
+		<wsdl:part name="body" element="types:CancelInvoiceRequest"/>
+	</wsdl:message>
+	<wsdl:message name="CancelInvoiceResponse">
+		<wsdl:part name="body" element="types:CancelInvoiceResponse"/>
+	</wsdl:message>
+	<wsdl:message name="SearchInvoicesRequest">
+		<wsdl:part name="body" element="types:SearchInvoicesRequest"/>
+	</wsdl:message>
+	<wsdl:message name="SearchInvoicesResponse">
+		<wsdl:part name="body" element="types:SearchInvoicesResponse"/>
+	</wsdl:message>
+	<wsdl:message name="MarkInvoiceAsPaidRequest">
+		<wsdl:part name="body" element="types:MarkInvoiceAsPaidRequest"/>
+	</wsdl:message>
+	<wsdl:message name="MarkInvoiceAsPaidResponse">
+		<wsdl:part name="body" element="types:MarkInvoiceAsPaidResponse"/>
+	</wsdl:message>
+	<wsdl:message name="MarkInvoiceAsUnpaidRequest">
+		<wsdl:part name="body" element="types:MarkInvoiceAsUnpaidRequest"/>
+	</wsdl:message>
+	<wsdl:message name="MarkInvoiceAsUnpaidResponse">
+		<wsdl:part name="body" element="types:MarkInvoiceAsUnpaidResponse"/>
+	</wsdl:message>
+     <wsdl:message name="MarkInvoiceAsRefundedRequest">
+        <wsdl:part name="body" element="types:MarkInvoiceAsRefundedRequest"/>
+    </wsdl:message>
+    <wsdl:message name="MarkInvoiceAsRefundedResponse">
+        <wsdl:part name="body" element="types:MarkInvoiceAsRefundedResponse"/>
+    </wsdl:message>
+
+	<wsdl:portType name="InvoicePortType">
+		<wsdl:operation name="CreateInvoice">
+			<wsdl:input message="services:CreateInvoiceRequest" name="CreateInvoiceRequest"/>
+			<wsdl:output message="services:CreateInvoiceResponse" name="CreateInvoiceResponse"/>
+			<wsdl:fault message="services:FaultException" name="FaultException"/>
+		</wsdl:operation>
+
+		<wsdl:operation name="SendInvoice">
+			<wsdl:input message="services:SendInvoiceRequest" name="SendInvoiceRequest"/>
+			<wsdl:output message="services:SendInvoiceResponse" name="SendInvoiceResponse"/>
+			<wsdl:fault message="services:FaultException" name="FaultException"/>
+		</wsdl:operation>
+
+		<wsdl:operation name="CreateAndSendInvoice">
+			<wsdl:input message="services:CreateAndSendInvoiceRequest" name="CreateAndSendInvoiceRequest"/>
+			<wsdl:output message="services:CreateAndSendInvoiceResponse" name="CreateAndSendInvoiceResponse"/>
+			<wsdl:fault message="services:FaultException" name="FaultException"/>
+		</wsdl:operation>
+
+		<wsdl:operation name="UpdateInvoice">
+			<wsdl:input message="services:UpdateInvoiceRequest" name="UpdateInvoiceRequest"/>
+			<wsdl:output message="services:UpdateInvoiceResponse" name="UpdateInvoiceResponse"/>
+			<wsdl:fault message="services:FaultException" name="FaultException"/>
+		</wsdl:operation>
+
+		<wsdl:operation name="GetInvoiceDetails">
+			<wsdl:input message="services:GetInvoiceDetailsRequest" name="GetInvoiceDetailsRequest"/>
+			<wsdl:output message="services:GetInvoiceDetailsResponse" name="GetInvoiceDetailsResponse"/>
+			<wsdl:fault message="services:FaultException" name="FaultException"/>
+		</wsdl:operation>
+
+		<wsdl:operation name="CancelInvoice">
+			<wsdl:input message="services:CancelInvoiceRequest" name="CancelInvoiceRequest"/>
+			<wsdl:output message="services:CancelInvoiceResponse" name="CancelInvoiceResponse"/>
+			<wsdl:fault message="services:FaultException" name="FaultException"/>
+		</wsdl:operation>
+
+		<wsdl:operation name="SearchInvoices">
+			<wsdl:input message="services:SearchInvoicesRequest" name="SearchInvoicesRequest"/>
+			<wsdl:output message="services:SearchInvoicesResponse" name="SearchInvoicesResponse"/>
+			<wsdl:fault message="services:FaultException" name="FaultException"/>
+		</wsdl:operation>
+
+		<wsdl:operation name="MarkInvoiceAsPaid">
+			<wsdl:input message="services:MarkInvoiceAsPaidRequest" name="MarkInvoiceAsPaidRequest"/>
+			<wsdl:output message="services:MarkInvoiceAsPaidResponse" name="MarkInvoiceAsPaidResponse"/>
+			<wsdl:fault message="services:FaultException" name="FaultException"/>
+		</wsdl:operation>
+		
+		<wsdl:operation name="MarkInvoiceAsUnpaid">
+			<wsdl:input message="services:MarkInvoiceAsUnpaidRequest" name="MarkInvoiceAsUnpaidRequest"/>
+			<wsdl:output message="services:MarkInvoiceAsUnpaidResponse" name="MarkInvoiceAsUnpaidResponse"/>
+			<wsdl:fault message="services:FaultException" name="FaultException"/>
+		</wsdl:operation>
+         <wsdl:operation name="MarkInvoiceAsRefunded">
+            <wsdl:input message="services:MarkInvoiceAsRefundedRequest" name="MarkInvoiceAsRefundedRequest"/>
+            <wsdl:output message="services:MarkInvoiceAsRefundedResponse" name="MarkInvoiceAsRefundedResponse"/>
+            <wsdl:fault message="services:FaultException" name="FaultException"/>
+        </wsdl:operation>
+
+	</wsdl:portType>
+
+	<wsdl:binding name="InvoiceSOAP11Binding" type="services:InvoicePortType">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+		<wsdl:operation name="CreateInvoice">
+			<soap:operation soapAction="urn:CreateInvoice" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultException">
+				<soap:fault use="literal" name="FaultException"/>
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="SendInvoice">
+			<soap:operation soapAction="urn:SendInvoice" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultException">
+				<soap:fault use="literal" name="FaultException"/>
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="CreateAndSendInvoice">
+			<soap:operation soapAction="urn:CreateAndSendInvoice" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultException">
+				<soap:fault use="literal" name="FaultException"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="UpdateInvoice">
+			<soap:operation soapAction="urn:UpdateInvoice" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultException">
+				<soap:fault use="literal" name="FaultException"/>
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="GetInvoiceDetails">
+			<soap:operation soapAction="urn:GetInvoiceDetails" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultException">
+				<soap:fault use="literal" name="FaultException"/>
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="CancelInvoice">
+			<soap:operation soapAction="urn:CancelInvoice" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultException">
+				<soap:fault use="literal" name="FaultException"/>
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="SearchInvoices">
+			<soap:operation soapAction="urn:SearchInvoices" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultException">
+				<soap:fault use="literal" name="FaultException"/>
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="MarkInvoiceAsPaid">
+			<soap:operation soapAction="urn:MarkInvoiceAsPaid" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultException">
+				<soap:fault use="literal" name="FaultException"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="MarkInvoiceAsUnpaid">
+			<soap:operation soapAction="urn:MarkInvoiceAsUnpaid" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultException">
+				<soap:fault use="literal" name="FaultException"/>
+			</wsdl:fault>
+		</wsdl:operation>
+
+         <wsdl:operation name="MarkInvoiceAsRefunded">
+            <soap:operation soapAction="urn:MarkInvoiceAsRefunded" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="FaultException">
+                <soap:fault use="literal" name="FaultException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+	</wsdl:binding>
+
+	<wsdl:service name="Invoice">
+		<wsdl:port name="InvoiceSOAP11_http" binding="services:InvoiceSOAP11Binding">
+			<soap:address location="https://svcs.paypal.com/Invoice"/>
+		</wsdl:port>
+	</wsdl:service>
+
+</wsdl:definitions>
