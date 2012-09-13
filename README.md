@@ -44,7 +44,7 @@ RUNNING APIExplorer
    From command line 'cd' to Redis directory and run redis-server.exe
    
    in another commandline window type in:
-   
+   <pre>
    node ./app.js
-   
-   Point your browser to: http://localhost:20000
+   </pre>
+   Point your browser to: [http://localhost:20000] (http://localhost:20000)
