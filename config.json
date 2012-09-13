@@ -1,0 +1,14 @@
+{
+    "title" : "X.commerce API Explorer ",
+    "address": "127.0.0.1",
+    "port" : 20000,
+	"appContext": "",
+    "debug" : false,
+    "sessionSecret" : "12345",
+    "redis" : {
+                "host" : "localhost",
+                "port" : 6379,
+                "password" : "",
+                "database" : "0"
+             }
+}
