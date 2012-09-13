@@ -29,6 +29,7 @@
     "querystring": "0.1.0",
     "cluster2" : "0.3.1"
   },
+  
   "devDependencies": {},
   "main": "index",
   "engines": {

@@ -1,0 +1,2229 @@
+{
+	"endpoints": [{
+		"name": "AdaptiveAccounts",
+		"methods": [{
+			"Name": "CreateAccount",
+			"Description": "\n\t\t\t\n\t\t\t\tCoutries Supported:\n\t\t\t\t\tAU - Australia\n\t\t\t\t\tCA - Canada\n\t\t\t\t\tCY - Cyprus\n\t\t\t\t\tCZ - Czech Republic\n\t\t\t\t\tDK - Denmark\n\t\t\t\t\tEE - Estonia\n\t\t\t\t\tFI - Finland\n\t\t\t\t\tFR - France\n\t\t\t\t\tDE - Germany\n\t\t\t\t\tGR - Greece\n\t\t\t\t\tHU - Hungary\n\t\t\t\t\tIT - Italy\n\t\t\t\t\tLV - Latvia\n\t\t\t\t\tLT - Lithuania\n\t\t\t\t\tLU - Luxembourg\n\t\t\t\t\tMT - Malta\n\t\t\t\t\tNL - Netherlands\n\t\t\t\t\tPL - Poland\n\t\t\t\t\tPT - Portugal\n\t\t\t\t\tSK - Slovak Republic\n\t\t\t\t\tSI - Slovenia\n\t\t\t\t\tES - Spain\n\t\t\t\t\tSE - Sweden\n\t\t\t\t\tUK - United Kingdom\n\t\t\t\t\tUS - United States\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t",
+			"URI": null,
+			"RequiresOAuth": "N",
+			"Required": "Y",
+			"Type": "complex",
+			"Synopsis": "\n\t\t\t\n\t\t\t\tCoutries Supported:\n\t\t\t\t\tAU - Australia\n\t\t\t\t\tCA - Canada\n\t\t\t\t\tCY - Cyprus\n\t\t\t\t\tCZ - Czech Republic\n\t\t\t\t\tDK - Denmark\n\t\t\t\t\tEE - Estonia\n\t\t\t\t\tFI - Finland\n\t\t\t\t\tFR - France\n\t\t\t\t\tDE - Germany\n\t\t\t\t\tGR - Greece\n\t\t\t\t\tHU - Hungary\n\t\t\t\t\tIT - Italy\n\t\t\t\t\tLV - Latvia\n\t\t\t\t\tLT - Lithuania\n\t\t\t\t\tLU - Luxembourg\n\t\t\t\t\tMT - Malta\n\t\t\t\t\tNL - Netherlands\n\t\t\t\t\tPL - Poland\n\t\t\t\t\tPT - Portugal\n\t\t\t\t\tSK - Slovak Republic\n\t\t\t\t\tSI - Slovenia\n\t\t\t\t\tES - Spain\n\t\t\t\t\tSE - Sweden\n\t\t\t\t\tUK - United Kingdom\n\t\t\t\t\tUS - United States\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t",
+			"HTTPMethod": "POST",
+			"Default": "",
+			"Parameters": [{
+				"Name": "createAccountRequest",
+				"ValidatedClass": "CreateAccountRequest",
+				"Description": "\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\tValid values are: Personal, Premier, and\n\t\t\t\t\t\t\t\tBusiness. Flag=\"2\" corresponds to\n\t\t\t\t\t\t\t\tjava.util.regex.Pattern.CASE_INSENSITIVE,\n\t\t\t\t\t\t\t\tmeaning the strings are not\n\t\t\t\t\t\t\t\tcase-sensitive\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t",
+				"Required": true,
+				"Type": "complex",
+				"Default": "",
+				"Members": [{
+					"Name": "requestEnvelope",
+					"ValidatedClass": "RequestEnvelope",
+					"Description": null,
+					"Required": "Y",
+					"Type": "complex",
+					"Default": "",
+					"Members": [{
+						"Name": "detailLevel",
+						"Required": "N",
+						"ValidatedClass": "DetailLevelCode",
+						"Type": "enumerated",
+						"Description": "\n\t\t\t\t\t\t\t\tThis specifies the required detail level\n\t\t\t\t\t\t\t\tthat is needed by a client application\n\t\t\t\t\t\t\t\tpertaining to a particular data\n\t\t\t\t\t\t\t\tcomponent (e.g., Item, Transaction,\n\t\t\t\t\t\t\t\tetc.). The detail level is specified in\n\t\t\t\t\t\t\t\tthe DetailLevelCodeType which has all\n\t\t\t\t\t\t\t\tthe enumerated values of the detail\n\t\t\t\t\t\t\t\tlevel for each component.\n\t\t\t\t\t\t\t",
+						"Default": "",
+						"EnumeratedList": ["ReturnAll",
+						"ReturnAttributes"]
+					},
+					{
+						"Name": "errorLanguage",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\tThis should be the standard RFC 3066\n\t\t\t\t\t\t\t\tlanguage identification tag, e.g.,\n\t\t\t\t\t\t\t\ten_US.\n\t\t\t\t\t\t\t"
+					}]
+				},
+				{
+					"Name": "clientDetails",
+					"ValidatedClass": "ClientDetailsType",
+					"Description": null,
+					"Required": "N",
+					"Type": "complex",
+					"Default": "",
+					"Members": [{
+						"Name": "ipAddress",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "deviceId",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "applicationId",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "model",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "geoLocation",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "customerType",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "partnerName",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "customerId",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					}]
+				},
+				{
+					"Name": "accountType",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tValid values are: Personal, Premier, and\n\t\t\t\t\t\t\t\tBusiness. Flag=\"2\" corresponds to\n\t\t\t\t\t\t\t\tjava.util.regex.Pattern.CASE_INSENSITIVE,\n\t\t\t\t\t\t\t\tmeaning the strings are not\n\t\t\t\t\t\t\t\tcase-sensitive\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "name",
+					"ValidatedClass": "NameType",
+					"Description": null,
+					"Required": "Y",
+					"Type": "complex",
+					"Default": "",
+					"Members": [{
+						"Name": "salutation",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "firstName",
+						"ValidatedClass": "string",
+						"Required": "Y",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "middleName",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "lastName",
+						"ValidatedClass": "string",
+						"Required": "Y",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "suffix",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					}]
+				},
+				{
+					"Name": "dateOfBirth",
+					"ValidatedClass": "date",
+					"Required": "N",
+					"Type": "date",
+					"Default": "",
+					"Description": null
+				},
+				{
+					"Name": "address",
+					"ValidatedClass": "AddressType",
+					"Description": null,
+					"Required": "Y",
+					"Type": "complex",
+					"Default": "",
+					"Members": [{
+						"Name": "line1",
+						"ValidatedClass": "string",
+						"Required": "Y",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "line2",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "city",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "state",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "postalCode",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "countryCode",
+						"ValidatedClass": "string",
+						"Required": "Y",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					}]
+				},
+				{
+					"Name": "contactPhoneNumber",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\tMust provide at least one of contactPhoneNumber, homePhoneNumber, or mobilePhoneNumber\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "homePhoneNumber",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\tMust provide at least one of contactPhoneNumber, homePhoneNumber, or mobilePhoneNumber\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "mobilePhoneNumber",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\tMust provide at least one of contactPhoneNumber, homePhoneNumber, or mobilePhoneNumber\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "currencyCode",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": null
+				},
+				{
+					"Name": "citizenshipCountryCode",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": null
+				},
+				{
+					"Name": "preferredLanguageCode",
+					"ValidatedClass": "string",
+					"Required": "Y",
+					"Type": "string",
+					"Default": "",
+					"Description": null
+				},
+				{
+					"Name": "notificationURL",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": null
+				},
+				{
+					"Name": "emailAddress",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": null
+				},
+				{
+					"Name": "registrationType",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tValid values are: Mobile and Web.\n\t\t\t\t\t\t\t\tMobile: Returns a key to complete the\n\t\t\t\t\t\t\t\tregistration. Web: Returns a URL to\n\t\t\t\t\t\t\t\tcomplete the registration.\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "createAccountWebOptions",
+					"ValidatedClass": "CreateAccountWebOptionsType",
+					"Description": null,
+					"Required": "N",
+					"Type": "complex",
+					"Default": "",
+					"Members": [{
+						"Name": "returnUrl",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "showAddCreditCard",
+						"ValidatedClass": "boolean",
+						"Required": "N",
+						"Type": "boolean",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "showMobileConfirm",
+						"ValidatedClass": "boolean",
+						"Required": "N",
+						"Type": "boolean",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\tAsk end-user to also initiate confirmation of their mobile phone. \n\t\t\t\t\t\t\t\tThis number must be supplied by the API caller (using mobilePhoneNumber)\n\t\t\t\t\t\t\t\tDefault=false.\n\t\t\t\t\t\t\t"
+					},
+					{
+						"Name": "returnUrlDescription",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "useMiniBrowser",
+						"ValidatedClass": "boolean",
+						"Required": "N",
+						"Type": "boolean",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\tIf provided, end user will go through a  \n\t\t\t\t\t\t\t\tsingle page sign-up flow on a Mini Browser.\n\t\t\t\t\t\t\t\tIf not provided, flow defaults to the \n\t\t\t\t\t\t\t\tMulti-page flow that is full size.\n\t\t\t\t\t\t\t"
+					}]
+				},
+				{
+					"Name": "suppressWelcomeEmail",
+					"ValidatedClass": "boolean",
+					"Required": "N",
+					"Type": "boolean",
+					"Default": "",
+					"Description": null
+				},
+				{
+					"Name": "performExtraVettingOnThisAccount",
+					"ValidatedClass": "boolean",
+					"Required": "N",
+					"Type": "boolean",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tSet to true if you want this account to undergo extra vetting by PayPal\n\t\t\t\t\t\t\t\tbefore becoming usable. \n\t\t\t\t\t\t"
+				},
+				{
+					"Name": "taxId",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\ttax id, ssn, itin, pan, cpf, acn, abn, etc.\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "partnerField1",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": null
+				},
+				{
+					"Name": "partnerField2",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": null
+				},
+				{
+					"Name": "partnerField3",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": null
+				},
+				{
+					"Name": "partnerField4",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": null
+				},
+				{
+					"Name": "partnerField5",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": null
+				},
+				{
+					"Name": "businessInfo",
+					"ValidatedClass": "BusinessInfoType",
+					"Description": "\n\t\t\t\t\t\t\t\tRequired for business account creation\n\t\t\t\t\t\t\t",
+					"Required": "N",
+					"Type": "complex",
+					"Default": "",
+					"Members": [{
+						"Name": "businessName",
+						"ValidatedClass": "string",
+						"Required": "Y",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "businessAddress",
+						"ValidatedClass": "AddressType",
+						"Description": null,
+						"Required": "Y",
+						"Type": "complex",
+						"Default": "",
+						"Members": [{
+							"Name": "line1",
+							"ValidatedClass": "string",
+							"Required": "Y",
+							"Type": "string",
+							"Default": "",
+							"Description": null
+						},
+						{
+							"Name": "line2",
+							"ValidatedClass": "string",
+							"Required": "N",
+							"Type": "string",
+							"Default": "",
+							"Description": null
+						},
+						{
+							"Name": "city",
+							"ValidatedClass": "string",
+							"Required": "N",
+							"Type": "string",
+							"Default": "",
+							"Description": null
+						},
+						{
+							"Name": "state",
+							"ValidatedClass": "string",
+							"Required": "N",
+							"Type": "string",
+							"Default": "",
+							"Description": null
+						},
+						{
+							"Name": "postalCode",
+							"ValidatedClass": "string",
+							"Required": "N",
+							"Type": "string",
+							"Default": "",
+							"Description": null
+						},
+						{
+							"Name": "countryCode",
+							"ValidatedClass": "string",
+							"Required": "Y",
+							"Type": "string",
+							"Default": "",
+							"Description": null
+						}]
+					},
+					{
+						"Name": "workPhone",
+						"ValidatedClass": "string",
+						"Required": "Y",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "category",
+						"ValidatedClass": "integer",
+						"Required": "N",
+						"Type": "integer",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\tPayPal Business Category. i.e., baby -\n\t\t\t\t\t\t\t\t1004\n\t\t\t\t\t\t\t"
+					},
+					{
+						"Name": "subCategory",
+						"ValidatedClass": "integer",
+						"Required": "N",
+						"Type": "integer",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\tPaypal Business subcategory. i.e.,\n\t\t\t\t\t\t\t\tbaby-clothing - 2027\n\t\t\t\t\t\t\t"
+					},
+					{
+						"Name": "merchantCategoryCode",
+						"ValidatedClass": "integer",
+						"Required": "N",
+						"Type": "integer",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\tIf Category and Subcategory is\n\t\t\t\t\t\t\t\tspecified, then this is optional. PayPal\n\t\t\t\t\t\t\t\tuses the industry standard Merchant\n\t\t\t\t\t\t\t\tCategory Codes. Please refer to your\n\t\t\t\t\t\t\t\tAssociation Merchant Category Code\n\t\t\t\t\t\t\t\tdocumentation for a list of codes\n\t\t\t\t\t\t\t"
+					},
+					{
+						"Name": "doingBusinessAs",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "customerServicePhone",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "customerServiceEmail",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "disputeEmail",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "webSite",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "companyId",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\tCompany Id: tax id, acn, abn, etc.\n\t\t\t\t\t\t\t"
+					},
+					{
+						"Name": "dateOfEstablishment",
+						"ValidatedClass": "date",
+						"Required": "N",
+						"Type": "date",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "businessType",
+						"Required": "N",
+						"ValidatedClass": "BusinessType",
+						"Type": "enumerated",
+						"Description": null,
+						"Default": "",
+						"EnumeratedList": ["ASSOCIATION",
+						"CORPORATION",
+						"GENERAL_PARTNERSHIP",
+						"GOVERNMENT",
+						"INDIVIDUAL",
+						"LIMITED_LIABILITY_PARTNERSHIP",
+						"LIMITED_LIABILITY_PRIVATE_CORPORATION",
+						"LIMITED_LIABILITY_PROPRIETORS",
+						"LIMITED_PARTNERSHIP",
+						"LIMITED_PARTNERSHIP_PRIVATE_CORPORATION",
+						"NONPROFIT",
+						"OTHER_CORPORATE_BODY",
+						"PARTNERSHIP",
+						"PRIVATE_CORPORATION",
+						"PRIVATE_PARTNERSHIP",
+						"PROPRIETORSHIP",
+						"PROPRIETORSHIP_CRAFTSMAN",
+						"PROPRIETARY_COMPANY",
+						"PUBLIC_COMPANY",
+						"PUBLIC_CORPORATION",
+						"PUBLIC_PARTNERSHIP"]
+					},
+					{
+						"Name": "businessSubtype",
+						"Required": "N",
+						"ValidatedClass": "BusinessSubtypeType",
+						"Type": "enumerated",
+						"Description": null,
+						"Default": "",
+						"EnumeratedList": ["ENTITY",
+						"EMANATION",
+						"ESTD_COMMONWEALTH",
+						"ESTD_UNDER_STATE_TERRITORY",
+						"ESTD_UNDER_FOREIGN_COUNTRY",
+						"INCORPORATED",
+						"NON_INCORPORATED"]
+					},
+					{
+						"Name": "incorporationId",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "averagePrice",
+						"ValidatedClass": "double",
+						"Required": "N",
+						"Type": "double",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\tAverage transaction value.\n\t\t\t\t\t\t\t"
+					},
+					{
+						"Name": "averageMonthlyVolume",
+						"ValidatedClass": "double",
+						"Required": "N",
+						"Type": "double",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\tAverage monthly transaction value.\n\t\t\t\t\t\t\t"
+					},
+					{
+						"Name": "percentageRevenueFromOnline",
+						"ValidatedClass": "integer",
+						"Required": "N",
+						"Type": "integer",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\tPercentage of the revenue that is from online sales (0%-100%).\n\t\t\t\t\t\t\t"
+					},
+					{
+						"Name": "salesVenue",
+						"Required": "N",
+						"ValidatedClass": "SalesVenueType",
+						"Type": "enumerated",
+						"Description": null,
+						"Default": "",
+						"EnumeratedList": ["WEB",
+						"EBAY",
+						"OTHER_MARKETPLACE",
+						"OTHER"]
+					},
+					{
+						"Name": "salesVenueDesc",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\tDescription of store front or place for sales.\n\t\t\t\t\t\t\t\tOnly required when \"OTHER\" is specified for\n\t\t\t\t\t\t\t\tsalesVenue.  \n\t\t\t\t\t\t\t"
+					},
+					{
+						"Name": "vatId",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\tValue Added Tax (VAT) ID number\n\t\t\t\t\t\t\t"
+					},
+					{
+						"Name": "vatCountryCode",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\tCountry code for country on the vat id.\n\t\t\t\t\t\t\t"
+					},
+					{
+						"Name": "commercialRegistrationLocation",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t        Official commercial registration location.\n\t\t\t\t\t\t\t"
+					},
+					{
+						"Name": "principalPlaceOfBusinessAddress",
+						"ValidatedClass": "AddressType",
+						"Description": null,
+						"Required": "N",
+						"Type": "complex",
+						"Default": "",
+						"Members": [{
+							"Name": "line1",
+							"ValidatedClass": "string",
+							"Required": "Y",
+							"Type": "string",
+							"Default": "",
+							"Description": null
+						},
+						{
+							"Name": "line2",
+							"ValidatedClass": "string",
+							"Required": "N",
+							"Type": "string",
+							"Default": "",
+							"Description": null
+						},
+						{
+							"Name": "city",
+							"ValidatedClass": "string",
+							"Required": "N",
+							"Type": "string",
+							"Default": "",
+							"Description": null
+						},
+						{
+							"Name": "state",
+							"ValidatedClass": "string",
+							"Required": "N",
+							"Type": "string",
+							"Default": "",
+							"Description": null
+						},
+						{
+							"Name": "postalCode",
+							"ValidatedClass": "string",
+							"Required": "N",
+							"Type": "string",
+							"Default": "",
+							"Description": null
+						},
+						{
+							"Name": "countryCode",
+							"ValidatedClass": "string",
+							"Required": "Y",
+							"Type": "string",
+							"Default": "",
+							"Description": null
+						}]
+					},
+					{
+						"Name": "registeredOfficeAddress",
+						"ValidatedClass": "AddressType",
+						"Description": null,
+						"Required": "N",
+						"Type": "complex",
+						"Default": "",
+						"Members": [{
+							"Name": "line1",
+							"ValidatedClass": "string",
+							"Required": "Y",
+							"Type": "string",
+							"Default": "",
+							"Description": null
+						},
+						{
+							"Name": "line2",
+							"ValidatedClass": "string",
+							"Required": "N",
+							"Type": "string",
+							"Default": "",
+							"Description": null
+						},
+						{
+							"Name": "city",
+							"ValidatedClass": "string",
+							"Required": "N",
+							"Type": "string",
+							"Default": "",
+							"Description": null
+						},
+						{
+							"Name": "state",
+							"ValidatedClass": "string",
+							"Required": "N",
+							"Type": "string",
+							"Default": "",
+							"Description": null
+						},
+						{
+							"Name": "postalCode",
+							"ValidatedClass": "string",
+							"Required": "N",
+							"Type": "string",
+							"Default": "",
+							"Description": null
+						},
+						{
+							"Name": "countryCode",
+							"ValidatedClass": "string",
+							"Required": "Y",
+							"Type": "string",
+							"Default": "",
+							"Description": null
+						}]
+					},
+					{
+						"Name": "establishmentCountryCode",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "establishmentState",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "businessStakeholder",
+						"ValidatedClass": "BusinessStakeholderType",
+						"Description": "\n\t\t\t\t\t\t\t\tAll the stakeholders of the company.  \n\t\t\t\t\t\t\t",
+						"Required": "N",
+						"Type": "complex",
+						"Default": "",
+						"Members": [[{
+							"Name": "role",
+							"Required": "Y",
+							"ValidatedClass": "StakeholderRoleType",
+							"Type": "enumerated",
+							"Description": null,
+							"Default": "",
+							"EnumeratedList": ["CHAIRMAN",
+							"SECRETARY",
+							"TREASURER",
+							"BENEFICIAL_OWNER",
+							"PRIMARY_CONTACT",
+							"INDIVIDUAL_PARTNER",
+							"NON_INDIVIDUAL_PARTNER",
+							"PRIMARY_INDIVIDUAL_PARTNER",
+							"DIRECTOR",
+							"NO_BENEFICIAL_OWNER"]
+						},
+						{
+							"Name": "name",
+							"ValidatedClass": "NameType",
+							"Description": null,
+							"Required": "N",
+							"Type": "complex",
+							"Default": "",
+							"Members": [{
+								"Name": "salutation",
+								"ValidatedClass": "string",
+								"Required": "N",
+								"Type": "string",
+								"Default": "",
+								"Description": null
+							},
+							{
+								"Name": "firstName",
+								"ValidatedClass": "string",
+								"Required": "Y",
+								"Type": "string",
+								"Default": "",
+								"Description": null
+							},
+							{
+								"Name": "middleName",
+								"ValidatedClass": "string",
+								"Required": "N",
+								"Type": "string",
+								"Default": "",
+								"Description": null
+							},
+							{
+								"Name": "lastName",
+								"ValidatedClass": "string",
+								"Required": "Y",
+								"Type": "string",
+								"Default": "",
+								"Description": null
+							},
+							{
+								"Name": "suffix",
+								"ValidatedClass": "string",
+								"Required": "N",
+								"Type": "string",
+								"Default": "",
+								"Description": null
+							}]
+						},
+						{
+							"Name": "fullLegalName",
+							"ValidatedClass": "string",
+							"Required": "N",
+							"Type": "string",
+							"Default": "",
+							"Description": null
+						},
+						{
+							"Name": "address",
+							"ValidatedClass": "AddressType",
+							"Description": null,
+							"Required": "N",
+							"Type": "complex",
+							"Default": "",
+							"Members": [{
+								"Name": "line1",
+								"ValidatedClass": "string",
+								"Required": "Y",
+								"Type": "string",
+								"Default": "",
+								"Description": null
+							},
+							{
+								"Name": "line2",
+								"ValidatedClass": "string",
+								"Required": "N",
+								"Type": "string",
+								"Default": "",
+								"Description": null
+							},
+							{
+								"Name": "city",
+								"ValidatedClass": "string",
+								"Required": "N",
+								"Type": "string",
+								"Default": "",
+								"Description": null
+							},
+							{
+								"Name": "state",
+								"ValidatedClass": "string",
+								"Required": "N",
+								"Type": "string",
+								"Default": "",
+								"Description": null
+							},
+							{
+								"Name": "postalCode",
+								"ValidatedClass": "string",
+								"Required": "N",
+								"Type": "string",
+								"Default": "",
+								"Description": null
+							},
+							{
+								"Name": "countryCode",
+								"ValidatedClass": "string",
+								"Required": "Y",
+								"Type": "string",
+								"Default": "",
+								"Description": null
+							}]
+						},
+						{
+							"Name": "dateOfBirth",
+							"ValidatedClass": "date",
+							"Required": "N",
+							"Type": "date",
+							"Default": "",
+							"Description": null
+						}]]
+					}]
+				}]
+			}]
+		},
+		{
+			"Name": "GetUserAgreement",
+			"Description": "\n\t\t\t\n\t\t\t\tCountries Supported:\n\t\t\t\t\tAU - Australia\n\t\t\t\t\tAT - Austria  \n\t\t\t\t\tCA - Canada\n\t\t\t\t\tCZ - Czech Republic\n\t\t\t\t\tEU - European Union *\n\t\t\t\t\tFR - France\n\t\t\t\t\tDE - Germany\n\t\t\t\t\tGB - Great Britain\n\t\t\t\t\tGR - Greece\n\t\t\t\t\tIE - Ireland\n\t\t\t\t\tIL - Israel\n\t\t\t\t\tIT - Italy\n\t\t\t\t\tJP - Japan\n\t\t\t\t\tNL - Netherlands\n\t\t\t\t\tNZ - New Zealand (Aotearoa)\n\t\t\t\t\tPL - Poland\n\t\t\t\t\tPT - Portugal\n\t\t\t\t\tRU - Russian Federation\n\t\t\t\t\tSG - Singapore\n\t\t\t\t\tZA - South Africa\n\t\t\t\t\tES - Spain\n\t\t\t\t\tCH - Switzerland  \n\t\t\t\t\tUS - United States\n\t\t\t\t\t* technically a group of countries\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t",
+			"URI": null,
+			"RequiresOAuth": "N",
+			"Required": "Y",
+			"Type": "complex",
+			"Synopsis": "\n\t\t\t\n\t\t\t\tCountries Supported:\n\t\t\t\t\tAU - Australia\n\t\t\t\t\tAT - Austria  \n\t\t\t\t\tCA - Canada\n\t\t\t\t\tCZ - Czech Republic\n\t\t\t\t\tEU - European Union *\n\t\t\t\t\tFR - France\n\t\t\t\t\tDE - Germany\n\t\t\t\t\tGB - Great Britain\n\t\t\t\t\tGR - Greece\n\t\t\t\t\tIE - Ireland\n\t\t\t\t\tIL - Israel\n\t\t\t\t\tIT - Italy\n\t\t\t\t\tJP - Japan\n\t\t\t\t\tNL - Netherlands\n\t\t\t\t\tNZ - New Zealand (Aotearoa)\n\t\t\t\t\tPL - Poland\n\t\t\t\t\tPT - Portugal\n\t\t\t\t\tRU - Russian Federation\n\t\t\t\t\tSG - Singapore\n\t\t\t\t\tZA - South Africa\n\t\t\t\t\tES - Spain\n\t\t\t\t\tCH - Switzerland  \n\t\t\t\t\tUS - United States\n\t\t\t\t\t* technically a group of countries\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t",
+			"HTTPMethod": "POST",
+			"Default": "",
+			"Parameters": [{
+				"Name": "getUserAgreementRequest",
+				"ValidatedClass": "GetUserAgreementRequest",
+				"Description": null,
+				"Required": true,
+				"Type": "complex",
+				"Default": "",
+				"Members": [{
+					"Name": "requestEnvelope",
+					"ValidatedClass": "RequestEnvelope",
+					"Description": null,
+					"Required": "Y",
+					"Type": "complex",
+					"Default": "",
+					"Members": [{
+						"Name": "detailLevel",
+						"Required": "N",
+						"ValidatedClass": "DetailLevelCode",
+						"Type": "enumerated",
+						"Description": "\n\t\t\t\t\t\t\t\tThis specifies the required detail level\n\t\t\t\t\t\t\t\tthat is needed by a client application\n\t\t\t\t\t\t\t\tpertaining to a particular data\n\t\t\t\t\t\t\t\tcomponent (e.g., Item, Transaction,\n\t\t\t\t\t\t\t\tetc.). The detail level is specified in\n\t\t\t\t\t\t\t\tthe DetailLevelCodeType which has all\n\t\t\t\t\t\t\t\tthe enumerated values of the detail\n\t\t\t\t\t\t\t\tlevel for each component.\n\t\t\t\t\t\t\t",
+						"Default": "",
+						"EnumeratedList": ["ReturnAll",
+						"ReturnAttributes"]
+					},
+					{
+						"Name": "errorLanguage",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\tThis should be the standard RFC 3066\n\t\t\t\t\t\t\t\tlanguage identification tag, e.g.,\n\t\t\t\t\t\t\t\ten_US.\n\t\t\t\t\t\t\t"
+					}]
+				},
+				{
+					"Name": "createAccountKey",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": null
+				},
+				{
+					"Name": "countryCode",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": null
+				},
+				{
+					"Name": "languageCode",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": null
+				}]
+			}]
+		},
+		{
+			"Name": "GetVerifiedStatus",
+			"Description": "\n\t\t\t\n\t\t\t\tAll countries are supported.\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t",
+			"URI": null,
+			"RequiresOAuth": "N",
+			"Required": "Y",
+			"Type": "complex",
+			"Synopsis": "\n\t\t\t\n\t\t\t\tAll countries are supported.\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t",
+			"HTTPMethod": "POST",
+			"Default": "",
+			"Parameters": [{
+				"Name": "getVerifiedStatusRequest",
+				"ValidatedClass": "GetVerifiedStatusRequest",
+				"Description": "\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\tmatchCriteria determines which field(s)\n\t\t\t\t\t\t\t\tin addition to emailAddress is used to\n\t\t\t\t\t\t\t\tlocate the account. Currently, we support \n\t\t\t\t\t\t\t\tmatchCriteria of 'NAME' and 'NONE'.\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t",
+				"Required": true,
+				"Type": "complex",
+				"Default": "",
+				"Members": [{
+					"Name": "requestEnvelope",
+					"ValidatedClass": "RequestEnvelope",
+					"Description": null,
+					"Required": "Y",
+					"Type": "complex",
+					"Default": "",
+					"Members": [{
+						"Name": "detailLevel",
+						"Required": "N",
+						"ValidatedClass": "DetailLevelCode",
+						"Type": "enumerated",
+						"Description": "\n\t\t\t\t\t\t\t\tThis specifies the required detail level\n\t\t\t\t\t\t\t\tthat is needed by a client application\n\t\t\t\t\t\t\t\tpertaining to a particular data\n\t\t\t\t\t\t\t\tcomponent (e.g., Item, Transaction,\n\t\t\t\t\t\t\t\tetc.). The detail level is specified in\n\t\t\t\t\t\t\t\tthe DetailLevelCodeType which has all\n\t\t\t\t\t\t\t\tthe enumerated values of the detail\n\t\t\t\t\t\t\t\tlevel for each component.\n\t\t\t\t\t\t\t",
+						"Default": "",
+						"EnumeratedList": ["ReturnAll",
+						"ReturnAttributes"]
+					},
+					{
+						"Name": "errorLanguage",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\tThis should be the standard RFC 3066\n\t\t\t\t\t\t\t\tlanguage identification tag, e.g.,\n\t\t\t\t\t\t\t\ten_US.\n\t\t\t\t\t\t\t"
+					}]
+				},
+				{
+					"Name": "emailAddress",
+					"ValidatedClass": "string",
+					"Required": "Y",
+					"Type": "string",
+					"Default": "",
+					"Description": null
+				},
+				{
+					"Name": "matchCriteria",
+					"ValidatedClass": "string",
+					"Required": "Y",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tmatchCriteria determines which field(s)\n\t\t\t\t\t\t\t\tin addition to emailAddress is used to\n\t\t\t\t\t\t\t\tlocate the account. Currently, we support \n\t\t\t\t\t\t\t\tmatchCriteria of 'NAME' and 'NONE'.\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "firstName",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tRequired if matchCriteria is NAME\n\t\t\t\t\t\t\t\tOptional if matchCriteria is NONE\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "lastName",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tRequired if matchCriteria is NAME\n\t\t\t\t\t\t\t\tOptional if matchCriteria is NONE\n\t\t\t\t\t\t\t"
+				}]
+			}]
+		},
+		{
+			"Name": "AddBankAccount",
+			"Description": "\n\t\t\t\n\t\t\t\tCountries Supported:\n\t\t\t\t\tAU - Australia\n\t\t\t\t\tCA - Canada\n\t\t\t\t\tFR - France\n\t\t\t\t\tDE - Germany\n\t\t\t\t\tIL - Israel\n\t\t\t\t\tIT - Italy\n\t\t\t\t\tNL - Netherlands\n\t\t\t\t\tUK - United Kingdom\n\t\t\t\t\tUS - United States\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t",
+			"URI": null,
+			"RequiresOAuth": "N",
+			"Required": "Y",
+			"Type": "complex",
+			"Synopsis": "\n\t\t\t\n\t\t\t\tCountries Supported:\n\t\t\t\t\tAU - Australia\n\t\t\t\t\tCA - Canada\n\t\t\t\t\tFR - France\n\t\t\t\t\tDE - Germany\n\t\t\t\t\tIL - Israel\n\t\t\t\t\tIT - Italy\n\t\t\t\t\tNL - Netherlands\n\t\t\t\t\tUK - United Kingdom\n\t\t\t\t\tUS - United States\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t",
+			"HTTPMethod": "POST",
+			"Default": "",
+			"Parameters": [{
+				"Name": "addBankAccountRequest",
+				"ValidatedClass": "AddBankAccountRequest",
+				"Description": "\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\tIdentifying the PayPal account to which this request is targetted to.\n\t\t\t\t\t\t\t\tCaller of this API has to either provided an emailAddress or an accountId.\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t",
+				"Required": true,
+				"Type": "complex",
+				"Default": "",
+				"Members": [{
+					"Name": "requestEnvelope",
+					"ValidatedClass": "RequestEnvelope",
+					"Description": null,
+					"Required": "Y",
+					"Type": "complex",
+					"Default": "",
+					"Members": [{
+						"Name": "detailLevel",
+						"Required": "N",
+						"ValidatedClass": "DetailLevelCode",
+						"Type": "enumerated",
+						"Description": "\n\t\t\t\t\t\t\t\tThis specifies the required detail level\n\t\t\t\t\t\t\t\tthat is needed by a client application\n\t\t\t\t\t\t\t\tpertaining to a particular data\n\t\t\t\t\t\t\t\tcomponent (e.g., Item, Transaction,\n\t\t\t\t\t\t\t\tetc.). The detail level is specified in\n\t\t\t\t\t\t\t\tthe DetailLevelCodeType which has all\n\t\t\t\t\t\t\t\tthe enumerated values of the detail\n\t\t\t\t\t\t\t\tlevel for each component.\n\t\t\t\t\t\t\t",
+						"Default": "",
+						"EnumeratedList": ["ReturnAll",
+						"ReturnAttributes"]
+					},
+					{
+						"Name": "errorLanguage",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\tThis should be the standard RFC 3066\n\t\t\t\t\t\t\t\tlanguage identification tag, e.g.,\n\t\t\t\t\t\t\t\ten_US.\n\t\t\t\t\t\t\t"
+					}]
+				},
+				{
+					"Name": "emailAddress",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tIdentifying the PayPal account to which this request is targetted to.\n\t\t\t\t\t\t\t\tCaller of this API has to either provided an emailAddress or an accountId.\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "accountId",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tIdentifying the PayPal account to which this request is targetted to.\n\t\t\t\t\t\t\t\tCaller of this API has to either provided an emailAddress or an accountId.\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "createAccountKey",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": null
+				},
+				{
+					"Name": "bankCountryCode",
+					"ValidatedClass": "string",
+					"Required": "Y",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tCountry code for the bank\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "bankName",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tThe defualt value is UNKNOWN.\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "routingNumber",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tBank routing or transit number\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "bankAccountType",
+					"Required": "N",
+					"ValidatedClass": "BankAccountType",
+					"Type": "enumerated",
+					"Description": null,
+					"Default": "",
+					"EnumeratedList": ["CHECKING",
+					"SAVINGS",
+					"BUSINESS_CHECKING",
+					"BUSINESS_SAVINGS",
+					"NORMAL",
+					"UNKNOWN"]
+				},
+				{
+					"Name": "bankAccountNumber",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tBasic Bank Account Number (BBAN)\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "iban",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tInternational Bank Account Number (IBAN)\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "clabe",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tCLABE represents the bank information for countries like Mexico\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "bsbNumber",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tBank\/State\/Branch number\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "branchLocation",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tBranch location\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "sortCode",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tBranch sort code.\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "bankTransitNumber",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tBank transit number\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "institutionNumber",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tInstitution number\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "branchCode",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tBranch code\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "agencyNumber",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tFor Brazil Agency Number\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "bankCode",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tBank code\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "ribKey",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tRIB key \n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "controlDigit",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tcontrol digits\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "taxIdType",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tTax id type of CNPJ or CPF, only supported for Brazil.\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "taxIdNumber",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tTax id number for Brazil.\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "accountHolderDateOfBirth",
+					"ValidatedClass": "date",
+					"Required": "N",
+					"Type": "date",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tDate of birth of the account holder\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "confirmationType",
+					"Required": "Y",
+					"ValidatedClass": "ConfirmationType",
+					"Type": "enumerated",
+					"Description": null,
+					"Default": "",
+					"EnumeratedList": ["WEB",
+					"MOBILE",
+					"NONE"]
+				},
+				{
+					"Name": "webOptions",
+					"ValidatedClass": "WebOptionsType",
+					"Description": null,
+					"Required": "N",
+					"Type": "complex",
+					"Default": "",
+					"Members": [{
+						"Name": "returnUrl",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "cancelUrl",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "returnUrlDescription",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "cancelUrlDescription",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					}]
+				}]
+			}]
+		},
+		{
+			"Name": "AddPaymentCard",
+			"Description": "\n\t\t\t\n\t\t\t\tCountries Supported:\n\t\t\t\t\tAU - Australia\n\t\t\t\t\tAT - Austria  \n\t\t\t\t\tBE - Belgium\n\t\t\t\t\tBR - Brazil\n\t\t\t\t\tCA - Canada\n\t\t\t\t\tCZ - Czech Republic\n\t\t\t\t\tFR - France\n\t\t\t\t\tDE - Germany\n\t\t\t\t\tGR - Greece\n\t\t\t\t\tHK - Hong Kong\n\t\t\t\t\tIE - Ireland\n\t\t\t\t\tIT - Italy\n\t\t\t\t\tJP - Japan\n\t\t\t\t\tLU - Luxembourg\n\t\t\t\t\tMX - Mexico\n\t\t\t\t\tNL - Netherlands\n\t\t\t\t\tNZ - New Zealand (Aotearoa)\n\t\t\t\t\tPL - Poland\n\t\t\t\t\tPT - Portugal\n\t\t\t\t\tRU - Russian Federation\n\t\t\t\t\tSG - Singapore\n\t\t\t\t\tZA - South Africa\n\t\t\t\t\tES - Spain\n\t\t\t\t\tCH - Switzerland  \n\t\t\t\t\tUK - United Kingdom\n\t\t\t\t\tUS - United States\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t",
+			"URI": null,
+			"RequiresOAuth": "N",
+			"Required": "Y",
+			"Type": "complex",
+			"Synopsis": "\n\t\t\t\n\t\t\t\tCountries Supported:\n\t\t\t\t\tAU - Australia\n\t\t\t\t\tAT - Austria  \n\t\t\t\t\tBE - Belgium\n\t\t\t\t\tBR - Brazil\n\t\t\t\t\tCA - Canada\n\t\t\t\t\tCZ - Czech Republic\n\t\t\t\t\tFR - France\n\t\t\t\t\tDE - Germany\n\t\t\t\t\tGR - Greece\n\t\t\t\t\tHK - Hong Kong\n\t\t\t\t\tIE - Ireland\n\t\t\t\t\tIT - Italy\n\t\t\t\t\tJP - Japan\n\t\t\t\t\tLU - Luxembourg\n\t\t\t\t\tMX - Mexico\n\t\t\t\t\tNL - Netherlands\n\t\t\t\t\tNZ - New Zealand (Aotearoa)\n\t\t\t\t\tPL - Poland\n\t\t\t\t\tPT - Portugal\n\t\t\t\t\tRU - Russian Federation\n\t\t\t\t\tSG - Singapore\n\t\t\t\t\tZA - South Africa\n\t\t\t\t\tES - Spain\n\t\t\t\t\tCH - Switzerland  \n\t\t\t\t\tUK - United Kingdom\n\t\t\t\t\tUS - United States\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t",
+			"HTTPMethod": "POST",
+			"Default": "",
+			"Parameters": [{
+				"Name": "addPaymentCardRequest",
+				"ValidatedClass": "AddPaymentCardRequest",
+				"Description": "\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\tIdentifying the PayPal account to which this request is targetted to.\n\t\t\t\t\t\t\t\tCaller of this API has to either provided an emailAddress or an accountId.\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t",
+				"Required": true,
+				"Type": "complex",
+				"Default": "",
+				"Members": [{
+					"Name": "requestEnvelope",
+					"ValidatedClass": "RequestEnvelope",
+					"Description": null,
+					"Required": "Y",
+					"Type": "complex",
+					"Default": "",
+					"Members": [{
+						"Name": "detailLevel",
+						"Required": "N",
+						"ValidatedClass": "DetailLevelCode",
+						"Type": "enumerated",
+						"Description": "\n\t\t\t\t\t\t\t\tThis specifies the required detail level\n\t\t\t\t\t\t\t\tthat is needed by a client application\n\t\t\t\t\t\t\t\tpertaining to a particular data\n\t\t\t\t\t\t\t\tcomponent (e.g., Item, Transaction,\n\t\t\t\t\t\t\t\tetc.). The detail level is specified in\n\t\t\t\t\t\t\t\tthe DetailLevelCodeType which has all\n\t\t\t\t\t\t\t\tthe enumerated values of the detail\n\t\t\t\t\t\t\t\tlevel for each component.\n\t\t\t\t\t\t\t",
+						"Default": "",
+						"EnumeratedList": ["ReturnAll",
+						"ReturnAttributes"]
+					},
+					{
+						"Name": "errorLanguage",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\tThis should be the standard RFC 3066\n\t\t\t\t\t\t\t\tlanguage identification tag, e.g.,\n\t\t\t\t\t\t\t\ten_US.\n\t\t\t\t\t\t\t"
+					}]
+				},
+				{
+					"Name": "emailAddress",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tIdentifying the PayPal account to which this request is targetted to.\n\t\t\t\t\t\t\t\tCaller of this API has to either provided an emailAddress or an accountId.\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "accountId",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tIdentifying the PayPal account to which this request is targetted to.\n\t\t\t\t\t\t\t\tCaller of this API has to either provided an emailAddress or an accountId.\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "createAccountKey",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": null
+				},
+				{
+					"Name": "nameOnCard",
+					"ValidatedClass": "NameType",
+					"Description": null,
+					"Required": "Y",
+					"Type": "complex",
+					"Default": "",
+					"Members": [{
+						"Name": "salutation",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "firstName",
+						"ValidatedClass": "string",
+						"Required": "Y",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "middleName",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "lastName",
+						"ValidatedClass": "string",
+						"Required": "Y",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "suffix",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					}]
+				},
+				{
+					"Name": "billingAddress",
+					"ValidatedClass": "AddressType",
+					"Description": null,
+					"Required": "Y",
+					"Type": "complex",
+					"Default": "",
+					"Members": [{
+						"Name": "line1",
+						"ValidatedClass": "string",
+						"Required": "Y",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "line2",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "city",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "state",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "postalCode",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "countryCode",
+						"ValidatedClass": "string",
+						"Required": "Y",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					}]
+				},
+				{
+					"Name": "cardOwnerDateOfBirth",
+					"ValidatedClass": "date",
+					"Required": "N",
+					"Type": "date",
+					"Default": "",
+					"Description": null
+				},
+				{
+					"Name": "cardNumber",
+					"ValidatedClass": "string",
+					"Required": "Y",
+					"Type": "string",
+					"Default": "",
+					"Description": null
+				},
+				{
+					"Name": "cardType",
+					"Required": "Y",
+					"ValidatedClass": "CardTypeType",
+					"Type": "enumerated",
+					"Description": null,
+					"Default": "",
+					"EnumeratedList": ["Visa",
+					"MasterCard",
+					"AmericanExpress",
+					"Discover",
+					"SwitchMaestro",
+					"Solo",
+					"CarteAurore",
+					"CarteBleue",
+					"Cofinoga",
+					"4etoiles",
+					"CartaAura",
+					"TarjetaAurora",
+					"JCB"]
+				},
+				{
+					"Name": "expirationDate",
+					"ValidatedClass": "CardDateType",
+					"Description": null,
+					"Required": "N",
+					"Type": "complex",
+					"Default": "",
+					"Members": [{
+						"Name": "month",
+						"ValidatedClass": "integer",
+						"Required": "Y",
+						"Type": "integer",
+						"Default": "",
+						"Description": "\n                                Month in integer format, between 1 and 12\n                            "
+					},
+					{
+						"Name": "year",
+						"ValidatedClass": "integer",
+						"Required": "Y",
+						"Type": "integer",
+						"Default": "",
+						"Description": "\n                                Year in four digit format- YYYY\n                            "
+					}]
+				},
+				{
+					"Name": "cardVerificationNumber",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tCVV2: Proivde only for requests where \n\t\t\t\t\t\t\t\tconfirmationType is None (Direct request)\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "startDate",
+					"ValidatedClass": "CardDateType",
+					"Description": null,
+					"Required": "N",
+					"Type": "complex",
+					"Default": "",
+					"Members": [{
+						"Name": "month",
+						"ValidatedClass": "integer",
+						"Required": "Y",
+						"Type": "integer",
+						"Default": "",
+						"Description": "\n                                Month in integer format, between 1 and 12\n                            "
+					},
+					{
+						"Name": "year",
+						"ValidatedClass": "integer",
+						"Required": "Y",
+						"Type": "integer",
+						"Default": "",
+						"Description": "\n                                Year in four digit format- YYYY\n                            "
+					}]
+				},
+				{
+					"Name": "issueNumber",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n                                Up to 2 digit for Switch\/Maestro\/Solo cards.\n                            "
+				},
+				{
+					"Name": "confirmationType",
+					"Required": "Y",
+					"ValidatedClass": "ConfirmationType",
+					"Type": "enumerated",
+					"Description": null,
+					"Default": "",
+					"EnumeratedList": ["WEB",
+					"MOBILE",
+					"NONE"]
+				},
+				{
+					"Name": "webOptions",
+					"ValidatedClass": "WebOptionsType",
+					"Description": null,
+					"Required": "N",
+					"Type": "complex",
+					"Default": "",
+					"Members": [{
+						"Name": "returnUrl",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "cancelUrl",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "returnUrlDescription",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "cancelUrlDescription",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					}]
+				}]
+			}]
+		},
+		{
+			"Name": "SetFundingSourceConfirmed",
+			"Description": "\n\t\t\t\n\t\t\t\tTo be updated.\n\t\t\t\tCountries Supported:\n\t\t\t\t\tAU - Australia\n\t\t\t\t\tAT - Austria  \n\t\t\t\t\tBE - Belgium\n\t\t\t\t\tBR - Brazil\n\t\t\t\t\tCA - Canada\n\t\t\t\t\tCZ - Czech Republic\n\t\t\t\t\tFR - France\n\t\t\t\t\tDE - Germany\n\t\t\t\t\tGR - Greece\n\t\t\t\t\tHK - Hong Kong\n\t\t\t\t\tIE - Ireland\n\t\t\t\t\tIT - Italy\n\t\t\t\t\tJP - Japan\n\t\t\t\t\tLU - Luxembourg\n\t\t\t\t\tMX - Mexico\n\t\t\t\t\tNL - Netherlands\n\t\t\t\t\tNZ - New Zealand (Aotearoa)\n\t\t\t\t\tPL - Poland\n\t\t\t\t\tPT - Portugal\n\t\t\t\t\tRU - Russian Federation\n\t\t\t\t\tSG - Singapore\n\t\t\t\t\tZA - South Africa\n\t\t\t\t\tES - Spain\n\t\t\t\t\tCH - Switzerland  \n\t\t\t\t\tUK - United Kingdom\n\t\t\t\t\tUS - United States\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t",
+			"URI": null,
+			"RequiresOAuth": "N",
+			"Required": "Y",
+			"Type": "complex",
+			"Synopsis": "\n\t\t\t\n\t\t\t\tTo be updated.\n\t\t\t\tCountries Supported:\n\t\t\t\t\tAU - Australia\n\t\t\t\t\tAT - Austria  \n\t\t\t\t\tBE - Belgium\n\t\t\t\t\tBR - Brazil\n\t\t\t\t\tCA - Canada\n\t\t\t\t\tCZ - Czech Republic\n\t\t\t\t\tFR - France\n\t\t\t\t\tDE - Germany\n\t\t\t\t\tGR - Greece\n\t\t\t\t\tHK - Hong Kong\n\t\t\t\t\tIE - Ireland\n\t\t\t\t\tIT - Italy\n\t\t\t\t\tJP - Japan\n\t\t\t\t\tLU - Luxembourg\n\t\t\t\t\tMX - Mexico\n\t\t\t\t\tNL - Netherlands\n\t\t\t\t\tNZ - New Zealand (Aotearoa)\n\t\t\t\t\tPL - Poland\n\t\t\t\t\tPT - Portugal\n\t\t\t\t\tRU - Russian Federation\n\t\t\t\t\tSG - Singapore\n\t\t\t\t\tZA - South Africa\n\t\t\t\t\tES - Spain\n\t\t\t\t\tCH - Switzerland  \n\t\t\t\t\tUK - United Kingdom\n\t\t\t\t\tUS - United States\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t",
+			"HTTPMethod": "POST",
+			"Default": "",
+			"Parameters": [{
+				"Name": "setFundingSourceConfirmedRequest",
+				"ValidatedClass": "SetFundingSourceConfirmedRequest",
+				"Description": "\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\tIdentifying the PayPal account to which this request is targetted to.\n\t\t\t\t\t\t\t\tCaller of this API has to either provided an emailAddress or an accountId.\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t",
+				"Required": true,
+				"Type": "complex",
+				"Default": "",
+				"Members": [{
+					"Name": "requestEnvelope",
+					"ValidatedClass": "RequestEnvelope",
+					"Description": null,
+					"Required": "Y",
+					"Type": "complex",
+					"Default": "",
+					"Members": [{
+						"Name": "detailLevel",
+						"Required": "N",
+						"ValidatedClass": "DetailLevelCode",
+						"Type": "enumerated",
+						"Description": "\n\t\t\t\t\t\t\t\tThis specifies the required detail level\n\t\t\t\t\t\t\t\tthat is needed by a client application\n\t\t\t\t\t\t\t\tpertaining to a particular data\n\t\t\t\t\t\t\t\tcomponent (e.g., Item, Transaction,\n\t\t\t\t\t\t\t\tetc.). The detail level is specified in\n\t\t\t\t\t\t\t\tthe DetailLevelCodeType which has all\n\t\t\t\t\t\t\t\tthe enumerated values of the detail\n\t\t\t\t\t\t\t\tlevel for each component.\n\t\t\t\t\t\t\t",
+						"Default": "",
+						"EnumeratedList": ["ReturnAll",
+						"ReturnAttributes"]
+					},
+					{
+						"Name": "errorLanguage",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\tThis should be the standard RFC 3066\n\t\t\t\t\t\t\t\tlanguage identification tag, e.g.,\n\t\t\t\t\t\t\t\ten_US.\n\t\t\t\t\t\t\t"
+					}]
+				},
+				{
+					"Name": "emailAddress",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tIdentifying the PayPal account to which this request is targetted to.\n\t\t\t\t\t\t\t\tCaller of this API has to either provided an emailAddress or an accountId.\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "accountId",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tIdentifying the PayPal account to which this request is targetted to.\n\t\t\t\t\t\t\t\tCaller of this API has to either provided an emailAddress or an accountId.\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "fundingSourceKey",
+					"ValidatedClass": "string",
+					"Required": "Y",
+					"Type": "string",
+					"Default": "",
+					"Description": null
+				}]
+			}]
+		},
+		{
+			"Name": "CheckComplianceStatus",
+			"Description": "\n\t\t\t\n\t\t\t\tTo be updated.\n\t\t\t\tCountries Supported:\n\t\t\t\t\tUS - United States\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t",
+			"URI": null,
+			"RequiresOAuth": "N",
+			"Required": "Y",
+			"Type": "complex",
+			"Synopsis": "\n\t\t\t\n\t\t\t\tTo be updated.\n\t\t\t\tCountries Supported:\n\t\t\t\t\tUS - United States\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t",
+			"HTTPMethod": "POST",
+			"Default": "",
+			"Parameters": [{
+				"Name": "checkComplianceStatusRequest",
+				"ValidatedClass": "CheckComplianceStatusRequest",
+				"Description": "\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\tIdentifies a PayPal account to which this request is targeted.\n\t\t\t\t\t\t\t\tCaller of this API has to provide ONLY one of these inputs: emailAddress, accountId or phoneNumber.\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t",
+				"Required": true,
+				"Type": "complex",
+				"Default": "",
+				"Members": [{
+					"Name": "requestEnvelope",
+					"ValidatedClass": "RequestEnvelope",
+					"Description": null,
+					"Required": "Y",
+					"Type": "complex",
+					"Default": "",
+					"Members": [{
+						"Name": "detailLevel",
+						"Required": "N",
+						"ValidatedClass": "DetailLevelCode",
+						"Type": "enumerated",
+						"Description": "\n\t\t\t\t\t\t\t\tThis specifies the required detail level\n\t\t\t\t\t\t\t\tthat is needed by a client application\n\t\t\t\t\t\t\t\tpertaining to a particular data\n\t\t\t\t\t\t\t\tcomponent (e.g., Item, Transaction,\n\t\t\t\t\t\t\t\tetc.). The detail level is specified in\n\t\t\t\t\t\t\t\tthe DetailLevelCodeType which has all\n\t\t\t\t\t\t\t\tthe enumerated values of the detail\n\t\t\t\t\t\t\t\tlevel for each component.\n\t\t\t\t\t\t\t",
+						"Default": "",
+						"EnumeratedList": ["ReturnAll",
+						"ReturnAttributes"]
+					},
+					{
+						"Name": "errorLanguage",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\tThis should be the standard RFC 3066\n\t\t\t\t\t\t\t\tlanguage identification tag, e.g.,\n\t\t\t\t\t\t\t\ten_US.\n\t\t\t\t\t\t\t"
+					}]
+				},
+				{
+					"Name": "accountIdentifier",
+					"ValidatedClass": "AccountIdentifierType",
+					"Description": "\n\t\t\t\t\t\t\t\tIdentifies a PayPal account to which this request is targeted.\n\t\t\t\t\t\t\t\tCaller of this API has to provide ONLY one of these inputs: emailAddress, accountId or phoneNumber.\n\t\t\t\t\t\t\t",
+					"Required": "Y",
+					"Type": "complex",
+					"Default": "",
+					"Members": [{
+						"Name": "emailAddress",
+						"ValidatedClass": "string",
+						"Required": "Y",
+						"Type": "string",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\t\tIdentifies the PayPal account based on the emailAddress.\n\t\t\t\t\t\t\t\t"
+					},
+					{
+						"Name": "phoneNumber",
+						"ValidatedClass": "string",
+						"Required": "Y",
+						"Type": "string",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\t\tIdentifies the PayPal account based on the phoneNumber.\n\t\t\t\t\t\t\t\t"
+					},
+					{
+						"Name": "accountId",
+						"ValidatedClass": "string",
+						"Required": "Y",
+						"Type": "string",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\t\tIdentifies the PayPal account based on the accountId.\n\t\t\t\t\t\t\t\t"
+					}]
+				}]
+			}]
+		},
+		{
+			"Name": "AddPartnerFinancialProduct",
+			"Description": "\n\t\t\t\n\t\t\t\tTo be updated.\n\t\t\t\tCountries Supported:\n\t\t\t\t\tUS - United States\n\t\t\t\tSupported FinancialProduct: PayPal netSpend Master Prepaid Card\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t",
+			"URI": null,
+			"RequiresOAuth": "N",
+			"Required": "Y",
+			"Type": "complex",
+			"Synopsis": "\n\t\t\t\n\t\t\t\tTo be updated.\n\t\t\t\tCountries Supported:\n\t\t\t\t\tUS - United States\n\t\t\t\tSupported FinancialProduct: PayPal netSpend Master Prepaid Card\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t",
+			"HTTPMethod": "POST",
+			"Default": "",
+			"Parameters": [{
+				"Name": "addPartnerFinancialProductRequest",
+				"ValidatedClass": "AddPartnerFinancialProductRequest",
+				"Description": "\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\tThis not considered when financialProductCategory=PRE_PAID_CARD\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t",
+				"Required": true,
+				"Type": "complex",
+				"Default": "",
+				"Members": [{
+					"Name": "requestEnvelope",
+					"ValidatedClass": "RequestEnvelope",
+					"Description": null,
+					"Required": "Y",
+					"Type": "complex",
+					"Default": "",
+					"Members": [{
+						"Name": "detailLevel",
+						"Required": "N",
+						"ValidatedClass": "DetailLevelCode",
+						"Type": "enumerated",
+						"Description": "\n\t\t\t\t\t\t\t\tThis specifies the required detail level\n\t\t\t\t\t\t\t\tthat is needed by a client application\n\t\t\t\t\t\t\t\tpertaining to a particular data\n\t\t\t\t\t\t\t\tcomponent (e.g., Item, Transaction,\n\t\t\t\t\t\t\t\tetc.). The detail level is specified in\n\t\t\t\t\t\t\t\tthe DetailLevelCodeType which has all\n\t\t\t\t\t\t\t\tthe enumerated values of the detail\n\t\t\t\t\t\t\t\tlevel for each component.\n\t\t\t\t\t\t\t",
+						"Default": "",
+						"EnumeratedList": ["ReturnAll",
+						"ReturnAttributes"]
+					},
+					{
+						"Name": "errorLanguage",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\tThis should be the standard RFC 3066\n\t\t\t\t\t\t\t\tlanguage identification tag, e.g.,\n\t\t\t\t\t\t\t\ten_US.\n\t\t\t\t\t\t\t"
+					}]
+				},
+				{
+					"Name": "accountIdentifier",
+					"ValidatedClass": "AccountIdentifierType",
+					"Description": null,
+					"Required": "Y",
+					"Type": "complex",
+					"Default": "",
+					"Members": [{
+						"Name": "emailAddress",
+						"ValidatedClass": "string",
+						"Required": "Y",
+						"Type": "string",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\t\tIdentifies the PayPal account based on the emailAddress.\n\t\t\t\t\t\t\t\t"
+					},
+					{
+						"Name": "phoneNumber",
+						"ValidatedClass": "string",
+						"Required": "Y",
+						"Type": "string",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\t\tIdentifies the PayPal account based on the phoneNumber.\n\t\t\t\t\t\t\t\t"
+					},
+					{
+						"Name": "accountId",
+						"ValidatedClass": "string",
+						"Required": "Y",
+						"Type": "string",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\t\tIdentifies the PayPal account based on the accountId.\n\t\t\t\t\t\t\t\t"
+					}]
+				},
+				{
+					"Name": "nameOnCard",
+					"ValidatedClass": "NameType",
+					"Description": "\n\t\t\t\t\t\t\t\tThis not considered when financialProductCategory=PRE_PAID_CARD\n\t\t\t\t\t\t\t",
+					"Required": "N",
+					"Type": "complex",
+					"Default": "",
+					"Members": [{
+						"Name": "salutation",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "firstName",
+						"ValidatedClass": "string",
+						"Required": "Y",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "middleName",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "lastName",
+						"ValidatedClass": "string",
+						"Required": "Y",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "suffix",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					}]
+				},
+				{
+					"Name": "billingAddress",
+					"ValidatedClass": "AddressType",
+					"Description": "\n\t\t\t\t\t\t\t\tThis not considered when financialProductCategory=PRE_PAID_CARD\n\t\t\t\t\t\t\t",
+					"Required": "N",
+					"Type": "complex",
+					"Default": "",
+					"Members": [{
+						"Name": "line1",
+						"ValidatedClass": "string",
+						"Required": "Y",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "line2",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "city",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "state",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "postalCode",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					},
+					{
+						"Name": "countryCode",
+						"ValidatedClass": "string",
+						"Required": "Y",
+						"Type": "string",
+						"Default": "",
+						"Description": null
+					}]
+				},
+				{
+					"Name": "cardOwnerDateOfBirth",
+					"ValidatedClass": "date",
+					"Required": "N",
+					"Type": "date",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tThis not considered when financialProductCategory=PRE_PAID_CARD\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "cardNumber",
+					"ValidatedClass": "string",
+					"Required": "Y",
+					"Type": "string",
+					"Default": "",
+					"Description": null
+				},
+				{
+					"Name": "financialProductCategory",
+					"ValidatedClass": "string",
+					"Required": "Y",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tIdentify the kind of PayPal financial product.  Possible value is : PRE_PAID_CARD      \n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "expirationDate",
+					"ValidatedClass": "CardDateType",
+					"Description": "\n\t\t\t\t\t\t\t\t expirationDate is mandatory when financialProductCategoy = PRE_PAID_CARD      \n\t\t\t\t\t\t\t",
+					"Required": "Y",
+					"Type": "complex",
+					"Default": "",
+					"Members": [{
+						"Name": "month",
+						"ValidatedClass": "integer",
+						"Required": "Y",
+						"Type": "integer",
+						"Default": "",
+						"Description": "\n                                Month in integer format, between 1 and 12\n                            "
+					},
+					{
+						"Name": "year",
+						"ValidatedClass": "integer",
+						"Required": "Y",
+						"Type": "integer",
+						"Default": "",
+						"Description": "\n                                Year in four digit format- YYYY\n                            "
+					}]
+				},
+				{
+					"Name": "cardVerificationNumber",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n\t\t\t\t\t\t\t\tThis not considered when financialProductCategory=PRE_PAID_CARD\n\t\t\t\t\t\t\t"
+				},
+				{
+					"Name": "startDate",
+					"ValidatedClass": "CardDateType",
+					"Description": "\n\t\t\t\t\t\t\t\tThis not considered when financialProductCategory=PRE_PAID_CARD\n\t\t\t\t\t\t\t",
+					"Required": "N",
+					"Type": "complex",
+					"Default": "",
+					"Members": [{
+						"Name": "month",
+						"ValidatedClass": "integer",
+						"Required": "Y",
+						"Type": "integer",
+						"Default": "",
+						"Description": "\n                                Month in integer format, between 1 and 12\n                            "
+					},
+					{
+						"Name": "year",
+						"ValidatedClass": "integer",
+						"Required": "Y",
+						"Type": "integer",
+						"Default": "",
+						"Description": "\n                                Year in four digit format- YYYY\n                            "
+					}]
+				},
+				{
+					"Name": "issueNumber",
+					"ValidatedClass": "string",
+					"Required": "N",
+					"Type": "string",
+					"Default": "",
+					"Description": "\n                                Up to 2 digit for Switch\/Maestro\/Solo cards.\n                            "
+				}]
+			}]
+		},
+		{
+			"Name": "ActivateProduct",
+			"Description": "\n\t\t\t\n\t\t\t\tTo Activate POS - For a POC - Internal Purposes\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t",
+			"URI": null,
+			"RequiresOAuth": "N",
+			"Required": "Y",
+			"Type": "complex",
+			"Synopsis": "\n\t\t\t\n\t\t\t\tTo Activate POS - For a POC - Internal Purposes\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t",
+			"HTTPMethod": "POST",
+			"Default": "",
+			"Parameters": [{
+				"Name": "activateProductRequest",
+				"ValidatedClass": "ActivateProductRequest",
+				"Description": "\n\t\t\t\t\t\n\t\t\t\t\t\tThis operation is for internal purposes\n\t\t\t\t\t\tdeveloped for a POC.\n\t\t\t\t\t\n\t\t\t\t",
+				"Required": true,
+				"Type": "complex",
+				"Default": "",
+				"Members": [{
+					"Name": "requestEnvelope",
+					"ValidatedClass": "RequestEnvelope",
+					"Description": null,
+					"Required": "Y",
+					"Type": "complex",
+					"Default": "",
+					"Members": [{
+						"Name": "detailLevel",
+						"Required": "N",
+						"ValidatedClass": "DetailLevelCode",
+						"Type": "enumerated",
+						"Description": "\n\t\t\t\t\t\t\t\tThis specifies the required detail level\n\t\t\t\t\t\t\t\tthat is needed by a client application\n\t\t\t\t\t\t\t\tpertaining to a particular data\n\t\t\t\t\t\t\t\tcomponent (e.g., Item, Transaction,\n\t\t\t\t\t\t\t\tetc.). The detail level is specified in\n\t\t\t\t\t\t\t\tthe DetailLevelCodeType which has all\n\t\t\t\t\t\t\t\tthe enumerated values of the detail\n\t\t\t\t\t\t\t\tlevel for each component.\n\t\t\t\t\t\t\t",
+						"Default": "",
+						"EnumeratedList": ["ReturnAll",
+						"ReturnAttributes"]
+					},
+					{
+						"Name": "errorLanguage",
+						"ValidatedClass": "string",
+						"Required": "N",
+						"Type": "string",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\tThis should be the standard RFC 3066\n\t\t\t\t\t\t\t\tlanguage identification tag, e.g.,\n\t\t\t\t\t\t\t\ten_US.\n\t\t\t\t\t\t\t"
+					}]
+				},
+				{
+					"Name": "accountIdentifier",
+					"ValidatedClass": "AccountIdentifierType",
+					"Description": "\n\t\t\t\t\t\t\t\tIdentifies a PayPal account to which this request is targeted.\n\t\t\t\t\t\t\t\tCaller of this API has to provide ONLY one of these inputs: emailAddress or accountId.\n\t\t\t\t\t\t\t",
+					"Required": "Y",
+					"Type": "complex",
+					"Default": "",
+					"Members": [{
+						"Name": "emailAddress",
+						"ValidatedClass": "string",
+						"Required": "Y",
+						"Type": "string",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\t\tIdentifies the PayPal account based on the emailAddress.\n\t\t\t\t\t\t\t\t"
+					},
+					{
+						"Name": "phoneNumber",
+						"ValidatedClass": "string",
+						"Required": "Y",
+						"Type": "string",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\t\tIdentifies the PayPal account based on the phoneNumber.\n\t\t\t\t\t\t\t\t"
+					},
+					{
+						"Name": "accountId",
+						"ValidatedClass": "string",
+						"Required": "Y",
+						"Type": "string",
+						"Default": "",
+						"Description": "\n\t\t\t\t\t\t\t\t\tIdentifies the PayPal account based on the accountId.\n\t\t\t\t\t\t\t\t"
+					}]
+				}]
+			}]
+		}]
+	}]
+}

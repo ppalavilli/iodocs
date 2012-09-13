@@ -14,7 +14,7 @@ form#credentials
              img(src='/images/accept.png')
          - else
              h2 API Credentials
-               img(src='/apiexplorer/images/key.png')
+               img(src='/images/key.png')
 
              - if (apiInfo.oauth)
                  input(type='hidden', name='oauth', value='authrequired')
@@ -34,7 +34,7 @@ form#credentials
                          input(id='key', name='key', value=defaultKey, style='color=#EEEEEE')
              div
                  label(for='userName') API UserName
-                 input(id='userName', name='userName', value=defaultKey, style='color=#EEEEEE')
+                 input(id='userName', name='userName', value='test', style='color=#EEEEEE')
              div
                  label(for='password') API Password
                  input(id='password', name='password', value=defaultKey, style='color=#EEEEEE')
@@ -48,7 +48,10 @@ form#credentials
              - if (apiInfo.oauth && apiInfo.oauth.type !='two-legged')
                  div
                     input(name='oauth', value='Authenticate with OAuth', type='submit', id='oauth-auth')
-
+div(id='controls')
+    ul
+        li
+            a#backHome(href='#') Back to home
 div(id='controls')
     ul
         li
@@ -131,13 +134,10 @@ ul
                                                                                 option(value=choice) #{choice}
                                                         - else if (parameter.Type =='boolean')
                                                                 select(name='params[' + elemName + '.' + parameter.Name + ']', placeholder=className)
-                                                                        - if (parameter.Default =='')
-                                                                                 option(value='') 
-                                                                        - each choice in ['',0,1]
-                                                                           - if (parameter.Default ==choice)
-                                                                                   option(value=choice, selected=true) #{choice}
-                                                                           - else
-                                                                                   option(value=choice) #{choice}
+                                                                    - if (parameter.Default =='')
+                                                                        option(value='') 
+                                                                    - each choice in [0,1]
+                                                                        option(value=choice) #{choice}
                                                         - else
                                                                   input(name='params[' + elemName + '.' + parameter.Name + ']', value=parameter.Default, placeholder=className)
                                                         </span>          
@@ -153,7 +153,14 @@ ul
                                                         <li class="trigger title comx">
                                                         <span class="title">#{parameter.Name}</span>
                                                         <span class="title"></span>
-                                                        <div class="type">#{parameter.Type}</div>
+                                                        - if (parameter.Required =='Y')
+                                                            - var required =true
+                                                            - className ='required'
+                                                            <div class="type">#{'Required'}</div>
+                                                        - else
+                                                            - var required =false
+                                                            - className =''
+                                                        
                                                         <span class="description">#{parameter.Description}</span>
                                                         </li>
                                                         <ul>

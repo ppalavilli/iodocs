@@ -90,6 +90,7 @@ if (process.env.REDISTOGO_URL) {
 app.configure(function() {
     app.set('views', __dirname + '/views');
     app.set('view engine', 'jade');
+	app.set('appContext', config.appContext);
     app.use(express.logger());
     app.use(express.bodyParser());
     app.use(express.methodOverride());
@@ -106,7 +107,8 @@ app.configure(function() {
 
     app.use(app.router);
 
-    app.use('/apiexplorer',express.static(__dirname + '/public'));
+    app.use(config.appContext,express.static(__dirname + '/public'));
+	app.enable('strict routing');
 });
 
 app.configure('development', function() {
@@ -654,13 +656,20 @@ app.dynamicHelpers({
             var data = fs.readFileSync('public/data/' + req.params.api + '.json');
             return JSON.parse(data);
         }
+    },
+	
+	appContext: function(req, res) {
+        if (config.appContext ==="" || config.appContext ) {
+            return config.appContext;
+        }
     }
+	
 })
 
 //
 // Routes
 //
-app.get('/apiexplorer', function(req, res) {
+app.get(config.appContext + '/', function(req, res) {
     res.render('listAPIs', {
         title: config.title
     });
@@ -671,12 +680,14 @@ app.get('/apiexplorer', function(req, res) {
 });
 
 // Process the API request
-app.post('/apiexplorer/processReq', oauth, processRequest, function(req, res) {
+app.post(config.appContext + '/processReq', oauth, processRequest, function(req, res) {
     var respArray = req.result.split('#SEPERATOR#');
     var temp = respArray[2].split('&')  ;  
         temp = temp.join('&\n');
     var temp1 = respArray[1].split('&');
-        temp1 = temp1.join('&\n');   	
+        temp1 = temp1.join('&\n'); 
+        temp = formatXml(temp);    
+        temp1 = formatXml(temp1);    
     var result = {
         reqHeaders:respArray[4].split('&'),
         headers:respArray[3].split('\r\n'),
@@ -687,40 +698,99 @@ app.post('/apiexplorer/processReq', oauth, processRequest, function(req, res) {
         //response: req.result,
         //call: req.call
     };
-console.log('Results Sent');
+
     res.send(result);
 });
 
 // Just auth
-app.all('/apiexplorer/auth', oauth);
+app.all(config.appContext + '/auth', oauth);
 
 // OAuth callback page, closes the window immediately after storing access token/secret
-app.get('/apiexplorer/authSuccess/:api', oauthSuccess, function(req, res) {
+app.get(config.appContext + '/authSuccess/:api', oauthSuccess, function(req, res) {
     res.render('authSuccess', {
         title: 'OAuth Successful'
     });
 });
 
-app.post('/apiexplorer/upload', function(req, res) {
+app.post(config.appContext + '/upload', function(req, res) {
   console.log(req.body.user);
   res.redirect('back');
 });
 
 // API shortname, all lowercase
-app.get('/apiexplorer/:api([^\.]+)', function(req, res) {
+app.get(config.appContext + '/:api([^\.]+)', function(req, res) {
     res.render('api');
 });
 
 // Only listen on $ node app.js
 
-/* if (!module.parent) {
+if (!module.parent) {
     var port = process.env.PORT || config.port;
     app.listen(port);
    // console.log("Express server listening on port %d", app.address().port);
 }
-*/
+
+function formatXml(xml) {
+            
+                var formatted = '';
+                var reg = /(>)(<)(\/*)/g;
+                xml = xml.replace(reg, '$1\r\n$2$3');
+                var pad = 0;
+                each(xml.split('\r\n'), function(index, node) {
+                    var indent = 0;
+                    if (node.match( /.+<\/\w[^>]*>$/ )) {
+                        indent = 0;
+                    } else if (node.match( /^<\/\w/ )) {
+                        if (pad != 0) {
+                            pad -= 1;
+                        }
+                    } else if (node.match( /^<\w[^>]*[^\/]>.*$/ )) {
+                        indent = 1;
+                    } else {
+                        indent = 0;
+                    }
+
+                    var padding = '';
+                    for (var i = 0; i < pad; i++) {
+                        padding += '  ';
+                    }
+
+                    formatted += padding + node + '\r\n';
+                    pad += indent;
+                });
+
+                return formatted;
+            }
 
 
+function each( object, callback, args ) {
+        var name, i = 0, length = object.length;
+
+        if ( args ) {
+                if ( length === undefined ) {
+                        for ( name in object )
+                                if ( callback.apply( object[ name ], args ) === false )
+                                        break;
+                } else
+                        for ( ; i < length; )
+                                if ( callback.apply( object[ i++ ], args ) === false )
+                                        break;
+
+        // A special, fast, case for the most common use of each
+        } else {
+                if ( length === undefined ) {
+                        for ( name in object )
+                                if ( callback.call( object[ name ], name, object[ name ] ) === false )
+                                        break;
+                } else
+                        for ( var value = object[0];
+                                i < length && callback.call( value, i, value ) !== false; value = object[++i] ){}
+        }
+
+        return object;
+}
+
+/*
 // Cluster2 Specific code starts
 
 var serving = true;
@@ -734,7 +804,7 @@ var c = new Cluster({
     cluster: true,
     timeout: 30000,
     ecv: {
-        path: '/apiexplorer/ecv', // Send GET to this for a heartbeat
+        path: config.appContext + '/ecv', // Send GET to this for a heartbeat
         control: true, // send POST to /ecv/disable to disable the heartbeat, and to /ecv/enable to enable again
         monitor: '/apiexplorer/monitor',
         validator: function() {
@@ -755,7 +825,4 @@ c.listen(function(cb) {
 });
 
 // Cluster2 Specific code ends
-
-
-
-
+*/

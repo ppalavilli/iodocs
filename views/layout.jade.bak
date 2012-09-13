@@ -3,10 +3,8 @@ html
     head
         - if (apiInfo.name)
             - var title = apiInfo.name + ' API Documentation'
-        -else	
+        -else
             - var title = 'Live Documentation'
-        - if (appContext == 'undefined')
-            - appContext ="";  
         title=title
         link(rel='stylesheet', href=appContext + '/stylesheets/prettify.css')
         link(rel='stylesheet', href=appContext + '/stylesheets/style.css')
