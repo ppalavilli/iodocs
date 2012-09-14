@@ -3,7 +3,7 @@
 	"AdaptivePayments":{
 		"name": "PayPal - AdaptivePayments",
         "protocol": "http",
-        "baseURL": "d-maa-00387081",
+        "baseURL": "localhost",
         "publicPath": "/apiexplorer/PayPal.php",
         "auth": "key",
         "keyParam": "key"
@@ -11,7 +11,7 @@
     "AdaptiveAccounts":{
 		"name": "PayPal - AdaptiveAccounts",
         "protocol": "http",
-        "baseURL": "d-maa-00387081",
+        "baseURL": "localhost",
         "publicPath": "/apiexplorer/PayPal.php",
         "auth": "key",
         "keyParam": "key"
@@ -19,7 +19,7 @@
     "PayPalAPIs":{
 		"name": "PayPal APIs",
         "protocol": "http",
-        "baseURL": "d-maa-00387081",
+        "baseURL": "localhost",
         "publicPath": "/apiexplorer/PayPal.php",
         "auth": "key",
         "keyParam": "key"
@@ -27,7 +27,7 @@
     "Invoice":{
 		"name": "Invoice APIs",
         "protocol": "http",
-        "baseURL": "d-maa-00387081",
+        "baseURL": "localhost",
         "publicPath": "/apiexplorer/PayPal.php",
         "auth": "key",
         "keyParam": "key"

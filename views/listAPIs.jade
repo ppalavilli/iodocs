@@ -4,4 +4,4 @@ h2 Choose an API
 
 ul
    - for (var api in apiInfo)
-       li: a(href = appContext + api) #{apiInfo[api].name}
+       li: a(href = appContext+ '/' + api) #{apiInfo[api].name}

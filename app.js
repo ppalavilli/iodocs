@@ -108,7 +108,6 @@ app.configure(function() {
     app.use(app.router);
 
     app.use(config.appContext,express.static(__dirname + '/public'));
-	app.enable('strict routing');
 });
 
 app.configure('development', function() {
@@ -669,7 +668,9 @@ app.dynamicHelpers({
 //
 // Routes
 //
-app.get(config.appContext + '/', function(req, res) {
+
+app.get(config.appContext + '/?', function(req, res) {
+	
     res.render('listAPIs', {
         title: config.title
     });
