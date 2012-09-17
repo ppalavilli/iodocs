@@ -47,4 +47,4 @@ RUNNING APIExplorer
    <pre>
    node ./app.js
    </pre>
-   Point your browser to: [http://localhost:20000] (http://localhost:20000)
+   Point your browser to: [http://localhost:20000/apiexplorer] (http://localhost:20000/apiexplorer)
