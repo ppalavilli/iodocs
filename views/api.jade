@@ -87,17 +87,16 @@ ul
                             input(type='hidden', name='oauth', value=secure)
                             input(type='hidden', name='methodUri', value=method.Name)
                             - if (method.Parameters.length > 0)
-                                    <div class="parameter">
-                                    <span class='header'>Parameter</span>
-                                    <span class='header'>Value</span>
-                                    <span class='header'>Type</span>
-                                    <span class='header'>Description</span>
-                                    </div>    
-                                    <ul>
+                                    div.parameter
+                                        span.header Parameter
+                                        span.header Value
+                                        span.header Type
+                                        span.header Description
+                                    ul
                                     - var paramCount =0
                                         - var check = 'false'
                                         - var elemName = ''
-                                        - generateElements(method.Parameters,elemName)
+                                        - generateElements(method.Parameters,elemName, check)
                                         - function generateElements(parameters,elemName,check){
                                             - parameters.forEach(function(parameter,check){
                                                 - var className = ''
@@ -115,36 +114,34 @@ ul
                                                 - if (Object.prototype.toString.call(parameter) === '[object Array]')
                                                     - tmpVal = elemName
                                                     - elemName = elemName + '(0)'
-                                                    - console.log(' parameter[0].Name - ' +  parameter[0].Name)
-                                                    - console.log(' parameter[0].Members - ' +  parameter[0].Type)
-                                                    - generateElements(parameter,elemName);
+                                                    - generateElements(parameter,elemName, check);
                                                     - elemName = tmpVal
                                                 - else if(parameter.Type !='complex')
-                                                        <li class='title'>
-                                                        <span class='title'>#{parameter.Name}</span>
-                                                        <span class='title'>
-                                                        - if (parameter.Type =='enumerated')
-                                                                select(name='params[' + elemName + '.' + parameter.Name + ']', placeholder=className)
-                                                                    - if (parameter.Default =='')
-                                                                        option(value='') 
-                                                                    - each choice in parameter.EnumeratedList
-                                                                        - if (parameter.Default ==choice)
-                                                                                option(value=choice, selected=true) #{choice}
-                                                                        - else
-                                                                                option(value=choice) #{choice}
-                                                        - else if (parameter.Type =='boolean')
-                                                                select(name='params[' + elemName + '.' + parameter.Name + ']', placeholder=className)
-                                                                    - if (parameter.Default =='')
-                                                                        option(value='') 
-                                                                    - each choice in [0,1]
-                                                                        option(value=choice) #{choice}
-                                                        - else
-                                                                  input(name='params[' + elemName + '.' + parameter.Name + ']', value=parameter.Default, placeholder=className)
-                                                        </span>          
-                                                        <div class='type'>#{parameter.Type}</div>
-                                                        <span class='description'>#{parameter.Description}</span>
-                                                        </li>
+                                                        li.title
+                                                            <span class='title'>#{parameter.Name}</span>
+                                                            <span class='title'>
+                                                            - if (parameter.Type =='enumerated')
+                                                                    select(name='params[' + elemName + '.' + parameter.Name + ']', placeholder=className)
+                                                                        - if (parameter.Default =='')
+                                                                            option(value='') 
+                                                                        - each choice in parameter.EnumeratedList
+                                                                            - if (parameter.Default ==choice)
+                                                                                    option(value=choice, selected=true) #{choice}
+                                                                            - else
+                                                                                    option(value=choice) #{choice}
+                                                            - else if (parameter.Type =='boolean')
+                                                                    select(name='params[' + elemName + '.' + parameter.Name + ']', placeholder=className)
+                                                                        - if (parameter.Default =='')
+                                                                            option(value='') 
+                                                                        - each choice in [0,1]
+                                                                            option(value=choice) #{choice}
+                                                            - else
+                                                                    input(name='params[' + elemName + '.' + parameter.Name + ']', value=parameter.Default, placeholder=className)
+                                                            </span>          
+                                                            <div class='type'>#{parameter.Type}</div>
+                                                            <span class='description'>#{parameter.Description}</span>
                                                 - else if(parameter.Type == 'complex')
+                                                    div
                                                         - check = 'true'
                                                         - var attr='id'+paramCount
                                                         - var tempVal = ''
@@ -160,7 +157,6 @@ ul
                                                         - else
                                                             - var required =false
                                                             - className =''
-                                                        
                                                         <span class="description">#{parameter.Description}</span>
                                                         </li>
                                                         <ul>
@@ -170,13 +166,14 @@ ul
                                                                 - elemName = parameter.Name
                                                         - else
                                                                 - elemName = elemName + '.' + parameter.Name
-                                                        - generateElements(parameter.Members,elemName);
+                                                        - generateElements(parameter.Members,elemName, check);
                                                         - elemName = tempVal
-                                                        </div>
+                                                        </div> 
                                                         </ul>
+                                                    - if (Object.prototype.toString.call(parameter.Members[0]) === '[object Array]')
+                                                        <input class="repeat1" type="button" value ="Add" onclick="Repeat(this)"> 
                                             - })
                                         - }
-                                        </ul>
                             - if (method.headers && method.headers.length > 0)
                                 div.headers
                                     h4.title

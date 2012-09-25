@@ -244,7 +244,7 @@
                 .addClass('response prettyprint'));
         }
 
-        console.log(params);
+        //console.log(params);
 
         $.post('/apiexplorer/processReq', params, function(result, text) {
             // If we get passed a signin property, open a window to allow the user to signin/link their account
@@ -284,7 +284,12 @@
                 $('pre.headers', resultContainer)
                     .text(formatJSON(response.headers));
             }
-
+           
+             if (response.response.indexOf("<?xml") == -1)
+            {
+                $('pre.response', resultContainer)
+                    .text(formatJSON(JSON.parse(response.response)));
+            }
             // Syntax highlighting
             prettyPrint();
         })

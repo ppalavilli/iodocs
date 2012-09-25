@@ -31,6 +31,14 @@
         "publicPath": "/apiexplorer/PayPal.php",
         "auth": "key",
         "keyParam": "key"
+	},
+    "Permissions":{
+		"name": "Permissions APIs",
+        "protocol": "http",
+        "baseURL": "localhost",
+        "publicPath": "/apiexplorer/PayPal.php",
+        "auth": "key",
+        "keyParam": "key"
 	}
 	
 }

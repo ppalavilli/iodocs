@@ -145,7 +145,7 @@ else
 	$resHeader = $res[0];
 	$response = $res[1];
 }
-
+ 
 echo $url.'#SEPERATOR#'.$params.'#SEPERATOR#'.$response.'#SEPERATOR#'.$resHeader.'#SEPERATOR#'.$reqHeader;
 
 //$save = $url.'#SEPERATOR#'.$params.'#SEPERATOR#'.$response.'#SEPERATOR#'.$resHeader.'#SEPERATOR#'.$reqHeader;
@@ -160,7 +160,7 @@ function getPayPalHeaders($apiUserName, $apiPassword, $apiSignature)
 	// Add other headers
 	$headers_arr[] = "X-PAYPAL-APPLICATION-ID: APP-80W284485P519543T" ;
 	$headers_arr[] = "X-PAYPAL-REQUEST-DATA-FORMAT: NV" ;
-	$headers_arr[] = "X-PAYPAL-RESPONSE-DATA-FORMAT: NV" ;
+	$headers_arr[] = "X-PAYPAL-RESPONSE-DATA-FORMAT: JSON" ;
 	$headers_arr[] = "X-PAYPAL-DEVICE-IPADDRESS: " . PPUtils::getLocalIPAddress();
 	$headers_arr[] = "X-PAYPAL-REQUEST-SOURCE: " . PPUtils::getRequestSource();
     $headers_arr[] = "X-PAYPAL-SANDBOX-EMAIL-ADDRESS: Platform.sdk.seller@gmail.com";

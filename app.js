@@ -683,12 +683,16 @@ app.get(config.appContext + '/?', function(req, res) {
 // Process the API request
 app.post(config.appContext + '/processReq', oauth, processRequest, function(req, res) {
     var respArray = req.result.split('#SEPERATOR#');
-    var temp = respArray[2].split('&')  ;  
-        temp = temp.join('&\n');
+    var temp = respArray[2];  
+    console.log(req.result);
     var temp1 = respArray[1].split('&');
         temp1 = temp1.join('&\n'); 
-        temp = formatXml(temp);    
-        temp1 = formatXml(temp1);    
+          if (temp.substring(0, 5) == "<?xml")
+          {
+            temp = formatXml(temp);    
+            temp1 = formatXml(temp1); 
+          }
+           
     var result = {
         reqHeaders:respArray[4].split('&'),
         headers:respArray[3].split('\r\n'),
