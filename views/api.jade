@@ -28,19 +28,25 @@ form#credentials
                  - var defaultSecret =apiInfo.auth.defaultSecret
              - else
                  - var defaultSecret =''
-                //
+             
+             div
+                 - if (apiInfo.auth != 'paypal')
+                     label(for='key') API Key
+                     input(id='key', name='key', value=defaultKey, style='color=#EEEEEE')
+                 - else
                      div
-                         label(for='key') API Key
-                         input(id='key', name='key', value=defaultKey, style='color=#EEEEEE')
-             div
-                 label(for='userName') API UserName
-                 input(id='userName', name='userName', value='test', style='color=#EEEEEE')
-             div
-                 label(for='password') API Password
-                 input(id='password', name='password', value=defaultKey, style='color=#EEEEEE')
-             div
-                 label(for='signature') API Signature
-                 input(id='signature', name='signature', value=defaultKey, style='color=#EEEEEE')
+                         label(for='userName') API UserName
+                         input(id='userName', name='userName', value=apiInfo.apiUsername, style='color=#EEEEEE')
+                     div
+                         label(for='password') API Password
+                         input(id='password', name='password', value=apiInfo.apiPassword, style='color=#EEEEEE')
+                     div
+                         label(for='signature') API Signature
+                         input(id='signature', name='signature', value=apiInfo.apiSignature, style='color=#EEEEEE')
+                  - if (apiInfo.appID)
+                     div
+                         label(for='appId') Application ID
+                         input(id='appId', name='appId', value=apiInfo.appID, style='color=#EEEEEE')
              div
                  - if (apiInfo.oauth || apiInfo.signature)
                      label(for='secret') Shared Secret

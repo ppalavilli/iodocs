@@ -284,6 +284,7 @@ function processRequest(req, res, next) {
         apiUserName = reqQuery.userName,
         apiSignature = reqQuery.signature,
         apiPassword = reqQuery.password,
+	appId = reqQuery.appId,
         apiSecret = reqQuery.apiSecret,
         apiName = reqQuery.apiName,
         apiConfig = apisConfig[apiName],
@@ -516,6 +517,17 @@ function processRequest(req, res, next) {
             }
             options.path += 'apiSignature=' + apiSignature;
         }
+	// Add AppId to params, if any
+	if (appId != '' && appId != 'undefined' && appId != undefined) {
+            if (options.path.indexOf('?') !== -1) {
+                options.path += '&';
+            }
+            else {
+                options.path += '?';
+            }
+            options.path += 'appId=' + appId;
+        }
+
 
         // Perform signature routine, if any.
         if (apiConfig.signature) {

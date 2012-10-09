@@ -180,9 +180,10 @@
             apiUserName = { name: 'userName', value: $('input[name=userName]').val() },
             apiPassword = { name: 'password', value: $('input[name=password]').val() },
             apiSignature = { name: 'signature', value: $('input[name=signature]').val() },
+	    appId = { name: 'appId', value: $('input[name=appId]').val() },
             apiName = { name: 'apiName', value: $('input[name=apiName]').val() };
 
-        params.push(apiKey, apiSecret, apiName, apiUserName, apiPassword, apiSignature);
+        params.push(apiKey, apiSecret, apiName, apiUserName, apiPassword, apiSignature, appId);
 
         // Setup results container
         var resultContainer = $('.result', self);

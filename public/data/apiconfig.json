@@ -5,40 +5,59 @@
         "protocol": "http",
         "baseURL": "apiproxy.herokuapp.com",
         "publicPath": "/PayPal.php",
-        "auth": "key",
-        "keyParam": "key"
+        "auth": "paypal",
+        "keyParam": "key",
+	"appID": "APP-80W284485P519543T",
+	"apiUsername": "jb-us-seller_api1.paypal.com",
+	"apiPassword": "WX4WTU3S8MY44S7F",
+	"apiSignature": "AFcWxV21C7fd0v3bYYYRCpSSRl31A7yDhhsPUU2XhtMoZXsWHFxu-RWy"
 	},
     "AdaptiveAccounts":{
 		"name": "PayPal - AdaptiveAccounts",
         "protocol": "http",
         "baseURL": "apiproxy.herokuapp.com",
         "publicPath": "/PayPal.php",
-        "auth": "key",
-        "keyParam": "key"
+        "auth": "paypal",
+        "keyParam": "key",
+        "appID": "APP-80W284485P519543T",
+        "apiUsername": "jb-us-seller_api1.paypal.com",
+        "apiPassword": "WX4WTU3S8MY44S7F",
+        "apiSignature": "AFcWxV21C7fd0v3bYYYRCpSSRl31A7yDhhsPUU2XhtMoZXsWHFxu-RWy"
 	},
     "PayPalAPIs":{
 		"name": "PayPal APIs",
         "protocol": "http",
         "baseURL": "apiproxy.herokuapp.com",
         "publicPath": "/PayPal.php",
-        "auth": "key",
-        "keyParam": "key"
+        "auth": "paypal",
+        "keyParam": "key",
+        "apiUsername": "jb-us-seller_api1.paypal.com",
+        "apiPassword": "WX4WTU3S8MY44S7F",
+        "apiSignature": "AFcWxV21C7fd0v3bYYYRCpSSRl31A7yDhhsPUU2XhtMoZXsWHFxu-RWy"
 	},
     "Invoice":{
 		"name": "Invoice APIs",
         "protocol": "http",
         "baseURL": "apiproxy.herokuapp.com",
         "publicPath": "/PayPal.php",
-        "auth": "key",
-        "keyParam": "key"
+        "auth": "paypal",
+        "keyParam": "key",
+        "appID": "APP-80W284485P519543T",
+        "apiUsername": "jb-us-seller_api1.paypal.com",
+        "apiPassword": "WX4WTU3S8MY44S7F",
+        "apiSignature": "AFcWxV21C7fd0v3bYYYRCpSSRl31A7yDhhsPUU2XhtMoZXsWHFxu-RWy"
 	},
     "Permissions":{
 		"name": "Permissions APIs",
         "protocol": "http",
         "baseURL": "apiproxy.herokuapp.com",
         "publicPath": "/PayPal.php",
-        "auth": "key",
-        "keyParam": "key"
+        "auth": "paypal",
+        "keyParam": "key",
+        "appID": "APP-80W284485P519543T",
+        "apiUsername": "jb-us-seller_api1.paypal.com",
+        "apiPassword": "WX4WTU3S8MY44S7F",
+        "apiSignature": "AFcWxV21C7fd0v3bYYYRCpSSRl31A7yDhhsPUU2XhtMoZXsWHFxu-RWy"
 	}
 	
 }
