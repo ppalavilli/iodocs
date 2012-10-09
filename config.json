@@ -1,7 +1,7 @@
 {
     "title" : "X.commerce API Explorer",
     "port" : 20000,
-	"appContext": "/",
+	"appContext": "",
     "debug" : false,
     "sessionSecret" : "12345",
     "redis" : {
