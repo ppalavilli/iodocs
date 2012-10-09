@@ -3,40 +3,40 @@
 	"AdaptivePayments":{
 		"name": "PayPal - AdaptivePayments",
         "protocol": "http",
-        "baseURL": "localhost",
-        "publicPath": "/apiexplorer/PayPal.php",
+        "baseURL": "apiproxy.herokuapp.com",
+        "publicPath": "/PayPal.php",
         "auth": "key",
         "keyParam": "key"
 	},
     "AdaptiveAccounts":{
 		"name": "PayPal - AdaptiveAccounts",
         "protocol": "http",
-        "baseURL": "localhost",
-        "publicPath": "/apiexplorer/PayPal.php",
+        "baseURL": "apiproxy.herokuapp.com",
+        "publicPath": "/PayPal.php",
         "auth": "key",
         "keyParam": "key"
 	},
     "PayPalAPIs":{
 		"name": "PayPal APIs",
         "protocol": "http",
-        "baseURL": "localhost",
-        "publicPath": "/apiexplorer/PayPal.php",
+        "baseURL": "apiproxy.herokuapp.com",
+        "publicPath": "/PayPal.php",
         "auth": "key",
         "keyParam": "key"
 	},
     "Invoice":{
 		"name": "Invoice APIs",
         "protocol": "http",
-        "baseURL": "localhost",
-        "publicPath": "/apiexplorer/PayPal.php",
+        "baseURL": "apiproxy.herokuapp.com",
+        "publicPath": "/PayPal.php",
         "auth": "key",
         "keyParam": "key"
 	},
     "Permissions":{
 		"name": "Permissions APIs",
         "protocol": "http",
-        "baseURL": "localhost",
-        "publicPath": "/apiexplorer/PayPal.php",
+        "baseURL": "apiproxy.herokuapp.com",
+        "publicPath": "/PayPal.php",
         "auth": "key",
         "keyParam": "key"
 	}
