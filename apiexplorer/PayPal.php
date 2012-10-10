@@ -23,7 +23,13 @@ if(isset($_GET['apiSignature']))
 $apiSignature = $_GET['apiSignature'];
 else
 $apiSignature = 'AFcWxV21C7fd0v3bYYYRCpSSRl31A7yDhhsPUU2XhtMoZXsWHFxu-RWy';
-$arRemove = array('apiName', 'method', 'apiUserName', 'apiPassword', 'apiSignature', );
+
+if(isset($_GET['appId']))
+$appId = $_GET['appId'];
+else
+$appId = 'APP-80W284485P519543T';
+
+$arRemove = array('apiName', 'method', 'apiUserName', 'apiPassword', 'apiSignature', 'appId' );
  foreach($_GET as $key => $val)
  {
  $key = str_replace('_','.',$key);
@@ -137,7 +143,7 @@ else
 	//$url = 'https://svcs.sandbox.paypal.com/AdaptivePayments/PaymentDetails';
 	//$params ='requestEnvelope.errorLanguage=en_US&payKey=AP-5S482348KH512131U';
 	$params = $queryStr;
-	$headers = getPayPalHeaders($apiUserName, $apiPassword, $apiSignature);
+	$headers = getPayPalHeaders($apiUserName, $apiPassword, $apiSignature, $appId);
 
 	$connection =  new PPHttpConnection();
 	$res = $connection->execute($url, $params, $headers);
@@ -152,13 +158,13 @@ echo $url.'#SEPERATOR#'.$params.'#SEPERATOR#'.$response.'#SEPERATOR#'.$resHeader
 
 
 
-function getPayPalHeaders($apiUserName, $apiPassword, $apiSignature)
+function getPayPalHeaders($apiUserName, $apiPassword, $apiSignature, $appId)
 {
 	$headers_arr[] = "X-PAYPAL-SECURITY-USERID: ".$apiUserName;
 	$headers_arr[] = "X-PAYPAL-SECURITY-PASSWORD: ".$apiPassword ;
 	$headers_arr[] = "X-PAYPAL-SECURITY-SIGNATURE: ".$apiSignature ;
 	// Add other headers
-	$headers_arr[] = "X-PAYPAL-APPLICATION-ID: APP-80W284485P519543T" ;
+	$headers_arr[] = "X-PAYPAL-APPLICATION-ID: ".$appId ;
 	$headers_arr[] = "X-PAYPAL-REQUEST-DATA-FORMAT: NV" ;
 	$headers_arr[] = "X-PAYPAL-RESPONSE-DATA-FORMAT: JSON" ;
 	$headers_arr[] = "X-PAYPAL-DEVICE-IPADDRESS: " . PPUtils::getLocalIPAddress();
