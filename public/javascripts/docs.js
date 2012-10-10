@@ -180,9 +180,10 @@
             apiUserName = { name: 'userName', value: $('input[name=userName]').val() },
             apiPassword = { name: 'password', value: $('input[name=password]').val() },
             apiSignature = { name: 'signature', value: $('input[name=signature]').val() },
+	    appId = { name: 'appId', value: $('input[name=appId]').val() },
             apiName = { name: 'apiName', value: $('input[name=apiName]').val() };
 
-        params.push(apiKey, apiSecret, apiName, apiUserName, apiPassword, apiSignature);
+        params.push(apiKey, apiSecret, apiName, apiUserName, apiPassword, apiSignature, appId);
 
         // Setup results container
         var resultContainer = $('.result', self);
@@ -246,7 +247,7 @@
 
         //console.log(params);
 
-        $.post('/apiexplorer/processReq', params, function(result, text) {
+        $.post('/processReq', params, function(result, text) {
             // If we get passed a signin property, open a window to allow the user to signin/link their account
             if (result.signin) {
                 window.open(result.signin,"_blank","height=900,width=800,menubar=0,resizable=1,scrollbars=1,status=0,titlebar=0,toolbar=0");
