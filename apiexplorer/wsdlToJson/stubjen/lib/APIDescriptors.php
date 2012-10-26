@@ -37,6 +37,11 @@ class Operation {
 	public $doc;
 }
 
+class RestfulOperation extends Operation {
+	public $uri;
+	public $httpMethod;
+}
+
 
 /**
  *

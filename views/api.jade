@@ -127,7 +127,7 @@ ul
                                                             <span class='title'>#{parameter.Name}</span>
                                                             <span class='title'>
                                                             - if (parameter.Type =='enumerated')
-                                                                    select(name='params[' + elemName + '.' + parameter.Name + ']', placeholder=className)
+                                                                    select(name='params[' + ((elemName == 'undefined'|| elemName.trim() === '') ? '' : elemName + '.') + parameter.Name + ']', placeholder=className)
                                                                         - if (parameter.Default =='')
                                                                             option(value='') 
                                                                         - each choice in parameter.EnumeratedList
@@ -136,13 +136,13 @@ ul
                                                                             - else
                                                                                     option(value=choice) #{choice}
                                                             - else if (parameter.Type =='boolean')
-                                                                    select(name='params[' + elemName + '.' + parameter.Name + ']', placeholder=className)
+                                                                    select(name='params[' + ((elemName == 'undefined'|| elemName.trim() === '') ? '' : elemName + '.') + parameter.Name + ']', placeholder=className)
                                                                         - if (parameter.Default =='')
                                                                             option(value='') 
                                                                         - each choice in [0,1]
                                                                             option(value=choice) #{choice}
                                                             - else
-                                                                    input(name='params[' + elemName + '.' + parameter.Name + ']', value=parameter.Default, placeholder=className)
+                                                                    input(name='params[' + ((elemName == 'undefined' || elemName.trim() === '') ? '' : elemName + '.') + parameter.Name + ']', value=parameter.Default, placeholder=className)
                                                             </span>          
                                                             <div class='type'>#{parameter.Type}</div>
                                                             <span class='description'>#{parameter.Description}</span>
@@ -171,7 +171,7 @@ ul
                                                         - if (elemName == '')
                                                                 - elemName = parameter.Name
                                                         - else
-                                                                - elemName = elemName + '.' + parameter.Name
+                                                                - elemName = ((elemName == 'undefined'|| elemName.trim() === '') ? '' : elemName + '.') + parameter.Name
                                                         - generateElements(parameter.Members,elemName, check);
                                                         - elemName = tempVal
                                                         </div> 

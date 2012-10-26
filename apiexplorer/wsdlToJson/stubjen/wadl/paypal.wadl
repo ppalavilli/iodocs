@@ -1,0 +1,87 @@
+<application xmlns="http://wadl.dev.java.net/2009/02"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<grammars>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+			attributeFormDefault="unqualified" elementFormDefault="unqualified">
+			<xs:element name="address" type="address" />
+			<xs:element name="card" type="creditCardDetails" />
+			<xs:element name="charge" type="charge" />
+			<xs:element name="shipping" type="shippingInfo" />
+			<xs:complexType name="charge">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="id" type="xs:string" />
+					<xs:element minOccurs="0" name="status" type="xs:string" />
+					<xs:element minOccurs="0" ref="card" />
+					<xs:element minOccurs="0" name="amount" type="xs:string" />
+					<xs:element minOccurs="0" name="currency" type="xs:string" />
+					<xs:element minOccurs="0" ref="shipping" />
+					<xs:element minOccurs="0" name="payer_email" type="xs:string" />
+					<xs:element minOccurs="0" name="create_at" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="creditCardDetails">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="type" type="xs:string" />
+					<xs:element minOccurs="0" name="number" type="xs:string" />
+					<xs:element minOccurs="0" name="exp_month" type="xs:string" />
+					<xs:element minOccurs="0" name="exp_year" type="xs:string" />
+					<xs:element minOccurs="0" name="cvv2" type="xs:string" />
+					<xs:element minOccurs="0" name="first_name" type="xs:string" />
+					<xs:element minOccurs="0" name="last_name" type="xs:string" />
+					<xs:element minOccurs="0" ref="address" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="address">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="street1" type="xs:string" />
+					<xs:element minOccurs="0" name="street2" type="xs:string" />
+					<xs:element minOccurs="0" name="city" type="xs:string" />
+					<xs:element minOccurs="0" name="state" type="xs:string" />
+					<xs:element minOccurs="0" name="postal_code" type="xs:string" />
+					<xs:element minOccurs="0" name="country" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="shippingInfo">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="name" type="xs:string" />
+					<xs:element minOccurs="0" ref="address" />
+				</xs:sequence>
+			</xs:complexType>
+		</xs:schema>
+	</grammars>
+	<resources base="https://stage2sc5830.sc4.paypal.com:11739/">
+		<resource path="/">
+			<resource path="charge">
+                <method name="POST">
+           			<request>
+                    	<representation mediaType="application/json" element="charge"/>
+					</request>
+                    <response>
+                    	<representation mediaType="application/json" element="charge"/>
+                    </response>
+                </method>
+			</resource>
+			<resource path="charge/{charge-id}">
+				<param name="charge-id" style="template" type="xs:string" />
+				<method name="GET">
+					<request></request>
+					<response>
+						<representation mediaType="application/json" />
+					</response>
+				</method>
+			</resource>
+			<resource path="echo">
+				<method name="POST">
+					<request>
+						<representation mediaType="application/json">
+							<param name="request" style="plain" type="xs:string" />
+						</representation>
+					</request>
+					<response>
+						<representation mediaType="application/json" />
+					</response>
+				</method>
+			</resource>
+		</resource>
+	</resources>
+</application>

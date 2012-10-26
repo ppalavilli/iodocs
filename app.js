@@ -32,6 +32,7 @@ var Cluster = require('cluster2'),
     query       = require('querystring'),
     url         = require('url'),
     http        = require('http'),
+    https       = require('https'),
     crypto      = require('crypto'),
     redis       = require('redis'),
     RedisStore  = require('connect-redis')(express);
@@ -313,18 +314,18 @@ function processRequest(req, res, next) {
         baseHostPort = (baseHostInfo.length > 1) ? baseHostInfo[1] : "";
 
     var paramString = query.stringify(params),
-    paramString = "apiName=" + apiName + "&method=" + methodURL + "&" + paramString; 
+    //paramString = "apiName=" + apiName + "&method=" + methodURL + "&" + paramString; 
 // [PayPal Specific] - metodUrl is removed from url and added to params
- privateReqURL = apiConfig.protocol + '://' + apiConfig.baseURL + apiConfig.privatePath  + ((paramString.length > 0) ? '?' + paramString : ""),
-//        privateReqURL = apiConfig.protocol + '://' + apiConfig.baseURL + apiConfig.privatePath + methodURL + ((paramString.length > 0) ? '?' + paramString : ""),
+         // privateReqURL = apiConfig.protocol + '://' + apiConfig.baseURL + apiConfig.privatePath  + ((paramString.length > 0) ? '?' + paramString : ""),
+privateReqURL = apiConfig.protocol + '://' + apiConfig.baseURL + apiConfig.privatePath + methodURL + ((paramString.length > 0) ? '?' + paramString : ""),
         options = {
             headers: {},
             protocol: apiConfig.protocol + ':',
             host: baseHostUrl,
             port: baseHostPort,
             method: httpMethod,
-          //  path: apiConfig.publicPath + methodURL + ((paramString.length > 0) ? '?' + paramString : "")
-	    path: apiConfig.publicPath +  ((paramString.length > 0) ? '?' + paramString : "")
+            path: apiConfig.publicPath + methodURL + ((paramString.length > 0) ? '?' + paramString : "")
+            //path: apiConfig.publicPath +  ((paramString.length > 0) ? '?' + paramString : "")
         };
 
     if (apiConfig.oauth) {
@@ -574,7 +575,17 @@ function processRequest(req, res, next) {
 
         // API Call. response is the response from the API, res is the response we will send back to the user.
         console.log(options);
-        var apiCall = http.request(options, function(response) {
+		var doRequest;
+        if (options.protocol === 'https' || options.protocol === 'https:') {
+            console.log('Protocol: HTTPS');
+            options.protocol = 'https:'
+            doRequest = https.request;
+        } else {
+            console.log('Protocol: HTTP');
+            doRequest = http.request;
+        }
+
+        var apiCall = doRequest(options, function(response) {
             response.setEncoding('utf-8');
             if (config.debug) {
                 console.log('HEADERS: ' + JSON.stringify(response.headers));

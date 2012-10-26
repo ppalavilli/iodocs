@@ -1,47 +1,51 @@
 <?php
-/*
- $save = print_r($request, true);
- $myFile = "testFile.txt";
- $fh = fopen($myFile, 'w') or die("can't open file");
- fwrite($fh,$save);
- //file_put_contents($fh,$_GET);
- fclose($fh);
 
+/**
+ * 
+ * PHP proxy class for making API calls. Creates a NVP/SOAP payload based on Form POST 
+ * This file is invoked by node.js.  
  */
+
+define("DEFAULT_API_USERNAME", 'jb-us-seller_api1.paypal.com');
+define("DEFAULT_API_PASSSWORD", 'WX4WTU3S8MY44S7F');
+define("DEFAULT_API_SIGNATURE", 'AFcWxV21C7fd0v3bYYYRCpSSRl31A7yDhhsPUU2XhtMoZXsWHFxu-RWy');
+define("DEFAULT_APPID", 'APP-80W284485P519543T');
 
 $service = $_GET['apiName'];
 $operation = $_GET['method'];
+
+
 if(isset($_GET['apiUserName']))
-$apiUserName = $_GET['apiUserName'];
+	$apiUserName = $_GET['apiUserName'];
 else
-$apiUserName = 'jb-us-seller_api1.paypal.com';
+	$apiUserName = DEFAULT_API_USERNAME;
 if(isset($_GET['apiPassword']))
-$apiPassword = $_GET['apiPassword'];
+	$apiPassword = $_GET['apiPassword'];
 else
-$apiPassword = 'WX4WTU3S8MY44S7F';
+	$apiPassword = DEFAULT_API_PASSSWORD;
 if(isset($_GET['apiSignature']))
-$apiSignature = $_GET['apiSignature'];
+	$apiSignature = $_GET['apiSignature'];
 else
-$apiSignature = 'AFcWxV21C7fd0v3bYYYRCpSSRl31A7yDhhsPUU2XhtMoZXsWHFxu-RWy';
+	$apiSignature = DEFAULT_API_SIGNATURE;
 
 if(isset($_GET['appId']))
-$appId = $_GET['appId'];
+	$appId = $_GET['appId'];
 else
-$appId = 'APP-80W284485P519543T';
+	$appId = DEFAULT_APPID;
 
 $arRemove = array('apiName', 'method', 'apiUserName', 'apiPassword', 'apiSignature', 'appId' );
- foreach($_GET as $key => $val)
- {
- $key = str_replace('_','.',$key);
- $get[$key] = $val;
- }
+foreach($_GET as $key => $val)
+{
+	$key = str_replace('_','.',$key);
+	$get[$key] = $val;
+}
 
 
- $paramArr = queryFilter($get, $arRemove);
+$paramArr = queryFilter($get, $arRemove);
 
 
 /*$service = 'PayPalAPIs';
-$operation = 'SetExpressCheckout';
+ $operation = 'SetExpressCheckout';
 $paramArr = test();*/
 function test()
 {
@@ -151,7 +155,7 @@ else
 	$resHeader = $res[0];
 	$response = $res[1];
 }
- 
+
 echo $url.'#SEPERATOR#'.$params.'#SEPERATOR#'.$response.'#SEPERATOR#'.$resHeader.'#SEPERATOR#'.$reqHeader;
 
 //$save = $url.'#SEPERATOR#'.$params.'#SEPERATOR#'.$response.'#SEPERATOR#'.$resHeader.'#SEPERATOR#'.$reqHeader;
@@ -169,7 +173,7 @@ function getPayPalHeaders($apiUserName, $apiPassword, $apiSignature, $appId)
 	$headers_arr[] = "X-PAYPAL-RESPONSE-DATA-FORMAT: JSON" ;
 	$headers_arr[] = "X-PAYPAL-DEVICE-IPADDRESS: " . PPUtils::getLocalIPAddress();
 	$headers_arr[] = "X-PAYPAL-REQUEST-SOURCE: " . PPUtils::getRequestSource();
-    $headers_arr[] = "X-PAYPAL-SANDBOX-EMAIL-ADDRESS: Platform.sdk.seller@gmail.com";
+	$headers_arr[] = "X-PAYPAL-SANDBOX-EMAIL-ADDRESS: Platform.sdk.seller@gmail.com";
 	return $headers_arr;
 }
 
@@ -180,37 +184,37 @@ function queryFilter($arQuery, $arRemove)
 }
 function buildRequest($className )
 {
-	
-		if(!empty($className) )
-		{
-			if(!empty($className['members']))
-			{
-				$newClass = $className['validatedType'];
-				$req = new $newClass();
-			}
-			if(!empty($className['members']))
-			{
-				$i= 0;
-				foreach ($className['members'] as $member)
-				{
-					if($member['value'] != null)
-					{
-						$req->$member['Name'] = $member['value'];
-						$i++;
-					}
-					else if( $className['type'] == 'complex' &&  !empty($className['members']))
-					{
-						$req->$member['Name'] = buildRequest($className['members'][$i]);
-						$i++;
-					}
 
+	if(!empty($className) )
+	{
+		if(!empty($className['members']))
+		{
+			$newClass = $className['validatedType'];
+			$req = new $newClass();
+		}
+		if(!empty($className['members']))
+		{
+			$i= 0;
+			foreach ($className['members'] as $member)
+			{
+				if($member['value'] != null)
+				{
+					$req->$member['Name'] = $member['value'];
+					$i++;
 				}
+				else if( $className['type'] == 'complex' &&  !empty($className['members']))
+				{
+					$req->$member['Name'] = buildRequest($className['members'][$i]);
+					$i++;
+				}
+
 			}
 		}
+	}
 
-		return $req;
-	
-	
+	return $req;
+
+
 }
 function buildType($jsonType, $classVals)
 {
@@ -222,7 +226,7 @@ function buildType($jsonType, $classVals)
 		while(lcfirst($key) != $jsonType[$j]->Name)
 		{
 			if( $jsonType[$j]->Name == null)
-			break;
+				break;
 			$j++;
 
 		}

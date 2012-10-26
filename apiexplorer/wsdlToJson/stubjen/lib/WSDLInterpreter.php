@@ -1,4 +1,6 @@
 <?php
+require_once 'AbstractSpecInterpreter.php';
+
 /**
  * Interprets WSDL documents for the purposes of PHP 5 object creation
  *
@@ -57,7 +59,7 @@ class WSDLInterpreterException extends Exception { }
  * @category WebServices
  * @package WSDLInterpreter
  */
-class WSDLInterpreter
+class WSDLInterpreter extends AbstractSpecInterpreter
 {
 
 
@@ -89,16 +91,6 @@ class WSDLInterpreter
 	 * @var array
 	 * @access private
 	 */
-	private $_generators = array();
-
-	private $_verbose = false;
-
-	private $_defaultNamespace;
-	private $_nameSpaces = array();
-	private $_services;
-	private $_dataTypes = array();
-	private $_typePackages = array();
-
 
 	/**
 	 * Parses the target wsdl and loads the interpretation into object members
@@ -108,14 +100,8 @@ class WSDLInterpreter
 	 */
 	public function __construct($options)
 	{
-		$this->validateOptions($options);
+		parent::__construct($options);
 		$this->_wsdl = $options['wsdlLocation'];
-		foreach($options["generator"] as $generator) {
-			$outputDir = $options["outputDir"] . DIRECTORY_SEPARATOR . strstr($generator, "Generator", true); //TODO: Yuck
-			$this->addGenerator(new $generator($outputDir, $options["generatorOptions"]));
-		}
-		$this->_verbose = $options["verbose"];
-
 		$this->_dom = new DOMDocument();
 		if( !@$this->_dom->load($this->_wsdl) ) {
 			throw new WSDLInterpreterException("Error loading WSDL document ($wsdl)");
@@ -151,16 +137,13 @@ class WSDLInterpreter
 			$this->log("Loaded wsdl document " . $this->_wsdl);
 	}
 
-	private function validateOptions($options) {
-		if(!array_key_exists("wsdlLocation", $options) ||
-			!array_key_exists("generator", $options) ||	!is_array($options["generator"]) || count($options["generator"]) == 0) {
+	protected function validateOptions($options) {
+		parent::validateOptions($options);
+		if(!array_key_exists("wsdlLocation", $options)) {
 			throw new WSDLInterpreterException("Invalid configuration");
 		}
 	}
 
-	public function setVerbose($verbose) {
-		$this->_verbose = $verbose;
-	}
 
 	/**
 	 * Transforms WSDL file into an intermediate xsl
@@ -187,48 +170,6 @@ class WSDLInterpreter
 		}
 	}
 
-	/**
-	 * Setter for adding new generator
-	 *
-	 * @param IGenerator $generator
-	 */
-	public function addGenerator($generator) {
-		if( !$generator instanceof AbstractGenerator )
-		throw new WSDLInterpreterException("Generator classes must extend the AbstractGenerator class");
-		$this->_generators[] = $generator;
-	}
-
-
-	/**
-	 * Saves the source code that has been loaded to a target directory.
-	 * The actual task of generating source code in different languages
-	 * is handled by the generator classes
-	 *
-	 * Services will be saved by their validated name, and classes will be included
-	 * with each service file so that they can be utilized independently.
-	 *
-	 * @param string $outputDirectory the destination directory for the source code
-	 * @return array array of source code files that were written out
-	 * @throws WSDLInterpreterException problem in writing out service sources
-	 * @access public
-	 * @todo Add split file options for more efficient output
-	 */
-	public function generate($classPrefix = "") {
-
-		$this->_getAPIDescriptors();
-		foreach($this->_generators as $generator) {
-			
-
-			$generator->setDescriptors($this->_nameSpaces, $this->_defaultNamespace, $this->_services, $this->_dataTypes);
-			if ($this->_verbose);
-				$this->log(get_class($generator) .  ": Generating service wrapper");
-			$generator->generateService($classPrefix);
-			if ($this->_verbose);
-				$this->log(get_class($generator) .  ": Generating API classes");
-			$generator->generateModel($classPrefix);
-		}
-	}
-
 
 	/**
 	 *
@@ -238,7 +179,7 @@ class WSDLInterpreter
 	 * The code generator classes know only about the API Descriptors
 	 * and have no knowledge of WSDL/DOM trees
 	 */
-	private function _getAPIDescriptors() {
+	protected function _getAPIDescriptors() {
 
 		$this->_transformWSDL( dirname(__FILE__) . self::DESCRIPTOR_XSL_FILE );
 		if($this->_verbose)
@@ -515,10 +456,6 @@ class WSDLInterpreter
 		$expr = "*//class[@name='$typeName'] | *//enum[@name='$typeName']";
 		$elements = $this->_xpath->query($expr);
 		return (!is_null($elements) && $elements->length > 0);
-	}
-
-	private function log($message) {
-		echo date("H:i:s") . " -  " . $message . "\n";
 	}
 }
 

@@ -58,6 +58,18 @@
         "apiUsername": "jb-us-seller_api1.paypal.com",
         "apiPassword": "WX4WTU3S8MY44S7F",
         "apiSignature": "AFcWxV21C7fd0v3bYYYRCpSSRl31A7yDhhsPUU2XhtMoZXsWHFxu-RWy"
+	},
+    "PayPalRest":{
+		"name": "PayPal Rest APIs",
+        "protocol": "https",
+        "baseURL": "stage2sc5830.sc4.paypal.com:11739",
+        "publicPath": "",
+        "auth": "paypal",
+        "keyParam": "key",
+        "appID": "APP-80W284485P519543T",
+        "apiUsername": "jb-us-seller_api1.paypal.com",
+        "apiPassword": "WX4WTU3S8MY44S7F",
+        "apiSignature": "AFcWxV21C7fd0v3bYYYRCpSSRl31A7yDhhsPUU2XhtMoZXsWHFxu-RWy"
 	}
 	
 }

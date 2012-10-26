@@ -23,7 +23,7 @@ class PHPGenerator extends AbstractGenerator {
 		foreach ($this->_dataTypes as $t) {
 			$t->validatedName = $t->name;
 			if ($t instanceof EnumType)
-			continue;
+				continue;
 
 			foreach ($t->members as $m) {
 				$m->validatedName = $this->_validateNamingConvention($m->name);
@@ -33,45 +33,56 @@ class PHPGenerator extends AbstractGenerator {
 	}
 	public function generateJson($serviceDef)
 	{
+		$methods = array();
 		foreach ( $serviceDef->operations as $operation)
 		{
 			unset($params);
 			unset($reqParams);
-			foreach ($operation->input as $inpt)
+			$reqParams = array();
+			foreach ($operation->input as $inputName => $inpt)
 			{
 				$params = $this->generateJsonTypes($inpt);
+				$reqParam = array(
+						'Name' => lcfirst($inputName),
+						'Default' => '',
+						'Members' => $params,
+				);
+				if(!is_string($inpt)) { 					
+					$reqParam = $reqParam +
+					array('ValidatedClass' => $inpt->validatedName,
+							'Description' => $inpt->doc,
+							'Required' => $inpt->isUsed,
+							'Type' => 'complex');					
+				} else {
+					$reqParam = $reqParam +
+					array('ValidatedClass' => $inpt,							
+							'Required' => true, //TODO:
+							'Type' => 'simple');
+				}
+				$reqParams[] = $reqParam;
 			}
-			$reqParams[] = array(
-			 'Name' => lcfirst($inpt->name),
-			 'ValidatedClass' => $inpt->validatedName,
-			 'Description' => $inpt->doc,
-			 'Required' => $inpt->isUsed,
-			 'Type' => 'complex',
-		     'Default' => '',
-			 'Members' => $params,
+			$methods[] = array(
+					'Name' => $operation->name,
+					'Description' => $operation->doc,
+					'URI' => isset($operation->uri) ? $operation->uri : NULL,
+					'RequiresOAuth' => 'N',
+					'Required' => 'Y',
+					'Type' => 'complex',
+					'Synopsis' =>$operation->doc,
+					'HTTPMethod' => isset($operation->httpMethod) ? $operation->httpMethod : "POST",
+					'Default' => '',
+					'Parameters' => $reqParams
 			);
 
-			$input[] = array(
-								'Name' => $operation->name,
-								'Description' => $operation->doc,
-								'URI' => $operation->package,
-								'RequiresOAuth' => 'N',
-								'Required' => 'Y',
-								'Type' => 'complex',
-								'Synopsis' =>$operation->doc,
-								'HTTPMethod' =>'POST',
-								'Default' => '',
-								'Parameters' =>$reqParams
-			);
 		}
-		$oprtn[]  = array(
-							'name' => $serviceDef->name,
-							'methods' => $input,
-		//'Synopsis'   => $operation->doc,
-		//'HttpMethod' => 'POST'
-		) ;
+
 		$endpoints = array(
-						'endpoints' => $oprtn
+				'endpoints' => array(
+						array(
+								'name' => $serviceDef->name,
+								'methods' => $methods
+						)
+				)
 		);
 		$json = json_encode($endpoints);
 		$myFile = $serviceDef->name.".json";
@@ -85,102 +96,97 @@ class PHPGenerator extends AbstractGenerator {
 	}
 	public function generateJsonTypes($inpt)
 	{
-
-		unset($arr);
-
-		if($inpt->extends)
-		{
-			$type = $inpt->extends;
-			$typ = $inpt->extendsPackage.':'.$type;
-			$temp = $this->generateJsonTypes($this->_dataTypes[$typ]);
-			foreach($temp as $val)
+		if(is_string($inpt)) {
+			// We got a simple type
+			return $inpt;
+		} else {
+			$arr = array();
+			if($inpt->extends)
 			{
-				$arr[] = $val;
-			}
-
-		}
-		foreach ($inpt->members as $mbr)
-		{
-
-			if($mbr->minOccurs == 1)
-			{
-				$required = 'Y';
-			}
-			else
-			$required = 'N';
-			$type = $mbr->validatedClass;
-			$typ = $mbr->package.':'.$type;
-			if($this->isComplexType($mbr))
-			//	if(!$mbr->isSimpleType)
-			{
-					
-
-				$jsonType = $this->generateJsonTypes($this->_dataTypes[$typ]);
-				unset($compArr);
-				if($mbr->maxOccurs == "unbounded")
+				$type = $inpt->extends;
+				$typ = $inpt->extendsPackage.':'.$type;
+				$temp = $this->generateJsonTypes($this->_dataTypes[$typ]);
+				foreach($temp as $val)
 				{
-						
+					$arr[] = $val;
+				}
+
+			}
+			foreach ($inpt->members as $mbr)
+			{
+
+				if($mbr->minOccurs == 1)
+				{
+					$required = 'Y';
+				}
+				else
+					$required = 'N';
+				$type = $mbr->validatedClass;
+				$typ = $mbr->package.':'.$type;				
+				if($this->isComplexType($mbr))
+					//	if(!$mbr->isSimpleType)
+				{
+
+
+					$jsonType = $this->generateJsonTypes($this->_dataTypes[$typ]);
+					unset($compArr);
+					if($mbr->maxOccurs == "unbounded")
+					{
+
+						$arr[] = array(
+								'Name' => lcfirst($mbr->name),
+								'ValidatedClass' => $mbr->validatedClass,
+								'Description' => $mbr->doc,
+								'Required' => $required,
+								'Type' => 'complex',
+								'Default' => '',
+								'Members' => array($jsonType),
+						);
+					}
+					else
+					{
+
+						$arr[] = array(
+								'Name' => lcfirst($mbr->name),
+								'ValidatedClass' => $mbr->validatedClass,
+								'Description' => $mbr->doc,
+								'Required' => $required,
+								'Type' => 'complex',
+								'Default' => '',
+								'Members' => $jsonType,
+						);
+					}
+
+				}
+				else if(array_key_exists($typ, $this->_dataTypes) && $this->_dataTypes[$typ] instanceof EnumType )
+				{
+					$enumTyp = $this->generateEnumTypes($this->_dataTypes[$typ]);
 					$arr[] = array(
 							'Name' => lcfirst($mbr->name),
-							'ValidatedClass' => $mbr->validatedClass,
-							'Description' => $mbr->doc,
 							'Required' => $required,
-							'Type' => 'complex',
+							'ValidatedClass' => $mbr->validatedClass,
+							'Type' => 'enumerated',
+							'Description' => $mbr->doc,
 							'Default' => '',
-							'Members' => array($jsonType),
+							'EnumeratedList' => $enumTyp,
 					);
 				}
 				else
 				{
-
 					$arr[] = array(
 							'Name' => lcfirst($mbr->name),
 							'ValidatedClass' => $mbr->validatedClass,
-							'Description' => $mbr->doc,
 							'Required' => $required,
-							'Type' => 'complex',
+							'Type' => $type,
 							'Default' => '',
-							'Members' => $jsonType,
+							'Description' => $mbr->doc,
+
 					);
 				}
-
 			}
-			else if($this->_dataTypes[$typ] instanceof EnumType )
-			{
-				$enumTyp = $this->generateEnumTypes($this->_dataTypes[$typ]);
-				$arr[] = array(
-								'Name' => lcfirst($mbr->name),
-								'Required' => $required,
-								'ValidatedClass' => $mbr->validatedClass,
-								'Type' => 'enumerated',
-								'Description' => $mbr->doc,
-								'Default' => '',
-								'EnumeratedList' => $enumTyp,
-				);
-			}
-			else
-			{
-				$arr[] = array(
-								'Name' => lcfirst($mbr->name),
-								'ValidatedClass' => $mbr->validatedClass,
-								'Required' => $required,
-								'Type' => $type,
-								'Default' => '',
-								'Description' => $mbr->doc,
-
-				);
-			}
+			$arr = $this->srt($arr);
+			return $arr;
 		}
-		//	$reqDesc = $inpt->doc;
-		/*$input = array(
-		'Name' => lcfirst($inpt->name),
-		'Description' => $reqDesc,
-		'Required' => $inpt->isUsed,
-		'Type' => 'complex',
-		'Members' => $arr,
-		);*/
-		$arr = $this->srt($arr);
-		return $arr;
 
 	}
 	public function srt($arr)
@@ -196,19 +202,19 @@ class PHPGenerator extends AbstractGenerator {
 					$arr[$i+1] = $arr[$i];
 					$arr[$i] = $tmp;
 				}
-			if($arr[$i]['Type'] == 'complex' && $arr[$i+1]['Type'] != 'complex' )
+				if($arr[$i]['Type'] == 'complex' && $arr[$i+1]['Type'] != 'complex' )
 				{
 					$tmp = $arr[$i+1];
 					$arr[$i+1] = $arr[$i];
 					$arr[$i] = $tmp;
 				}
-			if($arr[$i]['Type'] != 'complex' && $arr[$i]['Required'] < 'Y' )
+				if($arr[$i]['Type'] != 'complex' && $arr[$i]['Required'] < 'Y' )
 				{
 					$tmp = $arr[$i+1];
 					$arr[$i+1] = $arr[$i];
 					$arr[$i] = $tmp;
 				}
-			if($arr[$i]['Type'] == 'complex' && $arr[$i]['Required'] < 'Y' )
+				if($arr[$i]['Type'] == 'complex' && $arr[$i]['Required'] < 'Y' )
 				{
 					$tmp = $arr[$i+1];
 					$arr[$i+1] = $arr[$i];
@@ -227,27 +233,15 @@ class PHPGenerator extends AbstractGenerator {
 
 	public function generateService($classPrefix) {
 		if (count($this->_services) == 0) {
-			throw new WSDLInterpreterException("No services loaded");
+			throw new Exception("No services loaded");
 		}
 
 		$outputFiles = array ();
 		foreach ($this->_services as $serviceDefintion) {
-
 			$this->generateJson($serviceDefintion);
-			$serviceName = $serviceDefintion->validatedName;
-			$serviceCode = $this->_generateService($serviceDefintion);
-			$baseDir = $this->_outputDirectory . DIRECTORY_SEPARATOR . $serviceName;
-			if (!file_exists($baseDir)) {
-				mkdir($baseDir, parent :: WORKING_DIR_PERMS, true);
-			}
-
-			$filename = $baseDir . DIRECTORY_SEPARATOR . $serviceName . "Service.php";
-			if (file_put_contents($filename, "<?php\n\nrequire_once('PPBaseService.php');\n" . $serviceCode . "\n\n?>")) {
-				$outputFiles[] = $filename;
-			}
 		}
 		if (sizeof($outputFiles) == 0) {
-			throw new WSDLInterpreterException("Error writing PHP source files.");
+			throw new Exception("Error writing PHP source files.");
 		}
 		return $outputFiles;
 	}
@@ -265,7 +259,7 @@ class PHPGenerator extends AbstractGenerator {
 
 			foreach ($classes as $c) {
 				if ($c instanceof EnumType)
-				continue;
+					continue;
 				$classCode .= $this->_generateClass($c);
 			}
 			$classCode .= "?>";
@@ -320,7 +314,7 @@ class PHPGenerator extends AbstractGenerator {
 		$skipOperations = $this->getOperationsToSkip();
 		foreach ($functionMap as $functionName => $functionNodeList) {
 			if (!in_array($functionName, $skipOperations))
-			$return .= $this->_generateServiceFunction($functionName, $functionNodeList) . "\n\n";
+				$return .= $this->_generateServiceFunction($functionName, $functionNodeList) . "\n\n";
 		}
 
 		$return .= "}";
@@ -351,7 +345,7 @@ class PHPGenerator extends AbstractGenerator {
 		foreach ($functionNodeList as $functionNode) {
 			$docNode = $functionNode->doc;
 			if ($docNode)
-			$return .= GeneratorUtil :: formatDoc($docNode, "\t");
+				$return .= GeneratorUtil :: formatDoc($docNode, "\t");
 
 			$parameters = $functionNode->input;
 			$paramList = array ();
@@ -393,37 +387,36 @@ class PHPGenerator extends AbstractGenerator {
 			}
 		}
 		if ($returnOptions != null)
-		$return .= "\t\t" . '$ret = new ' . $returnOptions[0] . '();' . "\n";
+			$return .= "\t\t" . '$ret = new ' . $returnOptions[0] . '();' . "\n";
 		$return .= "\t\t" . '$resp = $this->call("' . $functionNodeList[0]->name . '"';
 
 		if (count($paramList) > 0)
-		$return .= ", " . implode(", ", $paramList);
+			$return .= ", " . implode(", ", $paramList);
 		$return .= ");\n";
 		if (strstr($this->_defaultNamespace, "svcs"))
-		$return .= "\t\t" . '$ret->init(PPUtils::nvpToMap($resp));' . "\n";
+			$return .= "\t\t" . '$ret->init(PPUtils::nvpToMap($resp));' . "\n";
 		else
-		if (strstr($this->_defaultNamespace, "urn"))
-		$return .= "\t\t" . '$ret->init(PPUtils::xmlToArray($resp));' . "\n";
+			if (strstr($this->_defaultNamespace, "urn"))
+			$return .= "\t\t" . '$ret->init(PPUtils::xmlToArray($resp));' . "\n";
 		$return .= "\t\t" . 'return $ret;' . "\n\t}\n";
 
 		return $return;
 	}
 
-	private function isComplexType(Property $prop) {
-
+	private function isComplexType(Property $prop) {	
 		$defaultTypes = array (
-			'int',
-			'boolean',
-			'string',
-			'long',
-			'decimal',
-			'dateTime'
-			);
-			$type = $this->getTypeDescriptor($prop);
-			if (in_array($prop->class, $defaultTypes) || $type == null|| $type instanceOf EnumType) {
-				return false;
-			}
-			return true;
+				'int',
+				'boolean',
+				'string',
+				'long',
+				'decimal',
+				'dateTime'
+		);
+		$type = $this->getTypeDescriptor($prop);		
+		if (in_array($prop->class, $defaultTypes) || $type == null|| $type instanceOf EnumType) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -436,8 +429,8 @@ class PHPGenerator extends AbstractGenerator {
 
 		/*		$json = json_encode($class);
 		 echo "<pre>";
-		 print_r($json);
-		 echo "</pre>";*/
+		print_r($json);
+		echo "</pre>";*/
 
 		foreach ($class->members as $property) {
 
@@ -446,7 +439,7 @@ class PHPGenerator extends AbstractGenerator {
 			// Get documentation for this class member from WSDL
 			$return .= "\t/**\n";
 			if ($property->doc != null)
-			$return .= GeneratorUtil :: formatDoc($property->doc, "\t") . "\t *\n";
+				$return .= GeneratorUtil :: formatDoc($property->doc, "\t") . "\t *\n";
 			if (GeneratorUtil :: isCollectionItem($property)) {
 				$return .= "\t * array\n";
 			}
@@ -466,7 +459,7 @@ class PHPGenerator extends AbstractGenerator {
 			$nvpSerializeCode .= "\t\t\$str = '';\n";
 			$nvpSerializeCode .= "\t\t\$delim = '';\n";
 			if ($class->extends != null)
-			$nvpSerializeCode .= "parent::toNVPString(\$prefix='');";
+				$nvpSerializeCode .= "parent::toNVPString(\$prefix='');";
 
 			foreach ($class->members as $property) {
 
@@ -503,7 +496,7 @@ class PHPGenerator extends AbstractGenerator {
 			$nvpSerializeCode = "\n\tpublic function toXMLString()  {\n";
 			$nvpSerializeCode .= "\t\t\$str = '';\n";
 			if ($class->extends != null)
-			$nvpSerializeCode .= "$" .
+				$nvpSerializeCode .= "$" .
 				"str.=parent::toXMLString();\n";
 			foreach ($this->_services as $s) {
 				foreach ($s->operations as $o) {
@@ -583,7 +576,7 @@ class PHPGenerator extends AbstractGenerator {
 								$nvpSerializeCode .= "\$this->" . $property->validatedName . "->toXMLString();\n";
 								$nvpSerializeCode .= "\t\t\t\$str .=  '</" . $package . ":" . $property->name . ">';\n";
 							} else
-							if ($property->isAttribute) {
+								if ($property->isAttribute) {
 
 								$nvpSerializeCode .= "\t\t\t\$str .= '\t" . $property->name . "=\"'.\$this->" . $property->name . ".'\">';\n";
 
@@ -608,7 +601,7 @@ class PHPGenerator extends AbstractGenerator {
 				$nvpSerializeCode .= "\t\t }\n";
 			}
 			if ($flag)
-			$nvpSerializeCode .= "$" .
+				$nvpSerializeCode .= "$" .
 				"str.='</" . $typePackage . ":" . $typeName . ">';\n";
 
 			$nvpSerializeCode .= "\n\t\treturn \$str;\n\t}\n\n";
@@ -643,7 +636,7 @@ class PHPGenerator extends AbstractGenerator {
 			$nvpDeserializeCode = "\n\tpublic function init(\$arr = null) {\n\t\tif(\$arr != null) {\n";
 
 			if ($type->extends != null)
-			$nvpDeserializeCode .= "\t\t\t" . 'parent::init($arr);';
+				$nvpDeserializeCode .= "\t\t\t" . 'parent::init($arr);';
 			$nvpDeserializeCode .= "\t\t\t" . 'foreach ($arr as $arry){' . "\n";
 			foreach ($type->members as $property) {
 
@@ -811,7 +804,7 @@ class PHPGenerator extends AbstractGenerator {
 
 		$return .= ' * ' . $class->name . "\n";
 		if ($class->doc != null)
-		$return .= GeneratorUtil :: formatDoc($class->doc);
+			$return .= GeneratorUtil :: formatDoc($class->doc);
 		$return .= " */\n";
 
 		$return .= "class " . $class->name;
@@ -823,10 +816,10 @@ class PHPGenerator extends AbstractGenerator {
 
 		/*
 		 * Add members from WSDL's fault message to the class
-		 * Under the NVP binding, any fault member is tacked to the
-		 * response data type. For a successful API call, these members
-		 * are empty.
-		 */
+		* Under the NVP binding, any fault member is tacked to the
+		* response data type. For a successful API call, these members
+		* are empty.
+		*/
 		if ($class->isOutputType() && count($class->faults) > 0) {
 			foreach ($class->faults as $fault) {
 				foreach ($fault->members as $member) {
@@ -878,7 +871,7 @@ class PHPGenerator extends AbstractGenerator {
 
 		if (class_exists($validClassName)) {
 			throw new Exception("Class " . $validClassName . " already defined." .
-			" Cannot redefine class with class loaded.");
+					" Cannot redefine class with class loaded.");
 		}
 
 		return $validClassName;
