@@ -11,37 +11,38 @@ define("DEFAULT_API_PASSSWORD", 'WX4WTU3S8MY44S7F');
 define("DEFAULT_API_SIGNATURE", 'AFcWxV21C7fd0v3bYYYRCpSSRl31A7yDhhsPUU2XhtMoZXsWHFxu-RWy');
 define("DEFAULT_APPID", 'APP-80W284485P519543T');
 
-$service = $_GET['apiName'];
-$operation = $_GET['method'];
+$service = $_REQUEST['apiName'];
+$operation = $_REQUEST['method'];
 
 
-if(isset($_GET['apiUserName']))
-	$apiUserName = $_GET['apiUserName'];
+if(isset($_REQUEST['apiUserName']))
+	$apiUserName = $_REQUEST['apiUserName'];
 else
 	$apiUserName = DEFAULT_API_USERNAME;
-if(isset($_GET['apiPassword']))
-	$apiPassword = $_GET['apiPassword'];
+if(isset($_REQUEST['apiPassword']))
+	$apiPassword = $_REQUEST['apiPassword'];
 else
 	$apiPassword = DEFAULT_API_PASSSWORD;
-if(isset($_GET['apiSignature']))
-	$apiSignature = $_GET['apiSignature'];
+if(isset($_REQUEST['apiSignature']))
+	$apiSignature = $_REQUEST['apiSignature'];
 else
 	$apiSignature = DEFAULT_API_SIGNATURE;
 
-if(isset($_GET['appId']))
-	$appId = $_GET['appId'];
+if(isset($_REQUEST['appId']))
+	$appId = $_REQUEST['appId'];
 else
 	$appId = DEFAULT_APPID;
 
 $arRemove = array('apiName', 'method', 'apiUserName', 'apiPassword', 'apiSignature', 'appId' );
-foreach($_GET as $key => $val)
+$inputParams = array();
+foreach($_REQUEST as $key => $val)
 {
 	$key = str_replace('_','.',$key);
-	$get[$key] = $val;
+	$inputParams[$key] = $val;
 }
 
 
-$paramArr = queryFilter($get, $arRemove);
+$paramArr = queryFilter($inputParams, $arRemove);
 
 
 /*$service = 'PayPalAPIs';

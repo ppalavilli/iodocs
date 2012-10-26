@@ -314,8 +314,10 @@ function processRequest(req, res, next) {
     var baseHostUrl = baseHostInfo[0],
         baseHostPort = (baseHostInfo.length > 1) ? baseHostInfo[1] : "";
 
-    var paramString = query.stringify(params),
-    paramString = "apiName=" + apiName + "&method=" + methodName + "&" + paramString;        
+    var paramString = query.stringify(params);
+    if(apiConfig.needsProxy) {
+    	paramString = "apiName=" + apiName + "&method=" + methodName + "&" + paramString;
+    }
 	privateReqURL = apiConfig.protocol + '://' + apiConfig.baseURL + apiConfig.privatePath + methodURL + ((paramString.length > 0) ? '?' + paramString : ""),
     options = {
         headers: {},
@@ -326,6 +328,9 @@ function processRequest(req, res, next) {
         path: apiConfig.publicPath + methodURL + ((paramString.length > 0) ? '?' + paramString : "")
         //path: apiConfig.publicPath +  ((paramString.length > 0) ? '?' + paramString : "")
     };
+	if (['POST','DELETE','PUT'].indexOf(httpMethod) !== -1) {	
+		var requestBody = query.stringify(params);	
+	}
 
     if (apiConfig.oauth) {
         console.log('Using OAuth');
@@ -477,6 +482,9 @@ function processRequest(req, res, next) {
     function unsecuredCall() {
         console.log('Unsecured Call');
 
+        if (['POST','PUT','DELETE'].indexOf(httpMethod) === -1) {       	
+        	options.path += ((paramString.length > 0) ? '?' + paramString : "");        	
+        }
         // Add API Key to params, if any.
         if (apiKey != '' && apiKey != 'undefined' && apiKey != undefined) {
             if (options.path.indexOf('?') !== -1) {
@@ -565,8 +573,16 @@ function processRequest(req, res, next) {
         }
 
         if (!options.headers['Content-Length']) {
-            options.headers['Content-Length'] = 0;
+        	if(requestBody) {
+        		options.headers['Content-Length'] = requestBody.length;
+        	} else {
+        		options.headers['Content-Length'] = 0;
+        	}
         }
+        
+        if(requestBody) {
+    		options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+    	}
 
         if (config.debug) {
             console.log(util.inspect(options));
@@ -635,7 +651,11 @@ function processRequest(req, res, next) {
             };
         });
 
-        apiCall.end();
+        if(requestBody) {
+        	apiCall.end(requestBody, 'utf-8');	
+        } else {
+        	apiCall.end();
+        }
     }
 }
 
