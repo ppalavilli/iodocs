@@ -63,8 +63,8 @@ class WADLInterpreter extends AbstractSpecInterpreter
 				$operation = new RestfulOperation();
 				$operation->name = $resource->getAttribute("path");
 				//TODO: Move preg replacement to Generator since it is iodocs specific				
-				$operation->name = preg_replace("(\{(.*)\})", ":\\1",  $resource->getAttribute("path"));
-				$operation->uri = $resource->getAttribute("path");
+				$operation->uri = preg_replace("(\{(.*)\})", ":\\1",  $resource->getAttribute("path"));
+				$operation->name = $resource->getAttribute("path");
 				$operation->httpMethod = $method->getAttribute("name");
 				if($operation->httpMethod == 'POST') {
 					$req = $method->getElementsByTagName("request")->item(0);

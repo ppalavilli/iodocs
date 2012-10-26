@@ -91,7 +91,8 @@ ul
                         form.hidden
                             input(type='hidden', name='httpMethod', value=method.HTTPMethod)
                             input(type='hidden', name='oauth', value=secure)
-                            input(type='hidden', name='methodUri', value=method.Name)
+                            input(type='hidden', name='methodUri', value=method.URI)
+                            input(type='hidden', name='methodName', value=method.Name)
                             - if (method.Parameters.length > 0)
                                     div.parameter
                                         span.header Parameter

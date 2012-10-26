@@ -285,9 +285,10 @@ function processRequest(req, res, next) {
         apiUserName = reqQuery.userName,
         apiSignature = reqQuery.signature,
         apiPassword = reqQuery.password,
-	appId = reqQuery.appId,
+        appId = reqQuery.appId,
         apiSecret = reqQuery.apiSecret,
         apiName = reqQuery.apiName,
+        methodName = reqQuery.methodName,
         apiConfig = apisConfig[apiName],
         key = req.sessionID + ':' + apiName;
 
@@ -314,19 +315,17 @@ function processRequest(req, res, next) {
         baseHostPort = (baseHostInfo.length > 1) ? baseHostInfo[1] : "";
 
     var paramString = query.stringify(params),
-    //paramString = "apiName=" + apiName + "&method=" + methodURL + "&" + paramString; 
-// [PayPal Specific] - metodUrl is removed from url and added to params
-         // privateReqURL = apiConfig.protocol + '://' + apiConfig.baseURL + apiConfig.privatePath  + ((paramString.length > 0) ? '?' + paramString : ""),
-privateReqURL = apiConfig.protocol + '://' + apiConfig.baseURL + apiConfig.privatePath + methodURL + ((paramString.length > 0) ? '?' + paramString : ""),
-        options = {
-            headers: {},
-            protocol: apiConfig.protocol + ':',
-            host: baseHostUrl,
-            port: baseHostPort,
-            method: httpMethod,
-            path: apiConfig.publicPath + methodURL + ((paramString.length > 0) ? '?' + paramString : "")
-            //path: apiConfig.publicPath +  ((paramString.length > 0) ? '?' + paramString : "")
-        };
+    paramString = "apiName=" + apiName + "&method=" + methodName + "&" + paramString;        
+	privateReqURL = apiConfig.protocol + '://' + apiConfig.baseURL + apiConfig.privatePath + methodURL + ((paramString.length > 0) ? '?' + paramString : ""),
+    options = {
+        headers: {},
+        protocol: apiConfig.protocol + ':',
+        host: baseHostUrl,
+        port: baseHostPort,
+        method: httpMethod,
+        path: apiConfig.publicPath + methodURL + ((paramString.length > 0) ? '?' + paramString : "")
+        //path: apiConfig.publicPath +  ((paramString.length > 0) ? '?' + paramString : "")
+    };
 
     if (apiConfig.oauth) {
         console.log('Using OAuth');
