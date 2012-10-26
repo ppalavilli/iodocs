@@ -40,14 +40,8 @@ foreach($_REQUEST as $key => $val)
 	$key = str_replace('_','.',$key);
 	$inputParams[$key] = $val;
 }
+$filteredParamArr = queryFilter($inputParams, $arRemove);
 
-
-$paramArr = queryFilter($inputParams, $arRemove);
-
-
-/*$service = 'PayPalAPIs';
- $operation = 'SetExpressCheckout';
-$paramArr = test();*/
 function test()
 {
 	$string = 'setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.orderTotal.currencyID=USD&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.orderTotal.value=1&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.returnURL=http://return&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.cancelURL=http://return&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.billingAddress.name=name&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.billingAddress.street1=street&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.billingAddress.cityName=san jose&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.billingAddress.stateOrProvince=CA&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.billingAddress.country=US';
@@ -84,7 +78,7 @@ if($service == 'PayPalAPIs')
 	}
 
 	$mrg = array();
-	foreach ($paramArr as $arrKey => $arrVal)
+	foreach ($filteredParamArr as $arrKey => $arrVal)
 	{
 		$array = array();
 		$array = $arrVal;
@@ -129,18 +123,17 @@ if($service == 'PayPalAPIs')
 	$resHeader =  $service->getResHeader();
 	$reqHeader = 'null';
 
-}
+} else {
 
-else
-{
-
-	foreach($get as $key => $val)
+	// Removing the top level data type from query param for HELIX APIs alone
+	// E.g. 'payRequest.payKey' is converted to just 'payKey'
+	foreach($filteredParamArr as $key => $val)
 	{
-		$index = strpos($key,'.',0);
+		$index = strpos($key, '.', 0);
 		$key = substr($key, $index+1);
-		$arr[] = $key.'='.$val;
+		$arr[] = $key . '=' . $val;
 	}
-	$queryStr = implode('&',$arr);
+	$queryStr = implode('&', $arr);
 
 	require_once 'lib/PPHttpConnection.php';
 	require_once 'lib/PPUtils.php';
@@ -148,8 +141,7 @@ else
 	//$url = 'https://svcs.sandbox.paypal.com/AdaptivePayments/PaymentDetails';
 	//$params ='requestEnvelope.errorLanguage=en_US&payKey=AP-5S482348KH512131U';
 	$params = $queryStr;
-	$headers = getPayPalHeaders($apiUserName, $apiPassword, $apiSignature, $appId);
-
+	$headers = getPayPalHeaders($apiUserName, $apiPassword, $apiSignature, $appId);	
 	$connection =  new PPHttpConnection();
 	$res = $connection->execute($url, $params, $headers);
 	$reqHeader = implode('&',$headers);
