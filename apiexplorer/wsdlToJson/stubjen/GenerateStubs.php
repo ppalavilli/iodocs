@@ -10,7 +10,7 @@ $command = null;
 $path = false;
 
 
-if(1){
+if(isset($options['wadlLocation'])){
 	$descType = "WADL";	
 } else {
 	$descType = "WSDL";
