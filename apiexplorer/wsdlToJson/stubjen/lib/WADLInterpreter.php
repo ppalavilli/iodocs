@@ -36,14 +36,17 @@ class WADLInterpreter extends AbstractSpecInterpreter
 		}
 		
 		$classes = $dom->getElementsByTagName("classes");
-		foreach($classes->item(0)->getElementsByTagName("class") as $class) {	
+		//XXX: Parsing item1		
+		foreach($classes->item(1)->getElementsByTagName("class") as $class) {			
 			$type = new DataType();
 			$type->name = $class->getAttribute("name");
 			foreach($class->getElementsByTagName("property") as $propDef) {
 				$prop = new Property();
 				$prop->name = $propDef->getAttribute("name");
+				$prop->maxOccurs = $propDef->getAttribute("max");
+				$prop->minOccurs = $propDef->getAttribute("min");
 				if($propDef->getAttribute("type")) {
-					$prop->class = $propDef->getAttribute("type");
+					$prop->class = $propDef->getAttribute("type");					
 				} else if($propDef->getAttribute("ref") &&
 						array_key_exists($propDef->getAttribute("ref"), $elements)) {
 					$prop->class = $elements[$propDef->getAttribute("ref")];					
@@ -51,7 +54,7 @@ class WADLInterpreter extends AbstractSpecInterpreter
 				$type->members[] = $prop;
 			}
 			$this->_dataTypes["$type->package:$type->name"] = $type;				
-		}		
+		}
 
 		$this->_services[0] = new Service();
 		$this->_services[0]->name = "PayPalRest";

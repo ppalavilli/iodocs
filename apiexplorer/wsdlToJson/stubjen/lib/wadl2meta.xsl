@@ -109,7 +109,7 @@
 								min="1" simpletype="1" attrib="1" />
 						</xsl:when>
 						<xsl:otherwise>
-							<property name="{$attrib/@name}" type="{substring-after($attrib/@type,':')}"
+							<property name="{$attrib/@name}" type="{$attrib/@type}"
 								min="1" simpletype="0" package="{substring-before($attrib/@type,':')}"
 								attrib="1" />
 						</xsl:otherwise>
@@ -147,7 +147,7 @@
 								test="//*[local-name()='complexType' and @name=substring-after(current()/@type,':')] //*[@ref='soapenc:arrayType']">
 								<xsl:variable name="type"
 									select="//*[local-name()='complexType' and @name=substring-after(current()/@type,':')] //*[@ref='soapenc:arrayType']/@*[local-name()='wsdl:arrayType']" />
-								<property name="{@name}" type="{substring-after($type,':')}"
+								<property name="{@name}" type="{$type}"
 									package="{substring-before($type,':')}" min="{@minOccurs}" max="{@maxOccurs}"
 									documentation="{$doc}" simpletype="0" />
 							</xsl:when>
@@ -162,14 +162,14 @@
 									<xsl:otherwise>
 										<property name="{@ref}" min="{@minOccurs}"
 											max="{@maxOccurs}" documentation="{$doc}"
-											package="{substring-before(@ref, ':')}" simpletype="0" ref="{@ref}"/>
+											package="{@ref}" simpletype="0" ref="{@ref}"/>
 									</xsl:otherwise>
 								</xsl:choose>
 							</xsl:when>
 							<xsl:otherwise>
-								<property name="{@name}" type="{substring-after(@type, ':')}"
+								<property name="{@name}" type="{@type}"
 									simpletype="0" min="{@minOccurs}" max="{@maxOccurs}"
-									package="{substring-before(@type, ':')}" documentation="{$doc}" />
+									package="{@type}" documentation="{$doc}" />
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:for-each>

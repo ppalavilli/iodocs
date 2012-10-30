@@ -1,87 +1,82 @@
-<application xmlns="http://wadl.dev.java.net/2009/02"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema">
-	<grammars>
-		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-			attributeFormDefault="unqualified" elementFormDefault="unqualified">
-			<xs:element name="address" type="address" />
-			<xs:element name="card" type="creditCardDetails" />
-			<xs:element name="charge" type="charge" />
-			<xs:element name="shipping" type="shippingInfo" />
-			<xs:complexType name="charge">
-				<xs:sequence>
-					<xs:element minOccurs="0" name="id" type="xs:string" />
-					<xs:element minOccurs="0" name="status" type="xs:string" />
-					<xs:element minOccurs="0" ref="card" />
-					<xs:element minOccurs="0" name="amount" type="xs:string" />
-					<xs:element minOccurs="0" name="currency" type="xs:string" />
-					<xs:element minOccurs="0" ref="shipping" />
-					<xs:element minOccurs="0" name="payer_email" type="xs:string" />
-					<xs:element minOccurs="0" name="create_at" type="xs:string" />
-				</xs:sequence>
-			</xs:complexType>
-			<xs:complexType name="creditCardDetails">
-				<xs:sequence>
-					<xs:element minOccurs="0" name="type" type="xs:string" />
-					<xs:element minOccurs="0" name="number" type="xs:string" />
-					<xs:element minOccurs="0" name="exp_month" type="xs:string" />
-					<xs:element minOccurs="0" name="exp_year" type="xs:string" />
-					<xs:element minOccurs="0" name="cvv2" type="xs:string" />
-					<xs:element minOccurs="0" name="first_name" type="xs:string" />
-					<xs:element minOccurs="0" name="last_name" type="xs:string" />
-					<xs:element minOccurs="0" ref="address" />
-				</xs:sequence>
-			</xs:complexType>
-			<xs:complexType name="address">
-				<xs:sequence>
-					<xs:element minOccurs="0" name="street1" type="xs:string" />
-					<xs:element minOccurs="0" name="street2" type="xs:string" />
-					<xs:element minOccurs="0" name="city" type="xs:string" />
-					<xs:element minOccurs="0" name="state" type="xs:string" />
-					<xs:element minOccurs="0" name="postal_code" type="xs:string" />
-					<xs:element minOccurs="0" name="country" type="xs:string" />
-				</xs:sequence>
-			</xs:complexType>
-			<xs:complexType name="shippingInfo">
-				<xs:sequence>
-					<xs:element minOccurs="0" name="name" type="xs:string" />
-					<xs:element minOccurs="0" ref="address" />
-				</xs:sequence>
-			</xs:complexType>
-		</xs:schema>
-	</grammars>
-	<resources base="https://stage2sc5830.sc4.paypal.com:11739/">
-		<resource path="/">
-			<resource path="charge">
-                <method name="POST">
-           			<request>
-                    	<representation mediaType="application/json" element="charge"/>
-					</request>
-                    <response>
-                    	<representation mediaType="application/json" element="charge"/>
-                    </response>
-                </method>
-			</resource>
-			<resource path="charge/{charge-id}">
-				<param name="charge-id" style="template" type="xs:string" />
-				<method name="GET">
-					<request></request>
-					<response>
-						<representation mediaType="application/json" />
-					</response>
-				</method>
-			</resource>
-			<resource path="echo">
-				<method name="POST">
-					<request>
-						<representation mediaType="application/json">
-							<param name="request" style="plain" type="xs:string" />
-						</representation>
-					</request>
-					<response>
-						<representation mediaType="application/json" />
-					</response>
-				</method>
-			</resource>
-		</resource>
-	</resources>
-</application>
+<application xmlns="http://wadl.dev.java.net/2009/02" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:prefix1="urn:ebay:api:PayPalAPI"><grammars><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="urn:ebay:api:PayPalAPI" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="urn:ebay:api:PayPalAPI">
+<xs:import/>
+<xs:element name="charge" type="charge"/>
+</xs:schema><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="urn:ebay:api:PayPalAPI" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="urn:ebay:api:PayPalAPI">
+<xs:element name="address" type="address"/>
+<xs:element name="amount" type="money"/>
+<xs:element name="card" type="creditCardDetails"/>
+<xs:element name="item" type="item"/>
+<xs:element name="shipping" type="shippingInfo"/>
+<xs:element name="subtotals" type="subTotal"/>
+<xs:complexType name="charge">
+<xs:sequence>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element minOccurs="0" name="transactionId" type="xs:string"/>
+<xs:element minOccurs="0" name="status" type="xs:string"/>
+<xs:element minOccurs="0" name="creditCard" type="creditCardDetails"/>
+<xs:element minOccurs="0" name="amount" type="xs:string"/>
+<xs:element minOccurs="0" name="currency" type="xs:string"/>
+<xs:element minOccurs="0" ref="subtotals"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="items" nillable="true" type="item"/>
+<xs:element minOccurs="0" name="shippingAddress" type="shippingInfo"/>
+<xs:element minOccurs="0" name="payerEmail" type="xs:string"/>
+<xs:element minOccurs="0" name="feePayer" type="xs:string"/>
+<xs:element minOccurs="0" name="createdAt" type="xs:string"/>
+<xs:element minOccurs="0" name="debugId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="creditCardDetails">
+<xs:sequence>
+<xs:element minOccurs="0" name="type" type="xs:string"/>
+<xs:element minOccurs="0" name="number" type="xs:string"/>
+<xs:element minOccurs="0" name="expireMonth" type="xs:string"/>
+<xs:element minOccurs="0" name="expireYear" type="xs:string"/>
+<xs:element minOccurs="0" name="cvv2" type="xs:string"/>
+<xs:element minOccurs="0" name="firstName" type="xs:string"/>
+<xs:element minOccurs="0" name="lastName" type="xs:string"/>
+<xs:element minOccurs="0" name="billingAddress" type="address"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="address">
+<xs:sequence>
+<xs:element minOccurs="0" name="street1" type="xs:string"/>
+<xs:element minOccurs="0" name="street2" type="xs:string"/>
+<xs:element minOccurs="0" name="city" type="xs:string"/>
+<xs:element minOccurs="0" name="state" type="xs:string"/>
+<xs:element minOccurs="0" name="postalCode" type="xs:string"/>
+<xs:element minOccurs="0" name="country" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="subTotal">
+<xs:sequence>
+<xs:element minOccurs="0" name="itemAmount" type="xs:string"/>
+<xs:element minOccurs="0" name="taxAmount" type="xs:string"/>
+<xs:element minOccurs="0" name="insuranceAmount" type="xs:string"/>
+<xs:element minOccurs="0" name="shippingAmount" type="xs:string"/>
+<xs:element minOccurs="0" name="shippingDiscount" type="xs:string"/>
+<xs:element minOccurs="0" name="handlingAmount" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="item">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="description" type="xs:string"/>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element minOccurs="0" name="price" type="money"/>
+<xs:element minOccurs="0" name="tax" type="money"/>
+<xs:element minOccurs="0" name="quantity" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="money">
+<xs:sequence>
+<xs:element minOccurs="0" name="amount" type="xs:string"/>
+<xs:element minOccurs="0" name="currency" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="shippingInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" ref="address"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema></grammars><resources base="https://stage2sc5830.sc4.paypal.com:11739/"><resource path="/"><resource path="charge"><method name="POST"><request><representation mediaType="application/json" element="charge"/></request><response><representation mediaType="application/json" element="charge"/></response></method></resource><resource path="charge/{charge-id}"><param name="charge-id" style="template" type="xs:string"/><method name="GET"><request></request><response><representation mediaType="application/json" element="charge"/></response></method></resource><resource path="echo"><method name="POST"><request><representation mediaType="application/json"><param name="request" style="plain" type="xs:string"/></representation></request><response><representation mediaType="application/json"/></response></method></resource></resource></resources></application>
