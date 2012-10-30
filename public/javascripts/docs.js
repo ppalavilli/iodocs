@@ -375,20 +375,6 @@
 
 })();
 
-/*
-function form2JSON(params) {	
-	var filteredParams = {};
-	jQuery.map(params, function(n, i){
-		if(n.name.indexOf("params[") != -1) {
-			var k = n.name.substring(n.name.indexOf('.') + 1, n.name.length - 1);
-			filteredParams[k] = n['value'];
-		}
-	});
-	jsonData = convert2JSON(filteredParams, "");	
-	return JSON.stringify(jsonData);
-	//return '{"creditCard": {"type": "Visa", "number": "4417119669820331", "expireMonth": "11", "expireYear": "2018", "cvv2": "874", "firstName": "Joe", "lastName": "Shoppaholic", "billingAddress": {"street1": "52 N. Main St.", "city": "Johnstown", "state": "OH", "postalCode": "43210", "country": "US"}}, "amount": "115.45", "currency": "USD"}';
-}
-*/
 function form2JSON(params) {	
 	var filteredParams = [];
 	jQuery.map(params, function(n, i){
@@ -403,40 +389,3 @@ function form2JSON(params) {
 	
 }
 
-function convert2JSON(params, prefix) {
-	var json = {};	
-	for(var key in params) {
-		var value = params[key];		
-		if(key.indexOf(".") != -1) { // we have a nested type
-			var newPrefix =  key.substring(0, key.indexOf('.')+1);			
-			var newParams = filterArray(params, newPrefix);
-			var nestedValue = convert2JSON(newParams, newPrefix);
-			if(array_length(nestedValue) > 0) {
-				json[key.substr(0, key.indexOf('.'))] = nestedValue;
-			}
-		} else if (value != "") {
-			json[key] = value;
-		}
-	}
-	return json;
-}
-
-/* Filter array based on key prefix, also
- * stripping prefix from matching keys
- */
-function filterArray(orig, prefix) {
-	var ret = {};
-	for(var key in orig) {
-		var value = orig[key];		
-		if(key.indexOf(prefix) == 0) {
-			ret[key.substr(prefix.length)] = value;
-		}
-	}
-	return ret;
-}
-
-function array_length(h) {
-	var i, len = 0;
-	for (i in h) len++;
-	return len;
-}
