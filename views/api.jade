@@ -30,7 +30,10 @@ form#credentials
                  - var defaultSecret =''
              
              div
-                 - if (apiInfo.auth != 'paypal')
+                 - if (apiInfo.auth == 'authorization')
+                     label(for='key') Authorization
+                     input(id='authorization', name='authorization', value='token1', style='color=#EEEEEE')
+                 - else if (apiInfo.auth != 'paypal')
                      label(for='key') API Key
                      input(id='key', name='key', value=defaultKey, style='color=#EEEEEE')
                  - else
@@ -88,11 +91,12 @@ ul
                             span.http-method #{method.HTTPMethod}
                             span.name #{method.Name}
                             span.uri #{method.URI}
-                        form.hidden
+                        form(class='hidden', enctype=method.RequestContentType)
                             input(type='hidden', name='httpMethod', value=method.HTTPMethod)
                             input(type='hidden', name='oauth', value=secure)
                             input(type='hidden', name='methodUri', value=method.URI)
-                            input(type='hidden', name='methodName', value=method.Name)
+                            input(type='hidden', name='methodName', value=method.Name)                                                        
+                            input(type='hidden', name='dataFormat', value=method.RequestContentType)
                             - if (method.Parameters.length > 0)
                                     div.parameter
                                         span.header Parameter
@@ -178,8 +182,8 @@ ul
                                                         </div> 
                                                         </ul>
                                                     - if (Object.prototype.toString.call(parameter.Members[0]) === '[object Array]')
-                                                        <input class="repeat1" type="button" value ="Add"> 
-                                                        <input class="remove1" type="button" value ="remove">
+                                                        <input class="repeat1 pushbutton1" type="button" value ="Add"> 
+                                                        <input class="remove1 pushbutton1" type="button" value ="Remove">
                                             - })
                                         - }
                             - if (method.headers && method.headers.length > 0)
@@ -208,4 +212,4 @@ ul
                                         a(href='#', class='add-headers') Add Header
                                     // Create header fields and button to add/remove headers.
                             - if (!method['read-only'])
-                                input(type='submit', id=method.MethodName, value='Try it!')
+                                input(type='submit', id=method.MethodName, value='Try it!', class="pushbutton1")

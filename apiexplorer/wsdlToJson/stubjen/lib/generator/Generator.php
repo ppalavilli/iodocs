@@ -70,6 +70,7 @@ class PHPGenerator extends AbstractGenerator {
 					'Type' => 'complex',
 					'Synopsis' =>$operation->doc,
 					'HTTPMethod' => isset($operation->httpMethod) ? $operation->httpMethod : "POST",
+					'RequestContentType' => isset($operation->requestContentType) ? $operation->requestContentType : "",
 					'Default' => '',
 					'Parameters' => $reqParams
 			);

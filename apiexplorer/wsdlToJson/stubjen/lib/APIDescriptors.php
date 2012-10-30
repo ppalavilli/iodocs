@@ -40,6 +40,7 @@ class Operation {
 class RestfulOperation extends Operation {
 	public $uri;
 	public $httpMethod;
+	public $requestContentType;
 }
 
 

@@ -226,18 +226,23 @@
             apiUserName = { name: 'userName', value: $('input[name=userName]').val() },
             apiPassword = { name: 'password', value: $('input[name=password]').val() },
             apiSignature = { name: 'signature', value: $('input[name=signature]').val() },
-	    appId = { name: 'appId', value: $('input[name=appId]').val() },
-            apiName = { name: 'apiName', value: $('input[name=apiName]').val() };
+            appId = { name: 'appId', value: $('input[name=appId]').val() },
+            apiName = { name: 'apiName', value: $('input[name=apiName]').val() },
+            authorization = { name: 'authorization', value: $('input[name=authorization]').val() };
 
-        params.push(apiKey, apiSecret, apiName, apiUserName, apiPassword, apiSignature, appId);
-
+        params.push(apiKey, apiSecret, apiName, apiUserName, apiPassword, apiSignature, appId, authorization);
+        // Process json value        
+        if($(this).attr('enctype') == 'application/json') {
+        	params.push({ name: 'params[jsonParam]', value: form2JSON(params)});
+    	}
+    
         // Setup results container
         var resultContainer = $('.result', self);
         if (resultContainer.length === 0) {
             resultContainer = $(document.createElement('div')).attr('class', 'result');
             $(self).append(resultContainer);
         }
-
+        
         if ($('pre.response', resultContainer).length === 0) {
 
             // Clear results link
@@ -262,15 +267,14 @@
             resultContainer.append($(document.createElement('pre')).addClass('endPoint prettyprint'));
 
             //Request Headers
-          resultContainer.append($(document.createElement('h4')).text('Request Headers'));
-          resultContainer.append($(document.createElement('pre')).addClass('reqHeaders prettyprint'));
+            resultContainer.append($(document.createElement('h4')).text('Request Headers'));
+            resultContainer.append($(document.createElement('pre')).addClass('reqHeaders prettyprint'));
 
             resultContainer.append($(document.createElement('h4')).text('Request Body'));
             resultContainer.append($(document.createElement('pre')).addClass('call prettyprint'));
 
-
             // Header
-           resultContainer.append($(document.createElement('h4')).text('Response Headers'));
+            resultContainer.append($(document.createElement('h4')).text('Response Headers'));
             resultContainer.append($(document.createElement('pre')).addClass('headers prettyprint'));
 
             // Response
@@ -314,8 +318,13 @@
             var response = JSON.parse(result.responseText);
 
             if (response.call) {
-                $('pre.call', resultContainer)
-                    .text(response.call);
+            	try {
+	                $('pre.call', resultContainer)                
+	                    .text(formatJSON(JSON.parse(response.call)));  //TODO: Assuming request is json. AP calls will fail
+            	} catch (e) {
+            		$('pre.call', resultContainer)                
+                    	.text(response.call);  
+            	}
             }
 
 	    if (response.endPoint) {
@@ -365,3 +374,69 @@
     })
 
 })();
+
+/*
+function form2JSON(params) {	
+	var filteredParams = {};
+	jQuery.map(params, function(n, i){
+		if(n.name.indexOf("params[") != -1) {
+			var k = n.name.substring(n.name.indexOf('.') + 1, n.name.length - 1);
+			filteredParams[k] = n['value'];
+		}
+	});
+	jsonData = convert2JSON(filteredParams, "");	
+	return JSON.stringify(jsonData);
+	//return '{"creditCard": {"type": "Visa", "number": "4417119669820331", "expireMonth": "11", "expireYear": "2018", "cvv2": "874", "firstName": "Joe", "lastName": "Shoppaholic", "billingAddress": {"street1": "52 N. Main St.", "city": "Johnstown", "state": "OH", "postalCode": "43210", "country": "US"}}, "amount": "115.45", "currency": "USD"}';
+}
+*/
+function form2JSON(params) {	
+	var filteredParams = [];
+	jQuery.map(params, function(n, i){
+		if(n.name.indexOf("params[") != -1) {
+			var k = n.name.substring(n.name.indexOf('.') + 1, n.name.length - 1);
+			filteredParams.push({'name': k, 'value': n.value});
+		}
+	});
+	
+	jsonData = form2js(filteredParams);	
+	return JSON.stringify(jsonData);
+	
+}
+
+function convert2JSON(params, prefix) {
+	var json = {};	
+	for(var key in params) {
+		var value = params[key];		
+		if(key.indexOf(".") != -1) { // we have a nested type
+			var newPrefix =  key.substring(0, key.indexOf('.')+1);			
+			var newParams = filterArray(params, newPrefix);
+			var nestedValue = convert2JSON(newParams, newPrefix);
+			if(array_length(nestedValue) > 0) {
+				json[key.substr(0, key.indexOf('.'))] = nestedValue;
+			}
+		} else if (value != "") {
+			json[key] = value;
+		}
+	}
+	return json;
+}
+
+/* Filter array based on key prefix, also
+ * stripping prefix from matching keys
+ */
+function filterArray(orig, prefix) {
+	var ret = {};
+	for(var key in orig) {
+		var value = orig[key];		
+		if(key.indexOf(prefix) == 0) {
+			ret[key.substr(prefix.length)] = value;
+		}
+	}
+	return ret;
+}
+
+function array_length(h) {
+	var i, len = 0;
+	for (i in h) len++;
+	return len;
+}

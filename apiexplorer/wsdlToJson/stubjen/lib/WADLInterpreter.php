@@ -68,10 +68,11 @@ class WADLInterpreter extends AbstractSpecInterpreter
 				//TODO: Move preg replacement to Generator since it is iodocs specific				
 				$operation->uri = preg_replace("(\{(.*)\})", ":\\1",  $resource->getAttribute("path"));
 				$operation->name = $resource->getAttribute("path");
-				$operation->httpMethod = $method->getAttribute("name");
+				$operation->httpMethod = $method->getAttribute("name");				
 				if($operation->httpMethod == 'POST') {
 					$req = $method->getElementsByTagName("request")->item(0);
 					$representation = $req->getElementsByTagName("representation")->item(0);
+					$operation->requestContentType = strtolower($representation->getAttribute("mediaType"));
 					$reqElement = $representation->getAttribute("element");
 					if($reqElement) {						
 						$operation->input[$reqElement] =

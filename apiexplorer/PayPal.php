@@ -127,6 +127,7 @@ if($service == 'PayPalAPIs')
 
 	// Removing the top level data type from query param for HELIX APIs alone
 	// E.g. 'payRequest.payKey' is converted to just 'payKey'
+	$arr = array();
 	foreach($filteredParamArr as $key => $val)
 	{
 		$index = strpos($key, '.', 0);

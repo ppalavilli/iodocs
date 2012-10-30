@@ -290,6 +290,7 @@ function processRequest(req, res, next) {
         apiName = reqQuery.apiName,
         methodName = reqQuery.methodName,
         apiConfig = apisConfig[apiName],
+        dataFormat = reqQuery.dataFormat,
         key = req.sessionID + ':' + apiName;
 
     // Replace placeholders in the methodURL with matching params
@@ -314,7 +315,18 @@ function processRequest(req, res, next) {
     var baseHostUrl = baseHostInfo[0],
         baseHostPort = (baseHostInfo.length > 1) ? baseHostInfo[1] : "";
 
-    var paramString = query.stringify(params);
+    var paramString = "";
+    var requestBody;
+    if (['POST','DELETE','PUT'].indexOf(httpMethod) !== -1) {
+    		if(dataFormat != null && dataFormat.match(/.*\/json$/)) {
+	    		requestBody = params['jsonParam'];
+    		} else {
+    			requestBody = query.stringify(params);
+    		} 
+	} else {		
+		paramString = query.stringify(params);
+	}    
+    
     if(apiConfig.needsProxy) {
     	paramString = "apiName=" + apiName + "&method=" + methodName + "&" + paramString;
     }
@@ -328,9 +340,7 @@ function processRequest(req, res, next) {
         path: apiConfig.publicPath + methodURL + ((paramString.length > 0) ? '?' + paramString : "")
         //path: apiConfig.publicPath +  ((paramString.length > 0) ? '?' + paramString : "")
     };
-	if (['POST','DELETE','PUT'].indexOf(httpMethod) !== -1) {	
-		var requestBody = query.stringify(params);	
-	}
+	
 
     if (apiConfig.oauth) {
         console.log('Using OAuth');
@@ -445,10 +455,6 @@ function processRequest(req, res, next) {
                     } else {
                         req.resultHeaders = req.resultHeaders || 'None';
                     }
-
-                    req.call = url.parse(options.host + options.path);
-                    req.call = url.format(req.call);
-
                     // Response body
                     req.result = body;
 
@@ -525,8 +531,8 @@ function processRequest(req, res, next) {
             }
             options.path += 'apiSignature=' + apiSignature;
         }
-	// Add AppId to params, if any
-	if (appId != '' && appId != 'undefined' && appId != undefined) {
+        // Add AppId to params, if any
+        if (appId != '' && appId != 'undefined' && appId != undefined) {
             if (options.path.indexOf('?') !== -1) {
                 options.path += '&';
             }
@@ -537,6 +543,10 @@ function processRequest(req, res, next) {
         }
 
 
+        if (apiConfig.auth == 'authorization') {	
+        	 options.headers['Authorization'] = 'Bearer ' + 
+        	 	reqQuery.authorization;	
+        }
         // Perform signature routine, if any.
         if (apiConfig.signature) {
             if (apiConfig.signature.type == 'signed_md5') {
@@ -567,8 +577,7 @@ function processRequest(req, res, next) {
                 if (reqQuery.headerNames[x] != '') {
                     headers[reqQuery.headerNames[x]] = reqQuery.headerValues[x];
                 }
-            }
-
+            }           
             options.headers = headers;
         }
 
@@ -580,8 +589,12 @@ function processRequest(req, res, next) {
         	}
         }
         
-        if(requestBody) {
-    		options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        if(requestBody) {        	
+        	if (dataFormat) {
+        		options.headers['Content-Type'] = dataFormat;
+        	} else {
+        		options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        	}
     	}
 
         if (config.debug) {
@@ -633,8 +646,8 @@ function processRequest(req, res, next) {
 
                 // Set Headers and Call
                 req.resultHeaders = response.headers;
-                req.call = url.parse(options.host + options.path);
-                req.call = url.format(req.call);
+                req.options = {};
+                req.options.needsProxy = apiConfig.needsProxy;
 
                 // Response body
                 req.result = body;
@@ -651,9 +664,13 @@ function processRequest(req, res, next) {
             };
         });
 
-        if(requestBody) {
+        req.requestHeaders = options.headers;
+        req.endpoint = url.parse(options.protocol + "//" + options.host + ((options.port) ? ":" + options.port : "") + options.path);
+    	req.endpoint = url.format(req.endpoint);
+        if(requestBody) {        	
+        	req.call = requestBody;            
         	apiCall.end(requestBody, 'utf-8');	
-        } else {
+        } else {        	
         	apiCall.end();
         }
     }
@@ -724,28 +741,38 @@ app.get(config.appContext + '/?', function(req, res) {
 
 // Process the API request
 app.post(config.appContext + '/processReq', oauth, processRequest, function(req, res) {
-    var respArray = req.result.split('#SEPERATOR#');
-    var temp = respArray[2];  
-    console.log(req.result);
-    var temp1 = respArray[1].split('&');
-        temp1 = temp1.join('&\n'); 
-          if (temp.substring(0, 5) == "<?xml")
-          {
-            temp = formatXml(temp);    
-            temp1 = formatXml(temp1); 
-          }
-           
-    var result = {
-        reqHeaders:respArray[4].split('&'),
-        headers:respArray[3].split('\r\n'),
-        //headers: req.resultHeaders,
-	response: temp,
-	call: temp1,
-	endPoint: respArray[0]
-        //response: req.result,
-        //call: req.call
-    };
-
+    if(req.options.needsProxy) {
+		var respArray = req.result.split('#SEPERATOR#');
+	    var temp = respArray[2];  
+	    console.log(req.result);
+	    var temp1 = respArray[1].split('&');
+	        temp1 = temp1.join('&\n'); 
+	          if (temp.substring(0, 5) == "<?xml")
+	          {
+	            temp = formatXml(temp);    
+	            temp1 = formatXml(temp1); 
+	          }
+	           
+	    var result = {
+	        reqHeaders:respArray[4].split('&'),
+	        headers:respArray[3].split('\r\n'),
+	        //headers: req.resultHeaders,
+			response: temp,
+			call: temp1,
+			endPoint: respArray[0]
+	        //response: req.result,
+	        //call: req.call
+	    };
+    } else {
+    	var result = {
+			call: req.call,
+			reqHeaders: req.requestHeaders,
+	        headers: req.resultHeaders,
+	        response: req.result,	        
+	        code: req.res.statusCode,
+	        endPoint: req.endpoint
+	    };
+    }
     res.send(result);
 });
 

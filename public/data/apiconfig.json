@@ -69,7 +69,8 @@
         "protocol": "https",
         "baseURL": "stage2sc5830.sc4.paypal.com:11739",
         "publicPath": "",        
-        "keyParam": "key"
+        "keyParam": "key",
+        "auth": "authorization"
 	}
 	
 }
