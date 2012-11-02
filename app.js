@@ -563,6 +563,7 @@ function processRequest(req, res, next) {
             }
         }
 
+        options.headers = {};
         // Setup headers, if any
         if (reqQuery.headerNames && reqQuery.headerNames.length > 0) {
             if (config.debug) {
