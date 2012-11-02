@@ -18,44 +18,47 @@
 
 
     $(".repeat1").click(function () {
-        var arrDiv = $(this).prev().clone(true,true);
-        arrDiv.attr('class', 'cloned');
-        $(arrDiv).insertBefore($(this));
-        var nestedLi = arrDiv.children('li')[0];
-        nestedLi.removeChild(nestedLi.children[0]);
-        if(dc.cssjs('check',nestedLi, dc.trigger) || dc.cssjs('check',nestedLi,dc.triggeropen)){
-            dc.makeTrigger(nestedLi); 
-        } 
-        var listName = $(this).prev().children('li').children('span').text();
-        var arrName = $(arrDiv).children('ul').children('div').children('li').children('span').children('input').attr("name");
-        $.mynamespace = {};
-        for(var i=0; i<10; i++)
-        {
-           var tmpName = listName + '(' + i + ')';
-           if(arrName.indexOf(tmpName) != -1)
-           {
-            i++;
-            $.mynamespace.baseName = tmpName
-            $.mynamespace.replaceName =listName + '(' + i + ')';
-           }
+
+    	var srcDiv = $(this).parent().prev();
+        var clonedDiv = srcDiv.clone(true);
+        clonedDiv.attr('class', 'cloned');
+        $(clonedDiv).insertBefore($(this).parent());
+
+        var triggerElements = $('.comx', clonedDiv);
+        for (var i = 0, len = triggerElements.length; i < len; i++) {
+        	// Calling dc.makeTrigger explicitly since jQuery.clone does not copy 
+        	// onclick handlers attached by the domcollapse library
+        	// despite the clone(true) argument.
+        	// Also, remove the cloned expand/collapse image that 
+        	// dc.makeTrigger will add again        	
+            $('a:first', triggerElements[i]).remove(); 
+            dc.makeTrigger(triggerElements[i]);
         }
-       var arr =  $(arrDiv).find('*').each(function(){
-       var eleName = $(this).attr('name');
-       if(typeof(eleName) != "undefined")
-       {
-           eleName = eleName.replace( $.mynamespace.baseName, $.mynamespace.replaceName);
-           $(this).attr('name',eleName);
-       }
-       });
-    
-       // $(arrDiv).children('ul').children('div').children('li').children('span').children('input').attr("name" , arrName);
+        
+        
+        // Change 'name' attribute of cloned elements
+        var listName = srcDiv.children('div').children('span:first').text();
+		var currentName = $("input:first", $(clonedDiv)).attr("name");        
+		var nameMatch = new RegExp("\." + listName + "\\((\\d)\\)\.").exec(currentName);		
+		if(nameMatch && nameMatch.length == 2) {
+			var oldValue = listName + '(' + nameMatch[1] + ')';			
+			var newValue = listName + '(' + ( parseInt(nameMatch[1]) + 1 ) + ')';
+			
+			var arr =  $(clonedDiv).find('*').each(function() {
+				var elemName = $(this).attr('name');
+				if(typeof(elemName) != "undefined") {
+					$(this).attr('name', elemName.replace( oldValue, newValue));
+				}
+			});
+		}
+
     }); 
 
     $(".remove1").click(function () {
-        var remove = $(this).prev().prev().attr('class');
-        if(remove === 'cloned')
+        var target = $(this).parent().prev();        
+        if(target.attr('class') === 'cloned')
         {
-            $(this).prev().prev().remove();
+            target.remove();
         }
     }); 
 // array support ends

@@ -152,13 +152,13 @@ ul
                                                             <div class='type'>#{parameter.Type}</div>
                                                             <span class='description'>#{parameter.Description}</span>
                                                 - else if(parameter.Type == 'complex')
-                                                    div
+                                                    li
                                                         - check = 'true'
                                                         - var attr='id'+paramCount
                                                         - var tempVal = ''
                                                         - ++paramCount
                                                         - var tableId='id'+paramCount
-                                                        <li class="trigger title comx">
+                                                        <div class="trigger title comx">
                                                         <span class="title">#{parameter.Name}</span>
                                                         <span class="title"></span>
                                                         - if (parameter.Required =='Y')
@@ -169,21 +169,21 @@ ul
                                                             - var required =false
                                                             - className =''
                                                         <span class="description">#{parameter.Description}</span>
-                                                        </li>
-                                                        <ul>
-                                                        <div class="borderbox">
+                                                        </div>
+                                                        <ul class="borderbox">                                                        
                                                         - tempVal = elemName
                                                         - if (elemName == '')
                                                                 - elemName = parameter.Name
                                                         - else
                                                                 - elemName = ((elemName == 'undefined'|| elemName.trim() === '') ? '' : elemName + '.') + parameter.Name
                                                         - generateElements(parameter.Members,elemName, check);
-                                                        - elemName = tempVal
-                                                        </div> 
+                                                        - elemName = tempVal                                                         
                                                         </ul>
                                                     - if (Object.prototype.toString.call(parameter.Members[0]) === '[object Array]')
-                                                        <input class="repeat1 pushbutton1" type="button" value ="Add"> 
-                                                        <input class="remove1 pushbutton1" type="button" value ="Remove">
+                                                        <li>
+                                                        <input class="repeat1 pushbutton1" type="button" value ="Add" /> 
+                                                        <input class="remove1 pushbutton1" type="button" value ="Remove"/>
+                                                        </li>
                                             - })
                                         - }
                             - if (method.headers && method.headers.length > 0)
