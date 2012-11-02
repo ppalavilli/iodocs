@@ -130,10 +130,9 @@ class PHPGenerator extends AbstractGenerator {
 
 
 					$jsonType = $this->generateJsonTypes($this->_dataTypes[$typ]);
-					unset($compArr);
-					if($mbr->maxOccurs == "unbounded")
+					unset($compArr);					
+					if( $mbr->maxOccurs && ($mbr->maxOccurs == "unbounded" || $mbr->maxOccurs > 1))
 					{
-
 						$arr[] = array(
 								'Name' => lcfirst($mbr->name),
 								'ValidatedClass' => $mbr->validatedClass,
