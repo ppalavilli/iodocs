@@ -5,10 +5,6 @@ set_include_path(get_include_path() . PATH_SEPARATOR . "config");
 
 
 $options = parse_ini_file("config/generator.ini", true);
-// Defaults:
-$command = null;
-$path = false;
-
 
 if(isset($options['wadlLocation'])){
 	$descType = "WADL";	
@@ -18,7 +14,8 @@ if(isset($options['wadlLocation'])){
 
 $interpreterClass = "${descType}Interpreter";
 require_once "$interpreterClass.php";
-foreach (glob("$libPath/generator/*.php") as $filename) {
+$requiredClasses = array_merge(glob("$libPath/generator/*.php"), glob("$libPath/processor/*.php"));
+foreach ($requiredClasses as $filename) {
 	require_once $filename;
 }
 

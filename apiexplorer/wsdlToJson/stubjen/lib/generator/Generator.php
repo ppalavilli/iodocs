@@ -125,37 +125,26 @@ class PHPGenerator extends AbstractGenerator {
 				$type = $mbr->validatedClass;
 				$typ = $mbr->package.':'.$type;				
 				if($this->isComplexType($mbr))
-					//	if(!$mbr->isSimpleType)
 				{
-
-
 					$jsonType = $this->generateJsonTypes($this->_dataTypes[$typ]);
-					unset($compArr);					
+					unset($compArr);
+					$memberProps = array(
+						'Name' => lcfirst($mbr->name),
+						'ValidatedClass' => $mbr->validatedClass,
+						'Description' => $mbr->doc,
+						'Required' => $required,
+						'Type' => 'complex',
+						'Default' => isset($mbr->default) ? $mbr->default : ''
+					);					
 					if( $mbr->maxOccurs && ($mbr->maxOccurs == "unbounded" || $mbr->maxOccurs > 1))
 					{
-						$arr[] = array(
-								'Name' => lcfirst($mbr->name),
-								'ValidatedClass' => $mbr->validatedClass,
-								'Description' => $mbr->doc,
-								'Required' => $required,
-								'Type' => 'complex',
-								'Default' => '',
-								'Members' => array($jsonType),
-						);
+						$memberProps['Members'] = array($jsonType);
 					}
 					else
 					{
-
-						$arr[] = array(
-								'Name' => lcfirst($mbr->name),
-								'ValidatedClass' => $mbr->validatedClass,
-								'Description' => $mbr->doc,
-								'Required' => $required,
-								'Type' => 'complex',
-								'Default' => '',
-								'Members' => $jsonType,
-						);
+						$memberProps['Members'] = $jsonType;
 					}
+					$arr[] = $memberProps;
 
 				}
 				else if(array_key_exists($typ, $this->_dataTypes) && $this->_dataTypes[$typ] instanceof EnumType )
@@ -167,7 +156,7 @@ class PHPGenerator extends AbstractGenerator {
 							'ValidatedClass' => $mbr->validatedClass,
 							'Type' => 'enumerated',
 							'Description' => $mbr->doc,
-							'Default' => '',
+							'Default' => isset($mbr->default) ? $mbr->default : '',
 							'EnumeratedList' => $enumTyp,
 					);
 				}
@@ -178,7 +167,7 @@ class PHPGenerator extends AbstractGenerator {
 							'ValidatedClass' => $mbr->validatedClass,
 							'Required' => $required,
 							'Type' => $type,
-							'Default' => '',
+							'Default' => isset($mbr->default) ? $mbr->default : '',
 							'Description' => $mbr->doc,
 
 					);

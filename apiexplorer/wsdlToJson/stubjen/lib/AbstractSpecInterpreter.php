@@ -2,6 +2,12 @@
 abstract class AbstractSpecInterpreter {
 
 	protected $_generators = array();
+	
+	/**
+	 * Post processors that operate on the model data
+	 * @var 
+	 */
+	protected $_modelPostProcessors = array();	
 
 	protected $_verbose = false;
 	
@@ -13,10 +19,15 @@ abstract class AbstractSpecInterpreter {
 	
 	public function __construct($options) {
 		$this->validateOptions($options);
+		
+		foreach($options["modelprocessor"] as $processor) {
+			$this->addModelProcessor(new $processor($options["processorOptions"]));
+		}
 		foreach($options["generator"] as $generator) {
 			$outputDir = $options["outputDir"] . DIRECTORY_SEPARATOR . strstr($generator, "Generator", true); //TODO: Yuck
 			$this->addGenerator(new $generator($outputDir, $options["generatorOptions"]));
-		}
+		}	
+		
 		$this->_verbose = $options["verbose"];
 	}
 
@@ -47,12 +58,13 @@ abstract class AbstractSpecInterpreter {
 	 *
 	 * @param IGenerator $generator
 	 */
-	public function addGenerator($generator) {
-		if( !$generator instanceof AbstractGenerator )
-			throw new WSDLInterpreterException("Generator classes must extend the AbstractGenerator class");
+	public function addGenerator(AbstractGenerator $generator) {
 		$this->_generators[] = $generator;
 	}
 
+	public function addModelProcessor(IModelProcessor $processor) {		
+		$this->_modelPostProcessors[] = $processor;
+	}
 	
 	/**
 	 * Saves the source code that has been loaded to a target directory.
@@ -70,6 +82,9 @@ abstract class AbstractSpecInterpreter {
 	 */
 	public function generate($classPrefix = "") {
 		$this->_getAPIDescriptors();
+		foreach($this->_modelPostProcessors as $proc) {
+			$proc->process($this->_nameSpaces, $this->_defaultNamespace, $this->_services, $this->_dataTypes);
+		}
 		foreach($this->_generators as $generator) {
 				$generator->setDescriptors($this->_nameSpaces, $this->_defaultNamespace, $this->_services, $this->_dataTypes);
 			if ($this->_verbose);

@@ -126,5 +126,6 @@ class Property {
 	public $isValue=FALSE;
 	public $isContainsAttribute=FALSE;
 	public $isRef=FALSE;
+	public $default;
 }
 ?>
