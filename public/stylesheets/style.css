@@ -278,15 +278,17 @@ html {
 }
 
 body {
-  width: 960px;
+  width: 768px;
   margin: 15px auto;
   padding-bottom: 20px;
 }
 
 h1 {
-  font-size: 24px;
+  font-size: 22px;
   line-height: 1.5;
   margin-bottom: 15px;
+  font: Helvetica Neue, lighter;
+  color:#333333;
 }
 
 h2 {
@@ -310,8 +312,8 @@ li {
 }
 
 .credentials {
-  background-color: #f4f4e1;
-  border: 1px solid #cbcb71;
+  background-color: #eeeeee;
+  border: 1px solid #e8e8e8;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   -o-border-radius: 5px;
@@ -321,6 +323,7 @@ li {
   overflow: hidden;
   *zoom: 1;
   padding: 15px;
+  margin: 0 0 10px 25px;
 }
 
 .credentials.authed {
@@ -339,6 +342,7 @@ li {
 
 .credentials h2 {
   margin-bottom: 0;
+  font-family: arial;
 }
 
 .credentials div {
@@ -355,11 +359,15 @@ li {
   display: block;
   margin-bottom: 3px;
   width: 500px;
+  font-family: arial;
+  font-size: 13px;
 }
 
 .credentials input {
   width: 400px;
  margin-bottom: 8px;
+ font-family: arial;
+ font-size: 13px;
 }
 
 .credentials #oauth-auth {
@@ -441,7 +449,7 @@ li {
 }
 
 .methods {
-  display: none;
+/*  display: none; */
 }
 
 .method {
@@ -522,13 +530,39 @@ li {
   font-weight: normal;
 }
 
-.type{
+.method .title div {
+  margin: 0 10px 0;
+  line-height: 33px;
+  float: left;
+  width: 180px;
+  font-weight: normal;
+  clear:left;
+}
+
+.method .title div.required{
+  margin: 0 30px 0;
+  line-height: 33px;
+  float: left;
+  width: 180px;
+  font-weight: normal;
+  clear:left;
+  color: #999999;
+}
+
+.method .title div.type {
+  margin: 0;
+  line-height: 33px;
+  float: left;
+  width: 50px;
+  font-weight: normal;
+}
+
+.title span.type {
   float: left;
   font-size: 12px;
   text-align: left;
-  width: 100px;
+  width: 50px;
   font-weight: normal;
-  margin: 10px 0;
 }
 
 .method .title .uri {
@@ -543,7 +577,7 @@ li {
   float: right;
   font-size: 12px;
   text-align: left;
-  width: 314px;
+  width: 360px;
   font-weight: normal;
   line-height:130%;
   padding:10px;
@@ -670,12 +704,12 @@ li {
 }
 
 .post {
-  background: #F4F4E1;
-  border-color: #CBCB71;
+  background: #eeeeee;
+  border-color: #e8e8e8;
 }
 
 .post .http-method {
-  background-color: #04a73a;
+  background-color: #006DCC;
 }
 
 .post th, .post td {
@@ -812,7 +846,7 @@ li {
 }
 
 .header{
-	margin-right:160px;
+	margin-right:145px;
 	font-weight:bold;
         	
 }
@@ -838,12 +872,13 @@ text-align:left;
     color: black;
 }
 .borderbox{
-      background-color: #F4F4E1;
-    border: 1px solid #CBCB71;
+      background-color: #eeeeee;
+    border: 1px solid #d8d8d8;
     border-radius: 5px 5px 5px 5px;
     overflow: hidden;
     padding: 5px;
-      margin-bottom:10px;
+    margin-bottom:10px;
+    margin: 2px;
 }
 .comx a{
 	float:left;
@@ -858,7 +893,7 @@ text-align:left;
 
 ul{
     position:relative;
-    padding-left:10px;
+    padding-left:2px;
 }
 
 

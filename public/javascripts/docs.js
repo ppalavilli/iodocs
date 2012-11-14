@@ -61,12 +61,24 @@
             target.remove();
         }
     }); 
-// array support ends
-
+   // array support ends
+   //toggle optional input fields
+   $('.optional').click(function() {
+    
+        $(this.parentNode.parentNode).find('#optional').each(function(){
+            $(this).toggleClass('hide');
+        })
+    })
     // Toggle show/hide of method details, form, and results
     $('li.method > div.title').click(function() {
-        $('form', this.parentNode).slideToggle();
-    })
+     $('form', this.parentNode).slideToggle();
+      $(this.parentNode).find('#optional').each(function(){
+            $(this).toggleClass('hide');
+        })
+     $('form > div > li').removeClass('trigger');
+     $('form > div > li').addClass('expanded');
+     $('form > div > ul').removeClass('hide').toggleClass('show');
+   });
 
     // Toggle an endpoint
     $('li.endpoint > h3.title span.name').click(function() {
@@ -74,10 +86,6 @@
         $(this.parentNode.parentNode).toggleClass('expanded')
     })
 
-        // Toggle all endpoints
-    $('#backHome').click(function() {
-        document.location.href = '../';
-        })
     // Toggle all endpoints
     $('#toggle-endpoints').click(function(event) {
         event.preventDefault();

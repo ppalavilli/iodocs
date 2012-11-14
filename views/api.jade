@@ -39,35 +39,24 @@ form#credentials
                  - else
                      div
                          label(for='userName') API UserName
-                         input(id='userName', name='userName', value=apiInfo.apiUsername, style='color=#EEEEEE')
+                         input(type='text', id='userName', name='userName', value=apiInfo.apiUsername, style='color=#EEEEEE')
                      div
                          label(for='password') API Password
-                         input(id='password', name='password', value=apiInfo.apiPassword, style='color=#EEEEEE')
+                         input(type='text',id='password', name='password', value=apiInfo.apiPassword, style='color=#EEEEEE')
                      div
                          label(for='signature') API Signature
-                         input(id='signature', name='signature', value=apiInfo.apiSignature, style='color=#EEEEEE')
+                         input(type='text',id='signature', name='signature', value=apiInfo.apiSignature, style='color=#EEEEEE')
                   - if (apiInfo.appID)
                      div
                          label(for='appId') Application ID
-                         input(id='appId', name='appId', value=apiInfo.appID, style='color=#EEEEEE')
+                         input(type='text',id='appId', name='appId', value=apiInfo.appID, style='color=#EEEEEE')
              div
                  - if (apiInfo.oauth || apiInfo.signature)
                      label(for='secret') Shared Secret
-                     input(id='secret', name='secret', value=defaultSecret, style='color=#EEEEEE')
+                     input(type='text',id='secret', name='secret', value=defaultSecret, style='color=#EEEEEE')
              - if (apiInfo.oauth && apiInfo.oauth.type !='two-legged')
                  div
                     input(name='oauth', value='Authenticate with OAuth', type='submit', id='oauth-auth')
-div(id='controls')
-    ul
-        li
-            a#backHome(href='#') Back to home
-div(id='controls')
-    ul
-        li
-            a#toggle-endpoints(href='#') Toggle All Endpoints
-        li
-            a#toggle-methods(href='#') Toggle All Methods
-
 ul
     - each endpoint in apiDefinition.endpoints
         li.endpoint
@@ -100,15 +89,16 @@ ul
                             - if (method.Parameters.length > 0)
                                     div.parameter
                                         span.header Parameter
-                                        span.header Value
                                         span.header Type
                                         span.header Description
+                                        a(class='optional') optional fields
                                     ul
                                     - var paramCount =0
                                         - var check = 'false'
+                                        - var hide = 'false'
                                         - var elemName = ''
-                                        - generateElements(method.Parameters,elemName, check)
-                                        - function generateElements(parameters,elemName,check){
+                                        - generateElements(method.Parameters,elemName, check, hide)
+                                        - function generateElements(parameters,elemName,check, hide){
                                             - parameters.forEach(function(parameter,check){
                                                 - var className = ''
                                                 - paramCount++
@@ -117,10 +107,10 @@ ul
                                                 - if(elemName =='undefined')
                                                     - elemName = parameter.Name
                                                 - if (parameter.Required =='Y')
-                                                      - var required =true
-                                                      - className ='required'
-                                                  - else
-                                                      - var required =false
+                                                    - var required = 'true'
+                                                    - className ='required'
+                                                - else
+                                                      - var required = 'false'
                                                       - className =''
                                                 - if (Object.prototype.toString.call(parameter) === '[object Array]')
                                                     - tmpVal = elemName
@@ -128,9 +118,14 @@ ul
                                                     - generateElements(parameter,elemName, check);
                                                     - elemName = tmpVal
                                                 - else if(parameter.Type !='complex')
-                                                        li.title
-                                                            <span class='title'>#{parameter.Name}</span>
-                                                            <span class='title'>
+                                                        -if(required == 'true')
+                                                            - var id = 'required'
+                                                        -else 
+                                                            - var id = 'optional'
+                                                        li.title(id=id)
+                                                            <div class='title'>#{parameter.Name}</div>
+                                                            <div class='description'>#{parameter.Description}</div>
+                                                            <div class='title'>
                                                             - if (parameter.Type =='enumerated')
                                                                     select(name='params[' + ((elemName == 'undefined'|| elemName.trim() === '') ? '' : elemName + '.') + parameter.Name + ']', placeholder=className)
                                                                         - if (parameter.Default =='')
@@ -147,29 +142,34 @@ ul
                                                                         - each choice in [0,1]
                                                                             option(value=choice) #{choice}
                                                             - else
-                                                                    input(name='params[' + ((elemName == 'undefined' || elemName.trim() === '') ? '' : elemName + '.') + parameter.Name + ']', value=parameter.Default, placeholder=className)
-                                                            </span>          
-                                                            <div class='type'>#{parameter.Type}</div>
-                                                            <span class='description'>#{parameter.Description}</span>
+                                                                input(type='text',name='params[' + ((elemName == 'undefined' || elemName.trim() === '') ? '' : elemName + '.') + parameter.Name + ']', value=parameter.Default, placeholder=className)
+                                                            </div>          
+                                                            <span class='type'>#{parameter.Type}</span>
                                                 - else if(parameter.Type == 'complex')
-                                                    li
+                                                    -if(parameter.Required =='Y')
+                                                        - var id = 'required'
+                                                    -else 
+                                                        - var id = 'optional'
+                                                    div
                                                         - check = 'true'
                                                         - var attr='id'+paramCount
                                                         - var tempVal = ''
                                                         - ++paramCount
                                                         - var tableId='id'+paramCount
-                                                        <div class="trigger title comx">
-                                                        <span class="title">#{parameter.Name}</span>
-                                                        <span class="title"></span>
-                                                        - if (parameter.Required =='Y')
-                                                            - var required =true
-                                                            - className ='required'
-                                                            <div class="type">#{'Required'}</div>
+                                                        - if(hide === 'true')
+                                                            - var hideClass = 'hide'
                                                         - else
-                                                            - var required =false
-                                                            - className =''
-                                                        <span class="description">#{parameter.Description}</span>
-                                                        </div>
+                                                            - var hideClass = 'show'
+                                                        li.trigger.title.comx(class =hideClass)(id=id)
+                                                            <span class="title">#{parameter.Name}</span>
+                                                            <div class="description">#{parameter.Description}</div>
+                                                            - if (parameter.Required =='Y')
+                                                                - var required = 'true'
+                                                                - className ='required'
+                                                                <div class="required">#{'Required'}</div>
+                                                            - else
+                                                                - var required = 'false'
+                                                                - className =''
                                                         <ul class="borderbox">                                                        
                                                         - tempVal = elemName
                                                         - if (elemName == '')
@@ -212,4 +212,4 @@ ul
                                         a(href='#', class='add-headers') Add Header
                                     // Create header fields and button to add/remove headers.
                             - if (!method['read-only'])
-                                input(type='submit', id=method.MethodName, value='Try it!', class="pushbutton1")
+                                input(type='submit', id=method.MethodName, value='Try it!', class="pushbutton1 btn btn-primary")
