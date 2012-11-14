@@ -230,7 +230,7 @@
         var self = this;
 
         event.preventDefault();
-
+        var apiMethodName = $('input[name=methodName]').val();
         var params = $(this).serializeArray(),
             apiKey = { name: 'apiKey', value: $('input[name=key]').val() },
             apiSecret = { name: 'apiSecret', value: $('input[name=secret]').val() },
@@ -272,38 +272,8 @@
                         });
                 })
                 .insertAfter($('input[type=submit]', self));
-
-            // Call that was made, add pre elements
-            resultContainer.append($(document.createElement('h4')).text('Endpoint'));
-            resultContainer.append($(document.createElement('pre')).addClass('endPoint prettyprint'));
-
-            //Request Headers
-            resultContainer.append($(document.createElement('h4')).text('Request Headers'));
-            resultContainer.append($(document.createElement('pre')).addClass('reqHeaders prettyprint'));
-
-            resultContainer.append($(document.createElement('h4')).text('Request Body'));
-            resultContainer.append($(document.createElement('pre')).addClass('call prettyprint'));
-
-            // Header
-            resultContainer.append($(document.createElement('h4')).text('Response Headers'));
-            resultContainer.append($(document.createElement('pre')).addClass('headers prettyprint'));
-
-            // Response
-            resultContainer.append($(document.createElement('h4'))
-                .text('Response Body')
-                .append($(document.createElement('a'))
-                    .text('Select body')
-                    .addClass('select-all')
-                    .attr('href', '#')
-                    .click(function(e) {
-                        e.preventDefault();
-                        selectElementText($(this.parentNode).siblings('.response')[0]);
-                    })
-                )
-            );
-
-            resultContainer.append($(document.createElement('pre'))
-                .addClass('response prettyprint'));
+        } else {
+        	resultContainer.empty();
         }
 
         //console.log(params);
@@ -326,39 +296,39 @@
         })
         // Complete, runs on error and success
         .complete(function(result, text) {
-            var response = JSON.parse(result.responseText);
-
+            var response = JSON.parse(result.responseText);             
+            var template_data = {reqbody_id: apiMethodName + '-reqbody', reqheaders_id: apiMethodName + '-reqheaders', respheaders_id: apiMethodName + '-respheaders', 
+            		respbody_id: apiMethodName + '-respbody', endpoint_id: apiMethodName + '-endpoint'};
+            
             if (response.call) {
             	try {
-	                $('pre.call', resultContainer)                
-	                    .text(formatJSON(JSON.parse(response.call)));  //TODO: Assuming request is json. AP calls will fail
+	                template_data.reqbody = formatJSON(JSON.parse(response.call));  
             	} catch (e) {
-            		$('pre.call', resultContainer)                
-                    	.text(response.call);  
-            	}
+            		template_data.reqbody = response.call;  
+            	}            	
+            } else {
+            	template_data.reqbody = '';
             }
-
-	    if (response.endPoint) {
-                $('pre.endPoint', resultContainer)
-                    .text(response.endPoint);
+	        if (response.endPoint) {
+	        	template_data.endpoint = response.endPoint;	        	
             }
-
             if (response.reqHeaders) {
-                $('pre.reqHeaders', resultContainer)
-                    .text(formatJSON(response.reqHeaders));
+            	template_data.reqheaders = formatJSON(response.reqHeaders);            	
             }
             if (response.headers) {
-                $('pre.headers', resultContainer)
-                    .text(formatJSON(response.headers));
+            	template_data.respheaders = formatJSON(response.headers);
+            }           
+            if (response.response.indexOf("<?xml") == -1) {
+            	 template_data.respbody = formatJSON(JSON.parse(response.response));            	 
             }
-           
-             if (response.response.indexOf("<?xml") == -1)
-            {
-                $('pre.response', resultContainer)
-                    .text(formatJSON(JSON.parse(response.response)));
-            }
+            
+            var template = Handlebars.compile($("#api-tryit-template").html());
+            resultContainer.append(template(template_data));
             // Syntax highlighting
             prettyPrint();
+            var tabContainer = $('.response_panel', resultContainer);
+            tabContainer.tabs({ active: 4 });  
+            
         })
         .error(function(err, text) {
             var response;
@@ -378,7 +348,7 @@
                 response = 'Error';
             }
 
-            $('pre.response', resultContainer)
+            $('div', resultContainer)
                 .toggleClass('error', true)
                 .text(response);
         })

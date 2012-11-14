@@ -12,7 +12,31 @@ html
         link(rel='stylesheet', href=appContext + '/stylesheets/style.css')
         link(rel='stylesheet', href=appContext + '/stylesheets/domcollapse.css')
         link(rel='stylesheet', href=appContext + '/stylesheets/bootstrap.css')
-
+        link(rel='stylesheet', href=appContext + '/stylesheets/jquery-ui-1.9.1.custom.min.css')
+        script(id='api-tryit-template', type='text/x-handlebars-template')
+           div(class='response_panel')
+              ul
+                 li
+                    a(href='#\{\{endpoint_id\}\}') Endpoint 
+                 li
+                    a(href='#\{\{reqheaders_id\}\}') Request headers
+                 li
+                    a(href='#\{\{reqbody_id\}\}') Request body
+                 li
+                    a(href='#\{\{respheaders_id\}\}') Response headers
+                 li
+                    a(href='#\{\{respbody_id\}\}') Response body
+              div(id='{{endpoint_id}}', class='endPoint prettyprint')
+                 pre {{endpoint}}
+              div(id='{{reqheaders_id}}', class='reqHeaders prettyprint')
+                 pre {{reqheaders}}
+              div(id='{{reqbody_id}}', class='call prettyprint')
+                 pre {{reqbody}}
+              div(id='{{respheaders_id}}', class='headers prettyprint')
+                 pre {{respheaders}}
+              div(id='{{respbody_id}}', class='') 
+                 a(href='#', class='select-all')
+                 pre(class='response prettyprint') {{respbody}}                       
     body
         !{body}
         div(id='io-footer')
@@ -21,6 +45,8 @@ html
            div(class='f-right') Powered by 
               a(href='https://github.com/mashery/iodocs') I/O Docs
         script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js')
+        script(src=appContext + '/javascripts/jquery-ui-1.9.1.custom.min.js')
+        script(src=appContext + '/javascripts/handlebars-1.0.rc.1.js')
         script(src=appContext + '/javascripts/json2.js')
         script(src=appContext + '/javascripts/prettify.js')
         script(src=appContext + '/javascripts/utilities.js')
