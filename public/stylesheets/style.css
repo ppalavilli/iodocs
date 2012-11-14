@@ -872,8 +872,8 @@ text-align:left;
     color: black;
 }
 .borderbox{
-      background-color: #eeeeee;
-    border: 1px solid #d8d8d8;
+    background-color: #eeeeee;
+    border: 1px solid steelBlue;
     border-radius: 5px 5px 5px 5px;
     overflow: hidden;
     padding: 5px;
