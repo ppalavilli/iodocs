@@ -1,4 +1,4 @@
-div(class='header')
+div(id='api-header')
    h1 API Explorer
    span API 
    select(id='api_selector')
@@ -95,9 +95,8 @@ ul(id='endpoints')
                             - if (method.Parameters.length > 0)
                                     div.parameter
                                         span.header Parameter
-                                        span.header Type
                                         span.header Description
-                                        a(class='optional') optional fields
+                                        a(class='optional') Toggle optional fields
                                     ul
                                     - var paramCount =0
                                         - var check = 'false'
@@ -129,7 +128,7 @@ ul(id='endpoints')
                                                         -else 
                                                             - var id = 'optional'
                                                         li.title(id=id)
-                                                            <div class='title'>#{parameter.Name}</div>
+                                                            <div class='title'>#{parameter.Name} (#{parameter.Type})</div>
                                                             <div class='description'>#{parameter.Description}</div>
                                                             <div class='title'>
                                                             - if (parameter.Type =='enumerated')
@@ -149,8 +148,7 @@ ul(id='endpoints')
                                                                             option(value=choice) #{choice}
                                                             - else
                                                                 input(type='text',name='params[' + ((elemName == 'undefined' || elemName.trim() === '') ? '' : elemName + '.') + parameter.Name + ']', value=parameter.Default, placeholder=className)
-                                                            </div>          
-                                                            <span class='type'>#{parameter.Type}</span>
+                                                            </div>
                                                 - else if(parameter.Type == 'complex')
                                                     -if(parameter.Required =='Y')
                                                         - var id = 'required'
@@ -167,15 +165,15 @@ ul(id='endpoints')
                                                         - else
                                                             - var hideClass = 'show'
                                                         li.trigger.title.comx(class =hideClass)(id=id)
-                                                            <span class="title">#{parameter.Name}</span>
-                                                            <div class="description">#{parameter.Description}</div>
-                                                            - if (parameter.Required =='Y')
+                                                            - if (parameter.Required =='Y' || parameter.Required === true)
                                                                 - var required = 'true'
-                                                                - className ='required'
-                                                                <div class="required">#{'required'}</div>
+                                                                - var className = 'required'
                                                             - else
                                                                 - var required = 'false'
-                                                                - className =''
+                                                                - var className = ''
+                                                            <span class="title">#{parameter.Name}<span class='#{className}'>#{className}</span></span>
+                                                            <div class="description">#{parameter.Description}</div>
+                                                            
                                                         <ul class="borderbox">                                                        
                                                         - tempVal = elemName
                                                         - if (elemName == '')
