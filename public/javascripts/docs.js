@@ -13,10 +13,11 @@
             $(methodsList[i]).slideDown();
         }
     }
-	
+
+    $('#api_selector').change(function(e) {
+    	window.location = $(this).val();
+    });
 	// for adding array of params 
-
-
     $(".repeat1").click(function () {
 
     	var srcDiv = $(this).parent().prev();

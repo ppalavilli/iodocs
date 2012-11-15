@@ -1,9 +1,9 @@
-div(id='api-header')
+div(id='api_header')
    h1 API Explorer
    span API 
    select(id='api_selector')
       - for (var api in apiConfig)
-         option(selected=api == apiName) #{apiConfig[api].name}
+         option(selected=api == apiName, value=appContext + '/' + api) #{apiConfig[api].name}
 
 - if (session.authed && apiInfo.oauth && apiInfo.oauth.type =='three-legged')
     - var authed ='authed'
@@ -132,7 +132,7 @@ ul(id='endpoints')
                                                             <div class='description'>#{parameter.Description}</div>
                                                             <div class='title'>
                                                             - if (parameter.Type =='enumerated')
-                                                                    select(name='params[' + ((elemName == 'undefined'|| elemName.trim() === '') ? '' : elemName + '.') + parameter.Name + ']', placeholder=className)
+                                                                    select(name='params[' + ((elemName == 'undefined'|| elemName.trim() === '') ? '' : elemName + '.') + parameter.Name + ']', placeholder=className, class='apiInput')
                                                                         - if (parameter.Default =='')
                                                                             option(value='') 
                                                                         - each choice in parameter.EnumeratedList
@@ -141,13 +141,13 @@ ul(id='endpoints')
                                                                             - else
                                                                                     option(value=choice) #{choice}
                                                             - else if (parameter.Type =='boolean')
-                                                                    select(name='params[' + ((elemName == 'undefined'|| elemName.trim() === '') ? '' : elemName + '.') + parameter.Name + ']', placeholder=className)
+                                                                    select(name='params[' + ((elemName == 'undefined'|| elemName.trim() === '') ? '' : elemName + '.') + parameter.Name + ']', placeholder=className, class='apiInput')
                                                                         - if (parameter.Default =='')
                                                                             option(value='') 
                                                                         - each choice in [0,1]
                                                                             option(value=choice) #{choice}
                                                             - else
-                                                                input(type='text',name='params[' + ((elemName == 'undefined' || elemName.trim() === '') ? '' : elemName + '.') + parameter.Name + ']', value=parameter.Default, placeholder=className)
+                                                                input(type='text',name='params[' + ((elemName == 'undefined' || elemName.trim() === '') ? '' : elemName + '.') + parameter.Name + ']', value=parameter.Default, placeholder=className, class='apiInput')
                                                             </div>
                                                 - else if(parameter.Type == 'complex')
                                                     -if(parameter.Required =='Y')

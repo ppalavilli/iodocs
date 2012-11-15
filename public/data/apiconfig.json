@@ -3,8 +3,8 @@
 	"AdaptivePayments":{
 		"name": "PayPal - AdaptivePayments",
         "protocol": "http",
-        "baseURL": "apiproxy.herokuapp.com",
-        "publicPath": "/PayPal.php",
+        "baseURL": "localhost:81",
+        "publicPath": "/apiexplorer/PayPal.php",
         "needsProxy": true,
         "auth": "paypal",
         "keyParam": "key",
