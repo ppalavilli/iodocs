@@ -100,7 +100,7 @@ ul(id='endpoints')
                                            span Show optional fields
                                            span(style='display: none;') Hide optional fields
                                     ul
-                                    - var paramCount =0
+                                    - var paramCount = 0
                                         - var check = 'false'
                                         - var hide = 'true'
                                         - var elemName = ''
@@ -163,7 +163,7 @@ ul(id='endpoints')
                                                         - ++paramCount
                                                         - var tableId='id'+paramCount
                                                         - if(hide === 'true')
-                                                            - var hideClass = 'dontHideElem'
+                                                            - var hideClass = 'hideElem'
                                                         - else
                                                             - var hideClass = ''
                                                         - hide = 'false'    
@@ -219,4 +219,4 @@ ul(id='endpoints')
                                         a(href='#', class='add-headers') Add Header
                                     // Create header fields and button to add/remove headers.
                             - if (!method['read-only'])
-                                input(type='submit', id=method.MethodName, value='Try it!', class="pushbutton1 btn btn-primary")
+                                input(type='submit', id=method.MethodName, value='Try it', class="pushbutton1 btn btn-primary")

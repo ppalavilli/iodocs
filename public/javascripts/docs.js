@@ -260,7 +260,7 @@
         }
 
         //console.log(params);
-
+        $("input[type=submit]", self).attr("disabled", "disabled");
         $.post('/processReq', params, function(result, text) {
             // If we get passed a signin property, open a window to allow the user to signin/link their account
             if (result.signin) {
@@ -311,7 +311,7 @@
             prettyPrint();
             var tabContainer = $('.response_panel', resultContainer);
             tabContainer.tabs({ active: 4 });  
-            
+            $("input[type=submit]", self).removeAttr("disabled");    
         })
         .error(function(err, text) {
             var response;
@@ -334,6 +334,7 @@
             $('div', resultContainer)
                 .toggleClass('error', true)
                 .text(response);
+            $("input[type=submit]", self).removeAttr("disabled");
         })
     })
 
