@@ -930,3 +930,11 @@ a.optional {
 .expanded:hover, .trigger:hover{
 	background: inherit;
 }
+
+.hideElem {
+	position:absolute;
+	left:-999em;
+	height:1px;
+	width:100px;
+	overflow:hidden;
+}

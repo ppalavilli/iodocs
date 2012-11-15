@@ -96,11 +96,13 @@ ul(id='endpoints')
                                     div.parameter
                                         span.header Parameter
                                         span.header Description
-                                        a(class='optional') Toggle optional fields
+                                        a(class='optional')
+                                           span Show optional fields
+                                           span(style='display: none;') Hide optional fields
                                     ul
                                     - var paramCount =0
                                         - var check = 'false'
-                                        - var hide = 'false'
+                                        - var hide = 'true'
                                         - var elemName = ''
                                         - generateElements(method.Parameters,elemName, check, hide)
                                         - function generateElements(parameters,elemName,check, hide){
@@ -161,10 +163,11 @@ ul(id='endpoints')
                                                         - ++paramCount
                                                         - var tableId='id'+paramCount
                                                         - if(hide === 'true')
-                                                            - var hideClass = 'hide'
+                                                            - var hideClass = 'hideElem'
                                                         - else
-                                                            - var hideClass = 'show'
-                                                        li.trigger.title.comx(class =hideClass)(id=id)
+                                                            - var hideClass = ''
+                                                        - hide = 'false'    
+                                                        li.trigger.title.comx(class=hideClass)(id=id)
                                                             - if (parameter.Required =='Y' || parameter.Required === true)
                                                                 - var required = 'true'
                                                                 - var className = 'required'

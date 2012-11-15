@@ -65,10 +65,10 @@
    // array support ends
    //toggle optional input fields
    $('.optional').click(function() {
-    
-        $(this.parentNode.parentNode).find('#optional').each(function(){
-            $(this).toggleClass('hide');
-        })
+	   $('span', this).toggle();
+	   $(this.parentNode.parentNode).find('#optional').not('.hideElem').each(function() {
+		   $(this).toggleClass('hide');        	
+	   })
     })
     // Toggle show/hide of method details, form, and results
     $('li.method > div.title').click(function() {
