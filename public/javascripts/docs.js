@@ -254,25 +254,7 @@
             $(self).append(resultContainer);
         }
         
-        if ($('pre.response', resultContainer).length === 0) {
-
-            // Clear results link
-            var clearLink = $(document.createElement('a'))
-                .text('Clear results')
-                .addClass('clear-results')
-                .attr('href', '#')
-                .click(function(e) {
-                    e.preventDefault();
-
-                    var thislink = this;
-                    $('.result', self)
-                        .slideUp(function() {
-                            $(this).remove();
-                            $(thislink).remove();
-                        });
-                })
-                .insertAfter($('input[type=submit]', self));
-        } else {
+        if ($('pre.response', resultContainer).length !== 0) {
         	resultContainer.empty();
         }
 

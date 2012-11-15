@@ -85,10 +85,6 @@ hr {
   padding: 0;
 }
 
-input,
-select {
-  vertical-align: middle;
-}
 
 body {
   font: 13px/1.231 sans-serif;
@@ -269,6 +265,12 @@ textarea {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+input,
+select {
+  vertical-align: middle;
+  width: 150px;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-weight: bold;
 }
@@ -323,7 +325,7 @@ li {
   overflow: hidden;
   *zoom: 1;
   padding: 15px;
-  margin: 0 0 10px 25px;
+  margin: 0 0 10px 2px;
 }
 
 .credentials.authed {
@@ -435,7 +437,12 @@ li {
 }
 
 .endpoint > .title .actions {
-  float: right;
+  float: left;
+  padding-left: 25px;
+}
+
+.endpoint > .title .actions a {
+  vertical-align: middle;
 }
 
 .endpoint > .title .actions li {
@@ -513,8 +520,7 @@ li {
   background-color:#F4F4E1;*/
  l}
 
-.method .title:hover {
-  background-color: white;
+.method .title:hover {  
   cursor: pointer;
 }
 
@@ -872,6 +878,7 @@ text-align:left;
     color: black;
 }
 .borderbox{
+	width: 99%;
     background-color: #eeeeee;
     border: 1px solid steelBlue;
     border-radius: 5px 5px 5px 5px;
@@ -901,4 +908,28 @@ ul{
 	clear: both;
 }
 
+a.optional {
+	cursor: hand; cursor: pointer;
+}
 
+div.header {
+	padding: 15px 5px;
+}
+
+div.header span {
+	margin-right: 15px;
+}
+
+#endpoints {
+	margin: 15px 0px;
+}
+
+
+// overriding domcollapse styles
+
+.trigger{
+ 	background: inherit;
+}		
+.expanded:hover, .trigger:hover{
+	background: inherit;
+}

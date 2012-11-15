@@ -721,8 +721,12 @@ app.dynamicHelpers({
         if (config.appContext ==="" || config.appContext ) {
             return config.appContext;
         }
-    }
-	
+    },
+
+    apiConfig: function(req, res) {
+        return apisConfig;
+    },
+    
 })
 
 //
