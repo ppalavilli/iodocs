@@ -3,7 +3,11 @@ require_once dirname(__FILE__) . '/../AbstractGenerator.php';
 require_once dirname(__FILE__) . '/../APIDescriptors.php';
 require_once dirname(__FILE__) . '/../GeneratorUtil.php';
 
-class PHPGenerator extends AbstractGenerator {
+/**
+ * Generates JSON Spec file as required by IODocs
+ *
+ */
+class JSONSpecGenerator extends AbstractGenerator {
 
 	/**
 	 * Array of classes and members representing the WSDL message types
@@ -248,7 +252,8 @@ class PHPGenerator extends AbstractGenerator {
 				'dateTime'
 		);
 		$type = $this->getTypeDescriptor($prop);		
-		if (in_array($prop->class, $defaultTypes) || $type == null|| $type instanceOf EnumType) {
+		$k = isset($prop->package) ? $prop->package . ":" . $prop->class : $prop->class;
+		if (in_array($k, $defaultTypes) || $type == null|| $type instanceOf EnumType) {
 			return false;
 		}
 		return true;

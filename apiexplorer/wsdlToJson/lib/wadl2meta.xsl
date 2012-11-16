@@ -11,7 +11,7 @@
 	</xsl:template>
 
 	<xsl:template match="*[local-name()='element']">
-		<element name="{@name | ../@name}" type="@type"></element>
+		<element name="{@name | ../@name}" type="@type" package="../@targetNamespace"></element>
 	</xsl:template>
 	
 	<xsl:template match="wadl:resources">
@@ -85,7 +85,7 @@
 
 	<!-- matching element tag -->
 	<xsl:template match="*[local-name()='element']">
-		<element name="{@name | ../@name}" type="{@type}"/>
+		<element name="{@name | ../@name}" type="{@type}" package="{../@targetNamespace}"/>
 	</xsl:template>
 
 	<!-- matching complextype tag -->
@@ -162,14 +162,14 @@
 									<xsl:otherwise>
 										<property name="{@ref}" min="{@minOccurs}"
 											max="{@maxOccurs}" documentation="{$doc}"
-											package="{@ref}" simpletype="0" ref="{@ref}"/>
+											package="{substring-before(@ref,':')}" simpletype="0" ref="{@ref}"/>
 									</xsl:otherwise>
 								</xsl:choose>
 							</xsl:when>
 							<xsl:otherwise>
 								<property name="{@name}" type="{@type}"
 									simpletype="0" min="{@minOccurs}" max="{@maxOccurs}"
-									package="{@type}" documentation="{$doc}" />
+									package="{substring-before(@type,':')}" documentation="{$doc}" />
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:for-each>

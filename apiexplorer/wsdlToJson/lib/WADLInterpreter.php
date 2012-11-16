@@ -30,9 +30,21 @@ class WADLInterpreter extends AbstractSpecInterpreter
 		$dom->load($this->wadlLocation);
 		$dom = $this->_transformWSDL($dom, dirname(__FILE__) . self::DESCRIPTOR_XSL_FILE);
 
+		$namespaces = array();
+		foreach($dom->getElementsByTagName("namespace") as $ns) {
+			$namespaces[$ns->getAttribute("name")] = $ns->nodeValue;
+		}
 		$elements = array();
 		foreach($dom->getElementsByTagName("element") as $elementDef) {
-			$elements[$elementDef->getAttribute("name")] = $elementDef->getAttribute("type");
+			if($elementDef->hasAttribute("package")){
+				if(in_array($elementDef->getAttribute("package"), $namespaces)) {			
+					$elementDef->setAttribute("package", array_search($elementDef->getAttribute("package"), $namespaces) );
+				}
+				$k = $elementDef->getAttribute("package") . ":" . $elementDef->getAttribute("name");
+			} else {
+				$k = $elementDef->getAttribute("name");
+			}
+			$elements[$k] = $elementDef->getAttribute("type");
 		}
 		
 		$classes = $dom->getElementsByTagName("classes");
@@ -40,22 +52,26 @@ class WADLInterpreter extends AbstractSpecInterpreter
 		foreach($classes->item(1)->getElementsByTagName("class") as $class) {			
 			$type = new DataType();
 			$type->name = $class->getAttribute("name");
+			$type->package = in_array($class->getAttribute("package"), $namespaces) ? 
+				array_search($class->getAttribute("package"), $namespaces) : $class->getAttribute("package");
 			foreach($class->getElementsByTagName("property") as $propDef) {
 				$prop = new Property();
 				$prop->name = $propDef->getAttribute("name");
-				$prop->maxOccurs = $propDef->getAttribute("max");
+				$prop->package = (isset($prop->package) && trim($prop->package) != "") ? $propDef->getAttribute("package") : $type->package;
+				$prop->maxOccurs = $propDef->getAttribute("max");				
 				$prop->minOccurs = $propDef->getAttribute("min");
 				if($propDef->getAttribute("type")) {
 					$prop->class = $propDef->getAttribute("type");					
 				} else if($propDef->getAttribute("ref") &&
-						array_key_exists($propDef->getAttribute("ref"), $elements)) {
-					$prop->class = $elements[$propDef->getAttribute("ref")];					
+						array_key_exists($prop->package . ":" . $propDef->getAttribute("ref"), $elements)) {
+					$prop->class = $elements[$prop->package . ":" . $propDef->getAttribute("ref")];
+					echo $prop->name . "--" . $prop->package . "\n";					
 				}
 				$type->members[] = $prop;
 			}
 			$this->_dataTypes["$type->package:$type->name"] = $type;				
 		}
-
+		
 		$this->_services[0] = new Service();
 		$this->_services[0]->name = "PayPalRest";
 		$resources = $dom->getElementsByTagName("resources");
@@ -74,9 +90,10 @@ class WADLInterpreter extends AbstractSpecInterpreter
 					$representation = $req->getElementsByTagName("representation")->item(0);
 					$operation->requestContentType = strtolower($representation->getAttribute("mediaType"));
 					$reqElement = $representation->getAttribute("element");
+					
 					if($reqElement) {						
 						$operation->input[$reqElement] =
-							$this->_dataTypes[":" . $elements[$reqElement]]; //TODO: Get element package
+							$this->_dataTypes[$reqElement]; //TODO: Get element package
 					}
 				}				
 				$this->_services[0]->operations[] = $operation;
@@ -111,6 +128,7 @@ class WADLInterpreter extends AbstractSpecInterpreter
 			$xsl->importStyleSheet($xslDom);
 			if($debug) {
 				echo $xsl->transformToXml($dom);
+				exit;
 			} else {
 				return $xsl->transformToDoc($dom);
 			}

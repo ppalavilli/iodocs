@@ -543,6 +543,7 @@ function processRequest(req, res, next) {
         }
 
 
+        options.headers = {};
         if (apiConfig.auth == 'authorization') {	
         	 options.headers['Authorization'] = 'Bearer ' + 
         	 	reqQuery.authorization;	
@@ -562,8 +563,7 @@ function processRequest(req, res, next) {
                 options.path += '&' + apiConfig.signature.sigParam + '=' + sig;
             }
         }
-
-        options.headers = {};
+        
         // Setup headers, if any
         if (reqQuery.headerNames && reqQuery.headerNames.length > 0) {
             if (config.debug) {

@@ -1,11 +1,23 @@
 <?php
 $libPath = "lib";
-set_include_path(get_include_path() . PATH_SEPARATOR . $libPath);
-set_include_path(get_include_path() . PATH_SEPARATOR . "config");
+set_include_path(get_include_path() . PATH_SEPARATOR . $libPath . PATH_SEPARATOR . "config");
+
+function checkPrerequisites() {
+   $req = array('xsl');
+   $missing = array();
+   foreach($req as $ext) {
+   	  if( !extension_loaded($ext) ) {
+	      $missing[] = $ext;
+	  }
+   }
+   if(count($missing) > 0) {
+	  die("Required extensions missing. Please install/enable " . implode(", ", $missing) . " extension(s)");
+   }
+}
 
 
+checkPrerequisites();
 $options = parse_ini_file("config/generator.ini", true);
-
 if(isset($options['wadlLocation'])){
 	$descType = "WADL";	
 } else {
