@@ -344,7 +344,11 @@ function form2JSON(params) {
 	var filteredParams = [];
 	jQuery.map(params, function(n, i){
 		if(n.name.indexOf("params[") != -1) {
-			var k = n.name.substring(n.name.indexOf('.') + 1, n.name.length - 1);
+			if(n.name.indexOf('.') != -1) {
+				var k = n.name.substring(n.name.indexOf('.') + 1, n.name.length - 1);
+			} else {
+				var k = n.name.substring(n.name.indexOf('params[') + 7, n.name.length - 1);
+			}
 			filteredParams.push({'name': k, 'value': n.value});
 		}
 	});
