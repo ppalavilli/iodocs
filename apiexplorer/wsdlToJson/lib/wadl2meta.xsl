@@ -94,7 +94,7 @@
 			<!-- for annotation tag -->
 			<xsl:if test=".//*[local-name()='annotation'] ">
 				<documentation>
-					<xsl:value-of select=".//*[local-name()='annotation']" />
+					<xsl:value-of select="./*[local-name()='annotation']" />
 				</documentation>
 			</xsl:if>
 			<!-- for simpleContent tag with extension -->

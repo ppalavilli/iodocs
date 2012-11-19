@@ -60,12 +60,14 @@ class WADLInterpreter extends AbstractSpecInterpreter
 				$prop->package = (isset($prop->package) && trim($prop->package) != "") ? $propDef->getAttribute("package") : $type->package;
 				$prop->maxOccurs = $propDef->getAttribute("max");				
 				$prop->minOccurs = $propDef->getAttribute("min");
+				if($propDef->hasAttribute("documentation"))
+					$prop->doc = $propDef->getAttribute("documentation");
+				
 				if($propDef->getAttribute("type")) {
 					$prop->class = $propDef->getAttribute("type");					
 				} else if($propDef->getAttribute("ref") &&
 						array_key_exists($prop->package . ":" . $propDef->getAttribute("ref"), $elements)) {
-					$prop->class = $elements[$prop->package . ":" . $propDef->getAttribute("ref")];
-					echo $prop->name . "--" . $prop->package . "\n";					
+					$prop->class = $elements[$prop->package . ":" . $propDef->getAttribute("ref")];										
 				}
 				$type->members[] = $prop;
 			}
