@@ -669,7 +669,8 @@ function processRequest(req, res, next) {
         req.endpoint = url.parse(options.protocol + "//" + options.host + ((options.port) ? ":" + options.port : "") + options.path);
     	req.endpoint = url.format(req.endpoint);
         if(requestBody) {        	
-        	req.call = requestBody;            
+        	req.call = requestBody;
+        	console.log("Request: " + requestBody);
         	apiCall.end(requestBody, 'utf-8');	
         } else {        	
         	apiCall.end();

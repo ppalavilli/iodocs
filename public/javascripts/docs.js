@@ -342,6 +342,12 @@
 
 function form2JSON(params) {	
 	var filteredParams = [];
+	var uriParts = [];
+	for(var i in params) {
+		if(params[i].name == 'methodUri') {
+			uriParts = params[i].value.split('/');
+		}
+	}
 	jQuery.map(params, function(n, i){
 		if(n.name.indexOf("params[") != -1) {
 			if(n.name.indexOf('.') != -1) {
@@ -349,7 +355,9 @@ function form2JSON(params) {
 			} else {
 				var k = n.name.substring(n.name.indexOf('params[') + 7, n.name.length - 1);
 			}
-			filteredParams.push({'name': k, 'value': n.value});
+			if(jQuery.inArray(':' + k, uriParts) == -1) {
+				filteredParams.push({'name': k, 'value': n.value});
+			}
 		}
 	});
 	
