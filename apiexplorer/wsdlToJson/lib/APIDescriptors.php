@@ -37,6 +37,35 @@ class Operation {
 	public $doc;
 }
 
+class Parameter {
+	public $name;
+	public $type;
+	public $isMandatory;
+	private $inOutParam;
+
+	public function __construct($name, $type, $isMandatory, $inOutParam) {
+		$this->name = $name;
+		$this->type = $type;
+		$this->isMandatory = $isMandatory;
+		$this->setInOutParam($inOutParam);
+	}
+	
+	public function setInOutParam($inOutParam) {
+		if( $inOutParam != TYPE_IN && $inOutParam != TYPE_OUT) {
+			throw new WSDLInterpreterException("Invalid type $inOutParam passed");
+		}
+		$this->inOutParam = $inOutParam;
+	}
+
+	public function isOutputParam() {
+		return ($this->inOutParam == TYPE_OUT);
+	}
+
+	public function isInputParam() {
+		return ($this->inOutParam == TYPE_IN);
+	}
+}
+
 class RestfulOperation extends Operation {
 	public $uri;
 	public $httpMethod;
@@ -81,11 +110,11 @@ class DataType {
 	public $isUsed;
 	public $faults = array();
 	public $isContainsAttribute=FALSE;
-	
+
 
 	public function setInOutType($inOutType) {
 		if( $inOutType != TYPE_IN && $inOutType != TYPE_OUT && $inOutType != TYPE_INOUT )
-		throw new WSDLInterpreterException("Invalid type $inOutType passed for Parameter type ($dataType->name)");
+			throw new WSDLInterpreterException("Invalid type $inOutType passed for Parameter type ($dataType->name)");
 			
 		if( $this->inOutType != "" && $this->inOutType != $inOutType ) {
 			$this->inOutType = TYPE_INOUT;

@@ -343,8 +343,9 @@ class WSDLInterpreter extends AbstractSpecInterpreter
 					foreach ($parameterList as $variable) {
 						// can be a simple type too
 						$fqn = 	 $this->_nameSpaces[$variable->getAttribute("package")] . ":" . $variable->getAttribute("type");
-						$p = $this->_dataTypes[$fqn];
-						$o->input[$variable->getAttribute("name")] = $p;
+						$p = $this->_dataTypes[$fqn];					
+						$o->input[$variable->getAttribute("name")] = 
+							new Parameter($variable->getAttribute("name"), $p, true, TYPE_IN);
 						$this->discoverTypes($p, TYPE_IN);
 					}
 				}

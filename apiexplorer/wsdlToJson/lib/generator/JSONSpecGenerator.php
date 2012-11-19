@@ -36,59 +36,53 @@ class JSONSpecGenerator extends AbstractGenerator {
 		}
 	}
 	
-	public function generateJson($serviceDef)
-	{
+	public function generateJson($serviceDef) {
 		$methods = array();
-		foreach ( $serviceDef->operations as $operation)
-		{
-			unset($params);
-			unset($reqParams);
-			$reqParams = array();
-			foreach ($operation->input as $inputName => $inpt)
-			{
-				$params = $this->generateJsonTypes($inpt);
-				$reqParam = array(
-						'Name' => lcfirst($inputName),
-						'Default' => '',
-						'Members' => $params,
+		foreach ( $serviceDef->operations as $operation) {	
+			$params = array();
+			foreach ($operation->input as $inputName => $inputParam) {
+				$inpt = $inputParam->type;
+				$param = array(
+					'Name' => lcfirst($inputName),
+					'Default' => '',
+					'Required' => $inputParam->isMandatory ? 'Y' : 'N',
+					'Members' => $this->generateJsonTypes($inpt),
 				);
 				if(!is_string($inpt)) { 					
-					$reqParam = $reqParam +
-					array('ValidatedClass' => $inpt->validatedName,
-							'Description' => $inpt->doc,
-							'Required' => $inpt->isUsed,
+					$param = $param +
+						array('ValidatedClass' => $inpt->validatedName,
+							'Description' => $inpt->doc,							
 							'Type' => 'complex');					
 				} else {
-					$reqParam = $reqParam +
-					array('ValidatedClass' => $inpt,							
-							'Required' => true, //TODO:
+					$param = $param +
+						array('ValidatedClass' => $inpt,
 							'Type' => 'simple');
 				}
-				$reqParams[] = $reqParam;
+				$params[] = $param;
 			}
 			$methods[] = array(
-					'Name' => $operation->name,
-					'Description' => $operation->doc,
-					'URI' => isset($operation->uri) ? $operation->uri : NULL,
-					'RequiresOAuth' => 'N',
-					'Required' => 'Y',
-					'Type' => 'complex',
-					'Synopsis' =>$operation->doc,
-					'HTTPMethod' => isset($operation->httpMethod) ? $operation->httpMethod : "POST",
-					'RequestContentType' => isset($operation->requestContentType) ? $operation->requestContentType : "",
-					'Default' => '',
-					'Parameters' => $reqParams
+				'Name' => $operation->name,
+				'Description' => $operation->doc,
+				'URI' => isset($operation->uri) ? $operation->uri : NULL,
+				'RequiresOAuth' => 'N',
+				'Required' => 'Y',
+				'Type' => 'complex',
+				'Synopsis' => $operation->doc,
+				'HTTPMethod' => isset($operation->httpMethod) ? $operation->httpMethod : "POST",
+				'RequestContentType' => isset($operation->requestContentType) ? $operation->requestContentType : "",
+				'Default' => '',
+				'Parameters' => $params
 			);
 
 		}
 
 		$endpoints = array(
-				'endpoints' => array(
-						array(
-								'name' => $serviceDef->name,
-								'methods' => $methods
-						)
+			'endpoints' => array(
+				array(
+					'name' => $serviceDef->name,
+					'methods' => $methods
 				)
+			)
 		);
 		return json_encode($endpoints);		
 	}

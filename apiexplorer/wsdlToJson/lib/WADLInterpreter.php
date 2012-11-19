@@ -93,9 +93,10 @@ class WADLInterpreter extends AbstractSpecInterpreter
 					$operation->requestContentType = strtolower($representation->getAttribute("mediaType"));
 					$reqElement = $representation->getAttribute("element");
 					
-					if($reqElement) {						
+					if($reqElement) {
+						//TODO: Get element package
 						$operation->input[$reqElement] =
-							$this->_dataTypes[$reqElement]; //TODO: Get element package
+							new Parameter($reqElement, $this->_dataTypes[$reqElement], true, TYPE_IN);						
 					}
 				}				
 				$this->_services[0]->operations[] = $operation;
@@ -110,10 +111,11 @@ class WADLInterpreter extends AbstractSpecInterpreter
 	private function _processParameter($param) {
 		$paramType = $param->getAttribute("type");
 		if(array_key_exists($paramType, $this->_dataTypes)) {
-			return $this->_dataTypes[$paramType];
+			$type = $this->_dataTypes[$paramType];
 		} else if (substr($paramType, 0, 3) == "xs:") {
-			return substr($paramType, 3);
+			$type = substr($paramType, 3);
 		}
+		return new Parameter($param->getAttribute("name"), $type, true, TYPE_IN);
 	}
 	/**
 	 * Transforms WSDL file into an intermediate xsl

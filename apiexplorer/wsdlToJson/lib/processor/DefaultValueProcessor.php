@@ -14,6 +14,9 @@ class DefaultValueProcessor implements IModelProcessor {
 
 	public function process($nameSpaces, $defaultNamespace, $services, $dataTypes) {
 		foreach($dataTypes as $type) {
+			if(!$type instanceof DataType) {
+				continue;
+			}
 			foreach($type->members as $m) {
 				$key = $type->name . "." . $m->name;
 				if(array_key_exists($key, $this->_defaults)) {
