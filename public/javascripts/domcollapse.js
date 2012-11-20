@@ -19,9 +19,9 @@ dc={
 	showClass:'show',
 	
 	// pictures and text alternatives
-	closedPic:'images/plus.gif',
+	closedPic:'images/close.png',
 	closedAlt:'expand section',
-	openPic:'images/minus.gif',
+	openPic:'images/open.png',
 	openAlt:'collapse section',
 	/* Doesn't work with Safari
 		hoverClass:'hover',
