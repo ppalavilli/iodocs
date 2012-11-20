@@ -64,21 +64,26 @@
     }); 
    // array support ends
    //toggle optional input fields
-   $('.optional').click(function() {
+   $('.optional').click(function(event) {
 	   $('span', this).toggle();
 	   $(this.parentNode.parentNode).find('#optional').not('.hideElem').each(function() {
 		   $(this).toggleClass('hide');        	
 	   })
+       event.stopPropagation();
     })
     // Toggle show/hide of method details, form, and results
     $('li.method > div.title').click(function() {
      $('form', this.parentNode).slideToggle();
+      $(this).find('.http-method').toggleClass('collapseSection').toggleClass('expandSection'); 
+      $(this).find('.optional').each(function(){
+            $(this).toggleClass('hide');
+      })
       $(this.parentNode).find('#optional').each(function(){
             $(this).toggleClass('hide');
         })
-     $('form > div > li').removeClass('trigger');
-     $('form > div > li').addClass('expanded');
-     $('form > div > ul').removeClass('hide').toggleClass('show');
+     $('form > ul > li').removeClass('trigger');
+     $('form > ul > li').addClass('expanded');
+     $('form > ul > ul').removeClass('hide').toggleClass('show');
    });
 
     // Toggle an endpoint
@@ -175,7 +180,11 @@
         })
 
         $(endpoint).toggleClass('expanded', true);
-
+        $('#endpoints').find('a.optional').each(function(){
+            $(this).addClass('hide');
+        })
+        
+        $('.http-method').addClass('collapseSection').removeClass('expandSection');
     })
 
     // Expand methods for a particular endpoint.
@@ -200,6 +209,20 @@
 
         $(endpoint).toggleClass('expanded', true);
 
+        $('form > ul > li').removeClass('trigger');
+        $('form > ul > li').addClass('expanded');
+        $('form > ul > ul').removeClass('hide').toggleClass('show');           
+        $('.optional').each(function(){
+        
+            $(this).addClass('hide').removeClass('show');
+        })
+        $('#endpoints').find('#optional').each(function(){
+        $(this).addClass('hide').removeClass('show');
+        })
+         $('a.optional').each(function(){
+            $(this).removeClass('hide');
+        })
+       $('.http-method').removeClass('collapseSection').addClass('expandSection');
     });
 
     // Toggle headers section
@@ -309,8 +332,8 @@
             resultContainer.append(template(template_data));
             // Syntax highlighting
             prettyPrint();
-            var tabContainer = $('.response_panel', resultContainer);
-            tabContainer.tabs({ active: 4 });  
+            var tabContainer = $('.response_panel a:last', resultContainer);
+            tabContainer.tab('show');  
             $("input[type=submit]", self).removeAttr("disabled");    
         })
         .error(function(err, text) {

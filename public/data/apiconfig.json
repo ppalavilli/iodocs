@@ -3,7 +3,7 @@
 	"AdaptivePayments":{
 		"name": "PayPal - AdaptivePayments",
         "protocol": "http",
-        "baseURL": "localhost:81",
+        "baseURL": "localhost",
         "publicPath": "/apiexplorer/PayPal.php",
         "needsProxy": true,
         "auth": "paypal",
