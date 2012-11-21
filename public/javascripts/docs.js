@@ -256,7 +256,7 @@
         event.preventDefault();
         var apiMethodName = $('input[name=methodName]').val();
         var params = $(this).serializeArray(),
-            apiKey = { name: 'apiKey', value: $('input[name=key]').val() },
+            apiKey = { name: 'apiKey', value: $('input[name=key]', $(this)).val() },
             apiSecret = { name: 'apiSecret', value: $('input[name=secret]').val() },
             apiUserName = { name: 'userName', value: $('input[name=userName]').val() },
             apiPassword = { name: 'password', value: $('input[name=password]').val() },
@@ -336,7 +336,6 @@
         	  e.preventDefault();
         	  $(this).tab('show');
         	});
-
             $('.response_panel .nav-tabs a:last', resultContainer).tab('show');
             $("input[type=submit]", self).removeAttr("disabled");    
         })

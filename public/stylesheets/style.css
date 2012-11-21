@@ -960,3 +960,6 @@ padding-left : 0px;
 .response_panel .nav-tabs {
 	margin-bottom: 0px;
 }
+.nav > li > a:hover {
+background-color: #e8f1fa;
+}
