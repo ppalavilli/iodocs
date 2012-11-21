@@ -26,14 +26,14 @@ html
                  li
                     a(href='#\{\{respbody_id\}\}') Response body
               div(class='tab-content')      
-                 div(id='{{endpoint_id}}', class='endPoint prettyprint tab-pane')
-                    pre {{endpoint}}
-                 div(id='{{reqheaders_id}}', class='reqHeaders prettyprint tab-pane')
-                    pre {{reqheaders}}
-                 div(id='{{reqbody_id}}', class='call prettyprint tab-pane')
-                    pre {{reqbody}}
-                 div(id='{{respheaders_id}}', class='headers prettyprint tab-pane')
-                    pre {{respheaders}}
+                 div(id='{{endpoint_id}}', class='endPoint  tab-pane')
+                    pre.prettyprint {{endpoint}}
+                 div(id='{{reqheaders_id}}', class='reqHeaders tab-pane')
+                    pre.prettyprint {{reqheaders}}
+                 div(id='{{reqbody_id}}', class='call tab-pane')
+                    pre.prettyprint {{reqbody}}
+                 div(id='{{respheaders_id}}', class='headers tab-pane')
+                    pre.prettyprint {{respheaders}}
                  div(id='{{respbody_id}}', class='active tab-pane') 
                     a(href='#', class='select-all')
                     pre(class='response prettyprint') {{respbody}}                       

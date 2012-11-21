@@ -545,8 +545,7 @@ function processRequest(req, res, next) {
 
         options.headers = {};
         if (apiConfig.auth == 'authorization') {	
-        	 options.headers['Authorization'] = 'Bearer ' + 
-        	 	reqQuery.authorization;	
+        	 options.headers['Authorization'] = reqQuery.authorization;	
         }
         // Perform signature routine, if any.
         if (apiConfig.signature) {
@@ -740,9 +739,9 @@ app.get(config.appContext + '/?', function(req, res) {
         title: config.title
     });
     
-    if(!serving)  {
-        req.connection.end();
-    }
+//    if(!serving)  {
+//        req.connection.end();
+//    }
 });
 
 // Process the API request

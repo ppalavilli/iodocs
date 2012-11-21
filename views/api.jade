@@ -38,7 +38,7 @@ form#credentials
              div
                  - if (apiInfo.auth == 'authorization')
                      label(for='key') Authorization
-                     input(id='authorization', name='authorization', value='token1', style='color=#EEEEEE')
+                     input(id='authorization', name='authorization', value=apiInfo.defaultToken, style='color=#EEEEEE')
                  - else if (apiInfo.auth != 'paypal')
                      label(for='key') API Key
                      input(id='key', name='key', value=defaultKey, style='color=#EEEEEE')
@@ -98,11 +98,11 @@ ul(id='endpoints')
                             - if (method.Parameters.length > 0)
                                     div.parameter
                                         span.header Parameter
-                                        span.header Description
+                                        span.header Description                                         
                                     ul
                                     - var paramCount = 0
                                         - var check = 'false'
-                                        - var hide = 'true'
+                                        - var hide = method.Parameters.length == 1
                                         - var elemName = ''
                                         - generateElements(method.Parameters,elemName, check, hide)
                                         - function generateElements(parameters,elemName,check, hide){
@@ -147,7 +147,7 @@ ul(id='endpoints')
                                                                     select(name='params[' + ((elemName == 'undefined'|| elemName.trim() === '') ? '' : elemName + '.') + parameter.Name + ']', placeholder=className, class='apiInput')
                                                                         - if (parameter.Default =='')
                                                                             option(value='') 
-                                                                        - each choice in [0,1]
+                                                                        - each choice in ["true", "false"]
                                                                             option(value=choice) #{choice}
                                                             - else
                                                                 input(type='text',name='params[' + ((elemName == 'undefined' || elemName.trim() === '') ? '' : elemName + '.') + parameter.Name + ']', value=parameter.Default, placeholder=className, class='apiInput')
@@ -164,11 +164,11 @@ ul(id='endpoints')
                                                         - var tempVal = ''
                                                         - ++paramCount
                                                         - var tableId='id'+paramCount
-                                                        - if(hide === 'true')
+                                                        - if(hide === true)
                                                             - var hideClass = 'hideElem'
                                                         - else
                                                             - var hideClass = ''
-                                                        - hide = 'false'    
+                                                        - hide = false    
                                                         li.trigger.title.comx(class=hideClass)(id=id)
                                                             - if (parameter.Required =='Y' || parameter.Required === true)
                                                                 - var required = 'true'

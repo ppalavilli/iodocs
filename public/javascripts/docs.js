@@ -71,20 +71,18 @@
 	   })
        event.stopPropagation();
     })
+    
     // Toggle show/hide of method details, form, and results
     $('li.method > div.title').click(function() {
-     $('form', this.parentNode).slideToggle();
+      $('form', this.parentNode).slideToggle();
       $(this).find('.http-method').toggleClass('collapseSection').toggleClass('expandSection'); 
       $(this).find('.optional').each(function(){
             $(this).toggleClass('hide');
       })
-      $(this.parentNode).find('#optional').each(function(){
-            $(this).toggleClass('hide');
-        })
-     $('form > ul > li').removeClass('trigger');
-     $('form > ul > li').addClass('expanded');
-     $('form > ul > ul').removeClass('hide').toggleClass('show');
-   });
+      $('form > ul > li').removeClass('trigger');
+      $('form > ul > li').addClass('expanded');
+      $('form > ul > ul').removeClass('hide').toggleClass('show');
+    });
 
     // Toggle an endpoint
     $('li.endpoint > h3.title span.name').click(function() {
@@ -217,9 +215,9 @@
             $(this).addClass('hide').removeClass('show');
         })
         $('#endpoints').find('#optional').each(function(){
-        $(this).addClass('hide').removeClass('show');
+        	$(this).addClass('hide').removeClass('show');
         })
-         $('a.optional').each(function(){
+        $('a.optional').each(function(){
             $(this).removeClass('hide');
         })
        $('.http-method').removeClass('collapseSection').addClass('expandSection');
@@ -254,7 +252,9 @@
         var self = this;
 
         event.preventDefault();
-        var apiMethodName = $('input[name=methodName]').val();
+        var apiMethodName = $('input[name=methodName]', $(this)).val();
+        var httpMethod = $('input[name=httpMethod]', $(this)).val();
+        
         var params = $(this).serializeArray(),
             apiKey = { name: 'apiKey', value: $('input[name=key]').val() },
             apiSecret = { name: 'apiSecret', value: $('input[name=secret]').val() },
@@ -302,9 +302,10 @@
         })
         // Complete, runs on error and success
         .complete(function(result, text) {
-            var response = JSON.parse(result.responseText);             
-            var template_data = {reqbody_id: apiMethodName + '-reqbody', reqheaders_id: apiMethodName + '-reqheaders', respheaders_id: apiMethodName + '-respheaders', 
-            		respbody_id: apiMethodName + '-respbody', endpoint_id: apiMethodName + '-endpoint'};
+            var response = JSON.parse(result.responseText);
+            var idPrefix = apiMethodName.replace(/[{}\/]/g, "_") + httpMethod;
+            var template_data = {reqbody_id: idPrefix + '-reqbody', reqheaders_id: idPrefix + '-reqheaders', respheaders_id: idPrefix + '-respheaders', 
+            		respbody_id: idPrefix + '-respbody', endpoint_id: idPrefix + '-endpoint'};
             
             if (response.call) {
             	try {
