@@ -160,14 +160,14 @@
 											simpletype="0" />
 									</xsl:when>
 									<xsl:otherwise>
-										<property name="{@ref}" min="{@minOccurs}"
+										<property name="{substring-after(@ref, ':')}" min="{@minOccurs}"
 											max="{@maxOccurs}" documentation="{$doc}"
 											package="{substring-before(@ref,':')}" simpletype="0" ref="{@ref}"/>
 									</xsl:otherwise>
 								</xsl:choose>
 							</xsl:when>
 							<xsl:otherwise>
-								<property name="{@name}" type="{@type}"
+								<property name="{@name}" type="{substring-after(@type, ':')}"
 									simpletype="0" min="{@minOccurs}" max="{@maxOccurs}"
 									package="{substring-before(@type,':')}" documentation="{$doc}" />
 							</xsl:otherwise>

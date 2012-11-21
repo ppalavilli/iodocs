@@ -30,10 +30,15 @@ class WADLInterpreter extends AbstractSpecInterpreter
 		$dom->load($this->wadlLocation);
 		$dom = $this->_transformWSDL($dom, dirname(__FILE__) . self::DESCRIPTOR_XSL_FILE);
 
+		$this->_defaultNamespace = $dom->getElementsByTagName("package")->item(0)->getAttribute("tns");		
 		$namespaces = array();
 		foreach($dom->getElementsByTagName("namespace") as $ns) {
 			$namespaces[$ns->getAttribute("name")] = $ns->nodeValue;
+			if($ns->nodeValue == $this->_defaultNamespace && $ns->getAttribute("name") != "tns") {
+				$this->_defaultNamespacePrefix = $ns->getAttribute("name");
+			}
 		}
+		
 		$elements = array();
 		foreach($dom->getElementsByTagName("element") as $elementDef) {
 			if($elementDef->hasAttribute("package")){
@@ -46,10 +51,10 @@ class WADLInterpreter extends AbstractSpecInterpreter
 			}
 			$elements[$k] = $elementDef->getAttribute("type");
 		}
-		
+
 		$classes = $dom->getElementsByTagName("classes");
 		//XXX: Parsing item1		
-		foreach($classes->item(1)->getElementsByTagName("class") as $class) {			
+		foreach($classes->item(0)->getElementsByTagName("class") as $class) {			
 			$type = new DataType();
 			$type->name = $class->getAttribute("name");
 			$type->package = in_array($class->getAttribute("package"), $namespaces) ? 
@@ -65,9 +70,19 @@ class WADLInterpreter extends AbstractSpecInterpreter
 				
 				if($propDef->getAttribute("type")) {
 					$prop->class = $propDef->getAttribute("type");					
-				} else if($propDef->getAttribute("ref") &&
-						array_key_exists($prop->package . ":" . $propDef->getAttribute("ref"), $elements)) {
-					$prop->class = $elements[$prop->package . ":" . $propDef->getAttribute("ref")];										
+				} else if($propDef->getAttribute("ref")) {
+					$ref = $propDef->getAttribute("ref");
+					if(strstr($ref, ":") !== FALSE) {						
+						$ref = $this->_normalizePackagePrefix($ref);
+					} else {
+						$ref = $prop->package . ":" . $ref;
+					}
+					
+					if(array_key_exists($ref, $elements)) {
+						$c = $elements[$ref];
+						$prop->class = (strpos($c, ':')) ? substr($c, strpos($c, ':') + 1) : $c;
+						$prop->package = $this->_normalizePackagePrefix((strpos($c, ':')) ? substr($c, 0, strpos($c, ':')) : "");
+					}										
 				}
 				$type->members[] = $prop;
 			}
@@ -94,9 +109,13 @@ class WADLInterpreter extends AbstractSpecInterpreter
 					$reqElement = $representation->getAttribute("element");
 					
 					if($reqElement) {
+						$name = (strpos($reqElement, ':')) ? substr($reqElement, strpos($reqElement, ':') + 1) : $reqElement;
+						if(array_key_exists($reqElement, $elements)) {
+							$reqElement = $this->_normalizePackagePrefix($elements[$reqElement]);							
+						}				
 						//TODO: Get element package
 						$operation->input[$reqElement] =
-							new Parameter($reqElement, $this->_dataTypes[$reqElement], true, TYPE_IN);						
+							new Parameter($name, $this->_dataTypes[$reqElement], true, TYPE_IN);						
 					}
 				}				
 				$this->_services[0]->operations[] = $operation;
@@ -138,6 +157,16 @@ class WADLInterpreter extends AbstractSpecInterpreter
 			}
 		} catch (Exception $e) {
 			throw new WSDLInterpreterException("Error interpreting WSDL document (".$e->getMessage().")");
+		}
+	}
+	
+	private function _normalizePackagePrefix($name) {
+		if($name == "tns") {
+			return $this->_defaultNamespacePrefix;
+		} else if( strstr($name, "tns:") !== FALSE) {
+			return str_replace("tns:", $this->_defaultNamespacePrefix . ":", $name);
+		} else {
+			return $name;
 		}
 	}
 

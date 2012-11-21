@@ -43,7 +43,7 @@ class JSONSpecGenerator extends AbstractGenerator {
 			foreach ($operation->input as $inputName => $inputParam) {
 				$inpt = $inputParam->type;
 				$param = array(
-					'Name' => lcfirst($inputName),
+					'Name' => $inputParam->name,
 					'Default' => '',
 					'Required' => $inputParam->isMandatory ? 'Y' : 'N',
 					'Members' => $this->generateJsonTypes($inpt),

@@ -12,6 +12,7 @@ abstract class AbstractSpecInterpreter {
 	protected $_verbose = false;
 	
 	protected $_defaultNamespace;
+	protected $_defaultNamespacePrefix;
 	protected $_nameSpaces = array();
 	protected $_services;
 	protected $_dataTypes = array();
@@ -36,7 +37,7 @@ abstract class AbstractSpecInterpreter {
 	protected function validateOptions($options) {
 		if(!array_key_exists("wsdlLocation", $options) ||
 				!array_key_exists("generator", $options) ||	!is_array($options["generator"]) || count($options["generator"]) == 0) {
-			throw new WSDLInterpreterException("Invalid configuration");
+			throw new Exception("Invalid configuration");
 		}
 	}
 	
