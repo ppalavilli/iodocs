@@ -687,7 +687,6 @@ li {
   font-size: 12px;
   padding: 10px;
   overflow: auto;
-  border: 1px solid rgba(0, 0, 0, 0.2);
   background-color: rgba(255, 255, 255, 0.9);
 }
 
@@ -696,8 +695,8 @@ li {
 }
 
 .method pre.prettyprint {
-  padding: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 10px; 
+  border: 0px; 
 }
 
 .method pre.error {
@@ -956,4 +955,8 @@ padding-left : 0px;
 
 .pushbutton1 {
   margin: 10px 5px;
+}
+
+.response_panel .nav-tabs {
+	margin-bottom: 0px;
 }

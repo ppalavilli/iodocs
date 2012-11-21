@@ -331,9 +331,13 @@
             var template = Handlebars.compile($("#api-tryit-template").html());
             resultContainer.append(template(template_data));
             // Syntax highlighting
-            prettyPrint();
-            var tabContainer = $('.response_panel a:last', resultContainer);
-            tabContainer.tab('show');  
+            prettyPrint();            
+            $('.response_panel a', resultContainer).click(function (e) {
+        	  e.preventDefault();
+        	  $(this).tab('show');
+        	});
+
+            $('.response_panel .nav-tabs a:last', resultContainer).tab('show');
             $("input[type=submit]", self).removeAttr("disabled");    
         })
         .error(function(err, text) {
