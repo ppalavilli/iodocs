@@ -254,9 +254,9 @@
         var self = this;
 
         event.preventDefault();
-        var apiMethodName = $('input[name=methodName]').val();
+        var apiMethodName = $('input[name=methodName]', $(this)).val();
         var params = $(this).serializeArray(),
-            apiKey = { name: 'apiKey', value: $('input[name=key]', $(this)).val() },
+            apiKey = { name: 'apiKey', value: $('input[name=key]').val() },
             apiSecret = { name: 'apiSecret', value: $('input[name=secret]').val() },
             apiUserName = { name: 'userName', value: $('input[name=userName]').val() },
             apiPassword = { name: 'password', value: $('input[name=password]').val() },

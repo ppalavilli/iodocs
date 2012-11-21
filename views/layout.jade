@@ -34,9 +34,8 @@ html
                     pre.prettyprint {{reqbody}}
                  div(id='{{respheaders_id}}', class='headers  tab-pane')
                     pre.prettyprint {{respheaders}}
-                 div(id='{{respbody_id}}', class='active tab-pane') 
-                    a(href='#', class='select-all')
-                    pre(class='response prettyprint') {{respbody}}                       
+                 div(id='{{respbody_id}}', class='tab-pane') 
+                    pre(class='prettyprint') {{respbody}}                       
     body
         !{body}
         div(id='io-footer')
