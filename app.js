@@ -740,9 +740,10 @@ app.get(config.appContext + '/?', function(req, res) {
         title: config.title
     });
     
-    if(!serving)  {
-        req.connection.end();
-    }
+   /* for cluster 2
+        if(!serving)  {
+             req.connection.end();
+    } */
 });
 
 // Process the API request
