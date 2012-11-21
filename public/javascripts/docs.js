@@ -337,7 +337,6 @@
         	  e.preventDefault();
         	  $(this).tab('show');
         	});
-
             $('.response_panel .nav-tabs a:last', resultContainer).tab('show');
             $("input[type=submit]", self).removeAttr("disabled");    
         })

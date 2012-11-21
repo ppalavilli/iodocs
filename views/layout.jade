@@ -28,15 +28,14 @@ html
               div(class='tab-content')      
                  div(id='{{endpoint_id}}', class='endPoint  tab-pane')
                     pre.prettyprint {{endpoint}}
-                 div(id='{{reqheaders_id}}', class='reqHeaders tab-pane')
+                 div(id='{{reqheaders_id}}', class='reqHeaders  tab-pane')
                     pre.prettyprint {{reqheaders}}
                  div(id='{{reqbody_id}}', class='call tab-pane')
                     pre.prettyprint {{reqbody}}
-                 div(id='{{respheaders_id}}', class='headers tab-pane')
+                 div(id='{{respheaders_id}}', class='headers  tab-pane')
                     pre.prettyprint {{respheaders}}
-                 div(id='{{respbody_id}}', class='active tab-pane') 
-                    a(href='#', class='select-all')
-                    pre(class='response prettyprint') {{respbody}}                       
+                 div(id='{{respbody_id}}', class='tab-pane') 
+                    pre(class='prettyprint') {{respbody}}                       
     body
         !{body}
         div(id='io-footer')
