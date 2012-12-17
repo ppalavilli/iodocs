@@ -79,6 +79,9 @@
       $(this).find('.optional').each(function(){
             $(this).toggleClass('hide');
       })
+      $(this.parentNode).find('#optional').each(function(){
+          $(this).toggleClass('hide');
+      })
       $('form > ul > li').removeClass('trigger');
       $('form > ul > li').addClass('expanded');
       $('form > ul > ul').removeClass('hide').toggleClass('show');
