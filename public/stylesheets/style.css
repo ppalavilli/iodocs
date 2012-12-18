@@ -531,7 +531,7 @@ li {
 .method .title span {
   margin: 0 10px 0;
   line-height: 33px;
-  width: 180px;
+  width: auto;
   font-weight: normal;
 }
 
