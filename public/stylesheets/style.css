@@ -268,7 +268,7 @@ textarea {
 input.apiInput,
 select.apiInput {
   vertical-align: middle;
-  width: 150px;
+  width: 180px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -547,7 +547,7 @@ li {
 .method .title div {
   margin-left:20px;
   line-height: 33px;
-  width: 230px;
+  width: 270px;
   font-weight: normal;
   clear:left;
 }
@@ -585,7 +585,7 @@ li {
   float: right;
   font-size: 12px;
   text-align: left;
-  width: 380px;
+  width: 480px;
   font-weight: normal;
   line-height:130%;
   padding:10px;
@@ -958,4 +958,8 @@ padding-left : 0px;
 }
 .nav > li > a:hover {
 background-color: #e8f1fa;
+}
+.param
+{
+    display: inline;
 }

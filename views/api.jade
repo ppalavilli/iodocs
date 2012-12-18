@@ -130,19 +130,19 @@ ul(id='endpoints')
                                                         -else 
                                                             - var id = 'optional'
                                                         li.title(id=id)
-                                                            <div class='title'>#{parameter.Name}</div>
+                                                            <div class='title param'>#{parameter.Name}</div>
                                                             <div class='description'>#{parameter.Description}</div>
                                                             <div class='title'>
                                                             - if (parameter.Type =='enumerated')
                                                                     select(name='params[' + ((elemName == 'undefined'|| elemName.trim() === '') ? '' : elemName + '.') + parameter.Name + ']', placeholder=className, class='apiInput')
-                                                                    span.Type (#{parameter.Type})
                                                                         - if (parameter.Default =='')
                                                                             option(value='') 
                                                                         - each choice in parameter.EnumeratedList
                                                                             - if (parameter.Default ==choice)
-                                                                                    option(value=choice, selected=true) #{choice}
+                                                                                option(value=choice, selected=true) #{choice}
                                                                             - else
-                                                                                    option(value=choice) #{choice}
+                                                                                option(value=choice) #{choice}
+                                                                        span.Type (#{parameter.Type})
                                                             - else if (parameter.Type =='boolean')
                                                                     select(name='params[' + ((elemName == 'undefined'|| elemName.trim() === '') ? '' : elemName + '.') + parameter.Name + ']', placeholder=className, class='apiInput')
                                                                         - if (parameter.Default =='')
@@ -177,7 +177,7 @@ ul(id='endpoints')
                                                                 - var required = 'false'
                                                                 - var className = ''
                                                             <span class="title">#{parameter.Name}<span class='#{className}'>#{className}</span></span>
-                                                            <div class="description">#{parameter.Description}</div>
+                                                            <span class="description">#{parameter.Description}</span>
                                                             
                                                         <ul class="borderbox">                                                        
                                                         - tempVal = elemName
