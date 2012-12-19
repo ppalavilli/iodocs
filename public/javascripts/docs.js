@@ -281,7 +281,7 @@
             $(self).append(resultContainer);
         }
         
-        if ($('pre.response', resultContainer).length !== 0) {
+        if ($('div.response_panel', resultContainer).length !== 0) {
         	resultContainer.empty();
         }
 
@@ -297,7 +297,7 @@
                 // Format output according to content-type
                 response = livedocs.formatData(result.response, result.headers['content-type'])
 
-                $('pre.response', resultContainer)
+                $('div.response_panel', resultContainer)
                     .toggleClass('error', false)
                     .text(response);
             }
