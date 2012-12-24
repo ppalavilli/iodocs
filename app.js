@@ -750,14 +750,39 @@ app.post(config.appContext + '/processReq', oauth, processRequest, function(req,
 		var respArray = req.result.split('#SEPERATOR#');
 	    var temp = respArray[2];  
 	    console.log(req.result);
-	    var temp1 = respArray[1].split('&');
-	        temp1 = temp1.join('&\n'); 
-	          if (temp.substring(0, 5) == "<?xml")
-	          {
-	            temp = formatXml(temp);    
-	            temp1 = formatXml(temp1); 
-	          }
-	           
+        if(respArray[1])
+        {
+            
+                var temp1 = respArray[1].split('&');
+                    temp1 = temp1.join('&\n'); 
+                      if (temp.substring(0, 5) == "<?xml")
+                      {
+                        temp = formatXml(temp);    
+                        temp1 = formatXml(temp1); 
+                      }
+           
+	     }
+         else var temp1 = 'null';
+         if(respArray[4])
+         {
+             if(respArray[4].indexOf('&') != -1)
+             {
+                 var reqHdr = respArray[4].split('&');
+             }
+             else var reqHdr = 'null';
+         }
+          else var reqHdr = 'null';
+          
+          if(respArray[3])
+          {
+            if(respArray[3].indexOf('\r\n') != -1)
+            {
+                var hdr = respArray[3].split('\r\n');
+            }
+             else var hdr = 'null';
+          }
+          else var hdr = 'null';
+          
 	    var result = {
 	        reqHeaders:respArray[4].split('&'),
 	        headers:respArray[3].split('\r\n'),
