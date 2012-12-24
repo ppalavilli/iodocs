@@ -162,6 +162,7 @@ class PPHttpConnection
 		curl_setopt_array($ch, $this->curlOpt);
 
 		$result = curl_exec($ch);
+         error_log($result);
 		$res = explode("\r\n\r\n", $result);
 		if (curl_errno($ch) == 60) {
 	 	$this->logger->info("Invalid or no certificate authority found,using bundled information");
