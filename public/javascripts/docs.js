@@ -79,6 +79,14 @@
       $(this).find('.optional').each(function(){
             $(this).toggleClass('hide');
       })
+      $('form').find('.repeat1').each(function()
+      {
+         if($(this).parent().prev().children('li').attr('id') == 'optional') 
+         {
+            $(this).attr('id', 'optional');
+            $(this).next().attr('id', 'optional');
+         }
+      });
       $(this.parentNode).find('#optional').each(function(){
           $(this).toggleClass('hide');
       })
@@ -314,13 +322,14 @@
             	try {
 	                template_data.reqbody = formatJSON(JSON.parse(response.call));  
             	} catch (e) {
-            		template_data.reqbody = response.call;  
+            		template_data.reqbody = response.call; 
             	}            	
             } else {
             	template_data.reqbody = '';
             }
 	        if (response.endPoint) {
-	        	template_data.endpoint = response.endPoint;	        	
+	        	template_data.endpoint = response.endPoint;	
+                                  
             }
             if (response.reqHeaders) {
             	template_data.reqheaders = formatJSON(response.reqHeaders);            	
@@ -329,8 +338,15 @@
             	template_data.respheaders = formatJSON(response.headers);
             }           
             if (response.response.indexOf("<?xml") == -1) {
-            	 template_data.respbody = formatJSON(JSON.parse(response.response));            	 
+            try{
+            	 template_data.respbody = formatJSON(JSON.parse(response.response));  
+               }
+               catch(e){
+                    template_data.respbody = response.response; 
+                }
             }
+            else
+                 template_data.respbody = response.response;        
             
             var template = Handlebars.compile($("#api-tryit-template").html());
             resultContainer.append(template(template_data));
