@@ -127,6 +127,7 @@ ul(id='endpoints')
                                                 - else if(parameter.Type !='complex')
                                                         -if(required == 'true')
                                                             - var id = 'required'
+                                                            - var className = 'required'
                                                         -else 
                                                             - var id = 'optional'
                                                         li.title(id=id)
@@ -142,13 +143,14 @@ ul(id='endpoints')
                                                                                 option(value=choice, selected=true) #{choice}
                                                                             - else
                                                                                 option(value=choice) #{choice}
-                                                                        span.Type (#{parameter.Type})
+                                                                    span.Type #{className}
                                                             - else if (parameter.Type =='boolean')
                                                                     select(name='params[' + ((elemName == 'undefined'|| elemName.trim() === '') ? '' : elemName + '.') + parameter.Name + ']', placeholder=className, class='apiInput')
                                                                         - if (parameter.Default =='')
                                                                             option(value='') 
                                                                         - each choice in ["true", "false"]
                                                                             option(value=choice) #{choice}
+                                                                        span.Type (#{className})
                                                             - else
                                                                 input(type='text',name='params[' + ((elemName == 'undefined' || elemName.trim() === '') ? '' : elemName + '.') + parameter.Name + ']', value=parameter.Default, placeholder=className, class='apiInput')
                                                                 span.Type (#{parameter.Type})
