@@ -29,8 +29,8 @@
     "PayPalAPIs":{
 		"name": "PayPal APIs",
         "protocol": "http",
-        "baseURL": "apiproxy.herokuapp.com",
-        "publicPath": "/PayPal.php",
+        "baseURL": "localhost",
+        "publicPath": "/apiexplorer/PayPal.php",
         "needsProxy": true,
         "auth": "paypal",
         "keyParam": "key",
