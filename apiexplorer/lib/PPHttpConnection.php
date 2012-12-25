@@ -13,19 +13,7 @@ require_once 'PPLoggingManager.php';
 class PPHttpConnection
 {
 
-	const HTTP_GET = 'GET';
-	const HTTP_POST = 'POST';
-
-	/**
-	 * curl options to be set for the request
-	 */
-	private $curlOpt = array();
-
-	/**
-	 * Number of times a retry must be attempted on getting an HTTP error
-	 * @var integer
-	 */
-	private $retry;
+	private $httpConfig;
 
 	/**
 	 * HTTP status codes for which a retry must be attempted
@@ -34,146 +22,60 @@ class PPHttpConnection
 
 	private $logger;
 
-
-	/**
-	 * Some default options for curl
-	 * These are typically overridden by PPConnectionManager
-	 */
-	public static $DEFAULT_CURL_OPTS = array(
-	CURLOPT_CONNECTTIMEOUT => 10,
-	CURLOPT_RETURNTRANSFER => true,
-	CURLOPT_TIMEOUT        => 60,	// maximum number of seconds to allow cURL functions to execute
-	CURLOPT_USERAGENT      => 'PayPal-PHP',
-	CURLOPT_POST           => 1,
-	CURLOPT_HTTPHEADER => array(),
-	);
-
-	public function __construct()
+	public function __construct($httpConfig)
 	{
 		if( !function_exists("curl_init") ) {
 			throw new PPConfigurationException("Curl module is not available on this system");
 		}
-		$this->curlOpt = self::$DEFAULT_CURL_OPTS;
+		$this->httpConfig = $httpConfig;
 		$this->logger = new PPLoggingManager(__CLASS__);
+	}	
 
-	}
-
-	/**
-	 * Set ssl parameters for certificate based client authentication
-	 *
-	 * @param string $certPath - path to client certificate file (PEM formatted file)
-	 */
-	public function setSSLCert($certPath)
-	{
-		$this->curlOpt[CURLOPT_SSLCERT] = realpath($certPath);
-	}
-
-	/**
-	 * Set connection timeout in seconds
-	 * @param integer $timeout
-	 */
-	public function setHttpTimeout($timeout)
-	{
-		$this->curlOpt[CURLOPT_CONNECTTIMEOUT] = $timeout;
-	}
-
-	/**
-	 * Set HTTP proxy information
-	 * @param string $proxy
-	 * @throws PPConfigurationException
-	 */
-	public function setHttpProxy($proxy)
-	{
-		$urlParts = parse_url($proxy);
-		if($urlParts == false || !array_key_exists("host", $urlParts))
-		throw new PPConfigurationException("Invalid proxy configuration ".$proxy);
-
-		$this->curlOpt[CURLOPT_PROXY] = $urlParts["host"];
-		if(isset($urlParts["port"]))
-		$this->curlOpt[CURLOPT_PROXY] .=  ":" . $urlParts["port"];
-		if(isset($urlParts["user"]))
-		$this->curlOpt[URLOPT_PROXYUSERPWD]	= $urlParts["user"] . ":" . $urlParts["pass"];
-	}
-
-	/**
-	 * Set whether invalid server certificates are to be trusted
-	 *
-	 * @param boolean $trustAllConnection
-	 */
-	public function setHttpTrustAllConnection($trustAllConnection)
-	{
-		if(strtoupper($trustAllConnection) =='FALSE'| $trustAllConnection == 0)
-		{
-			$this->curlOpt[CURLOPT_SSL_VERIFYPEER] = 1;
-			$this->curlOpt[CURLOPT_SSL_VERIFYHOST] = 2;
+	private function getHttpHeaders() {
+		
+		$ret = array();
+		foreach($this->httpConfig->getHeaders() as $k=>$v) {
+			$ret[] = "$k: $v";
 		}
-		else if (strtoupper($trustAllConnection) =='TRUE'| $trustAllConnection == 1)
-		{
-			$this->curlOpt[CURLOPT_SSL_VERIFYPEER] = 0;
-			$this->curlOpt[CURLOPT_SSL_VERIFYHOST] = 0;
-		}
+		return $ret;
 	}
-
-	public function setHttpHeaders($headers)
-	{
-		$this->curlOpt[CURLOPT_HTTPHEADER] = $headers;
-	}
-
-	/**
-	 * @param integer $retry
-	 */
-	public function setHttpRetry($retry)
-	{
-		$this->retry = $retry;
-	}
-
+	
 	/**
 	 * Executes an HTTP request
 	 *
-	 * @param string $url
-	 * @param string $params query string OR POST content as a string
-	 * @param array $headers array of HTTP headers to be added to existing headers
-	 * @param string $method  HTTP method (GET, POST etc) defaults to POST
+	 * @param string $data query string OR POST content as a string
 	 * @throws PPConnectionException
 	 */
-	public function execute($url, $params, $headers = null , $method = null) {
+	public function execute($data) {
+		$this->logger->fine("Connecting to " . $this->httpConfig->getUrl());			
+		$this->logger->fine("Payload " . $data);
 
-		
-		$ch = curl_init($url);
-
-		$this->curlOpt[CURLOPT_POSTFIELDS] = $params;
-		$this->curlOpt[CURLOPT_URL] = $url;
-		$this->curlOpt[CURLOPT_HEADER]= true;
-		if(isset($headers))
-		{
-			$this->curlOpt[CURLOPT_HTTPHEADER] = array_merge($this->curlOpt[CURLOPT_HTTPHEADER], $headers);
-		}
-		foreach($this->curlOpt[CURLOPT_HTTPHEADER] as $header) {
-			//TODO: Strip out credentials when logging.
+		$ch = curl_init($this->httpConfig->getUrl());
+		curl_setopt_array($ch, $this->httpConfig->getCurlOptions());		
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+		curl_setopt($ch, CURLOPT_URL, $this->httpConfig->getUrl());
+		curl_setopt($ch, CURLOPT_HEADER, true);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $this->getHttpHeaders());		
+		foreach($this->getHttpHeaders() as $header) {
+			//TODO: Strip out credentials and other secure info when logging.
 			$this->logger->info("Adding header $header");
 		}
-
-		if(isset($method))
-		{
-			$this->curlOpt[CURLOPT_CUSTOMREQUEST] = $method;
+		if($this->httpConfig->getMethod()) {
+			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $this->httpConfig->getMethod());
 		}
 
-		// curl_setopt_array available only in PHP 5 >= 5.1.3
-		curl_setopt_array($ch, $this->curlOpt);
-
 		$result = curl_exec($ch);
-         error_log($result);
 		$res = explode("\r\n\r\n", $result);
 		if (curl_errno($ch) == 60) {
-	 	$this->logger->info("Invalid or no certificate authority found,using bundled information");
-	 	curl_setopt($ch, CURLOPT_CAINFO,
-	 	dirname(__FILE__) . '/cacert.pem');
-	 	$result = curl_exec($ch);
-	 	$res = explode("\r\n\r\n", $result);
+		 	$this->logger->info("Invalid or no certificate authority found - Retrying using bundled CA certs file");
+		 	curl_setopt($ch, CURLOPT_CAINFO,
+		 	dirname(__FILE__) . '/cacert.pem');
+		 	$result = curl_exec($ch);
+		 	$res = explode("\r\n\r\n", $result);
 		}
 		$httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		$retries = 0;
-		if(in_array($httpStatus, self::$retryCodes) && isset($this->retry)) {
+		if(in_array($httpStatus, self::$retryCodes) && $this->httpConfig->getRetryCount() != null) {
 			$this->logger->info("Got $httpStatus response from server. Retrying");
 
 			do 	{
@@ -181,12 +83,12 @@ class PPHttpConnection
 				$res = explode("\r\n\r\n", $result);
 				$httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-			} while (in_array($httpStatus, self::$retryCodes) && ++$retries < $this->retry );
+			} while (in_array($httpStatus, self::$retryCodes) && ++$retries < $this->httpConfig->getRetryCount() );
 
 
 		}
 		if ( curl_errno($ch) ) {
-			$ex = new PPConnectionException($url, curl_error($ch), curl_errno($ch));
+			$ex = new PPConnectionException($this->httpConfig->getUrl(), curl_error($ch), curl_errno($ch));
 			curl_close($ch);
 			throw $ex;
 		}
@@ -198,7 +100,6 @@ class PPHttpConnection
 			throw new PPConnectionException($url ,"Retried ".$retries." times, Http Response code ".$httpStatus);
 		}
 		return $res;
-		
 	}
 
 }
