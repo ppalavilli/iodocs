@@ -30,7 +30,7 @@ class BasicAmountType
 	 	 	 	 
 	 * @var string 	 
 	 */ 
-	public $CurrencyID;
+	public $currencyID;
 
 	/**
 	 * 
@@ -43,14 +43,14 @@ class BasicAmountType
 	 	 	 	 
 	 * @var string 	 
 	 */ 
-	public $Value;
+	public $value;
 
 	/**
 	 * Constructor with arguments
 	 */
 	public function __construct($currencyID = NULL, $value = NULL) {
-		$this->CurrencyID = $currencyID;
-		$this->Value = $value;
+		$this->currencyID = $currencyID;
+		$this->value = $value;
 	}
 
 

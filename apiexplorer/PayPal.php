@@ -42,11 +42,11 @@ foreach($_REQUEST as $key => $val)
 	$inputParams[$key] = $val;
 }
 $filteredParamArr = queryFilter($inputParams, $arRemove);
- //error_log(print_r($filteredParamArr, true));
-// $paramArr = test();
+//error_log(print_r($filteredParamArr, true));
+ //$paramArr = test();
 function test()
 {
-    $string = 'setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.returnURL=Http://return.com&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.cancelURL=Http://return&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.paymentDetails(0).orderTotal.currencyID=USD&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.paymentDetails(0).orderTotal.value=2&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.paymentDetails(1).orderTotal.currencyID=USD&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.paymentDetails(1).orderTotal.value=20';
+    $string = "SetExpressCheckoutReq.SetExpressCheckoutRequest.SetExpressCheckoutRequestDetails.ReturnURL=http://return&SetExpressCheckoutReq.SetExpressCheckoutRequest.SetExpressCheckoutRequestDetails.CancelURL=http://return&SetExpressCheckoutReq.SetExpressCheckoutRequest.SetExpressCheckoutRequestDetails.PaymentDetails(0).OrderTotal.currencyID=USD&SetExpressCheckoutReq.SetExpressCheckoutRequest.SetExpressCheckoutRequestDetails.PaymentDetails(0).OrderTotal.value=2&SetExpressCheckoutReq.SetExpressCheckoutRequest.SetExpressCheckoutRequestDetails.cpp-header-back-color=red";
 	//$string = 'setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.orderTotal.currencyID=USD&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.orderTotal.value=1&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.returnURL=http://return&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.cancelURL=http://return&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.billingAddress.name=name&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.billingAddress.street1=street&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.billingAddress.cityName=san jose&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.billingAddress.stateOrProvince=CA&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.billingAddress.country=US';
 	$string = explode('&', $string);
 	foreach ($string as $tmpVar) {
@@ -100,13 +100,13 @@ if($service == 'PayPalAPIs')
 	$i=0;
 	foreach ($mrg as $req => $reqArray)
 	{
-		while(lcfirst($req) != $jsonReq[$i]->Name)
+		while($req != $jsonReq[$i]->Name)
 		{
 			$i++;
 		}
-		if(lcfirst($req) == $jsonReq[$i]->Name)
+		if($req == $jsonReq[$i]->Name)
 		{
-			$req = ucfirst($req);
+			$req = $req;
 			$jsonType = $jsonReq[$i];
 			$classVals[$req] = $reqArray;
 		}
@@ -260,16 +260,30 @@ function buildType($jsonType, $classVals)
             $key = $matches[1];
         }        
 		$j=0;        
-		while(lcfirst($key) != $jsonType[$j]->Name)
+		while($key != $jsonType[$j]->Name)
 		{       
 			if( $jsonType[$j]->Name == null)
 				break;
 			$j++;
 
 		}
-		if(lcfirst($key) == $jsonType[$j]->Name)
+		if($key == $jsonType[$j]->Name)
 		{
-			$objGenArray[$i]['Name'] = ucfirst($key);
+			if(isset($jsonType[$j]->ValidatedName))
+			{
+				if($jsonType[$j]->Name != $jsonType[$j]->ValidatedName)
+				{
+					$objGenArray[$i]['Name'] = $jsonType[$j]->ValidatedName;
+				}
+				else
+				{
+					$objGenArray[$i]['Name'] = $key;
+				}
+			}
+			else 
+			{
+				$objGenArray[$i]['Name'] = $key;
+			}
 			$objGenArray[$i]['type'] =  $jsonType[$j]->Type;
 			$objGenArray[$i]['validatedType'] = $jsonType[$j]->ValidatedClass;
 			if(!empty($jsonType[$j]->Members))

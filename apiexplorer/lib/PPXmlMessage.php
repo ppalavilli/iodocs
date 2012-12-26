@@ -21,10 +21,10 @@ abstract class PPXmlMessage
 	 */
 	public function toXMLString()
 	{
-		if (count($properties = get_object_vars($this)) >= 2 && array_key_exists('Value', $properties)) {
+		if (count($properties = get_object_vars($this)) >= 2 && array_key_exists('value', $properties)) {
 			$attributes = array();
 			foreach (array_keys($properties) as $property) {
-				if ($property === 'Value') continue;
+				if ($property === 'value') continue;
 				if (($annots = PPUtils::propertyAnnotations($this, $property)) && isset($annots['attribute'])) {
 					if (($propertyValue = $this->{$property}) === NULL || $propertyValue == NULL) {
 						$attributes[] = NULL;
@@ -36,7 +36,7 @@ abstract class PPXmlMessage
 			}
 
 			if (count($attributes)) {
-				return implode(' ', $attributes) . '>' . PPUtils::escapeInvalidXmlCharsRegex($this->Value);
+				return implode(' ', $attributes) . '>' . PPUtils::escapeInvalidXmlCharsRegex($this->value);
 			}
 		}
 
