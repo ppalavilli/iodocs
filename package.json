@@ -8,12 +8,12 @@
     "livedocs",
     "iodocs",
     "documentation",
-    "api",
+    "api"
    ],
   "author": "Mashery, Inc. <nmansilla@mashery.com>",
   "contributors": [
-    "Ganesh Hegde" <ghegde@paypal.com>,
-    "Vidya Chandrasekaran" <vichandrasekaran@paypal.com>,
+    "Ganesh Hegde <ghegde@paypal.com>",
+    "Vidya Chandrasekaran <vichandrasekaran@paypal.com>",
     "Kelly Miyashiro <kelly@mashery.com.com>",
     "Neil Mansilla <neil@mashery.com>",
     "Mike Squires <msquires@mashery.com>",
