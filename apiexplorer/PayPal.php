@@ -14,7 +14,7 @@ define("DEFAULT_APPID", 'APP-80W284485P519543T');
 $service = $_REQUEST['apiName'];
 //$service = 'PayPalAPIs';
 $operation = $_REQUEST['method'];
-
+//$operation = 'SetExpressCheckout';
 
 if(isset($_REQUEST['apiUserName']))
 	$apiUserName = $_REQUEST['apiUserName'];
@@ -42,11 +42,11 @@ foreach($_REQUEST as $key => $val)
 	$inputParams[$key] = $val;
 }
 $filteredParamArr = queryFilter($inputParams, $arRemove);
- //error_log(print_r($filteredParamArr, true));
+//error_log(print_r($filteredParamArr, true));
  //$paramArr = test();
 function test()
 {
-      $string = 'setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.returnURL=Http://return.com&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.cancelURL=Http://return&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.paymentDetails(0).orderTotal.currencyID=ALL&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.paymentDetails(0).orderTotal.value=2&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.paymentDetails(1).orderTotal.currencyID=BHD&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.paymentDetails(1).orderTotal.value=20';
+    $string = "SetExpressCheckoutReq.SetExpressCheckoutRequest.SetExpressCheckoutRequestDetails.ReturnURL=http://return&SetExpressCheckoutReq.SetExpressCheckoutRequest.SetExpressCheckoutRequestDetails.CancelURL=http://return&SetExpressCheckoutReq.SetExpressCheckoutRequest.SetExpressCheckoutRequestDetails.PaymentDetails(0).OrderTotal.currencyID=USD&SetExpressCheckoutReq.SetExpressCheckoutRequest.SetExpressCheckoutRequestDetails.PaymentDetails(0).OrderTotal.value=2&SetExpressCheckoutReq.SetExpressCheckoutRequest.SetExpressCheckoutRequestDetails.cpp-header-back-color=red";
 	//$string = 'setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.orderTotal.currencyID=USD&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.orderTotal.value=1&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.returnURL=http://return&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.cancelURL=http://return&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.billingAddress.name=name&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.billingAddress.street1=street&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.billingAddress.cityName=san jose&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.billingAddress.stateOrProvince=CA&setExpressCheckoutReq.setExpressCheckoutRequest.setExpressCheckoutRequestDetails.billingAddress.country=US';
 	$string = explode('&', $string);
 	foreach ($string as $tmpVar) {
@@ -72,6 +72,14 @@ function test()
 //$filteredParamArr = $paramArr;
 if($service == 'PayPalAPIs')
 {
+    $path = 'lib';
+	set_include_path(get_include_path() . PATH_SEPARATOR . $path);
+	require_once 'services/PayPalAPIInterfaceService/PayPalAPIInterfaceServiceService.php';
+	require_once 'auth/PPSignatureCredential.php';
+	require_once 'PPConfigManager.php';
+    
+    $config = PPConfigManager::getInstance();
+	$url = $config->get('service.EndPoint.PayPalAPI');
 
 	$file = file_get_contents('./PayPalAPIs.json');
 	$digest = json_decode($file);
@@ -83,7 +91,7 @@ if($service == 'PayPalAPIs')
 	$mrg = array();    
     if(empty($filteredParamArr))
     {
-        echo 'https://api.sandbox.paypal.com/2.0/#SEPERATOR#null#SEPERATOR#input parameters are not set#SEPERATOR#null#SEPERATOR#null';
+        echo "$url#SEPERATOR#null#SEPERATOR#input parameters are not set#SEPERATOR#null#SEPERATOR#null";
         exit;
     }
     
@@ -100,13 +108,13 @@ if($service == 'PayPalAPIs')
 	$i=0;
 	foreach ($mrg as $req => $reqArray)
 	{
-		while(lcfirst($req) != $jsonReq[$i]->Name)
+		while($req != $jsonReq[$i]->Name)
 		{
 			$i++;
 		}
-		if(lcfirst($req) == $jsonReq[$i]->Name)
+		if($req == $jsonReq[$i]->Name)
 		{
-			$req = ucfirst($req);
+			$req = $req;
 			$jsonType = $jsonReq[$i];
 			$classVals[$req] = $reqArray;
 		}
@@ -114,17 +122,10 @@ if($service == 'PayPalAPIs')
 
 	$objArray = buildType(array($jsonType), $classVals);
 
-	$path = 'lib';
-	set_include_path(get_include_path() . PATH_SEPARATOR . $path);
-	require_once('services/PayPalAPIInterfaceService/PayPalAPIInterfaceServiceService.php');
-
+	$credential = new PPSignatureCredential($apiUserName, $apiPassword, $apiSignature);
 	$request = buildRequest($objArray[0]);
-
 	$service = new PayPalAPIInterfaceServiceService();
-
-	$resp = $service->$operation($request);
-
-	$url = 'https://api.sandbox.paypal.com/2.0/';
+	$resp = $service->$operation($request,$credential);
 	$params = $service->getLastRequest();
 	$response = $service->getLastResponse();
 	$resHeader =  $service->getResHeader();
@@ -143,8 +144,8 @@ if($service == 'PayPalAPIs')
 	}
 	$queryStr = implode('&', $arr);
 
-	require_once 'lib/PPHttpConnection.php';
-	require_once 'lib/PPUtils.php';
+	require_once 'lib/helix/lib/PPHttpConnection.php';
+	require_once 'lib/helix/lib/PPUtils.php';
 	$url = 'https://svcs.sandbox.paypal.com/'.$service.'/'.$operation;
 	//$url = 'https://svcs.sandbox.paypal.com/AdaptivePayments/PaymentDetails';
 	//$params ='requestEnvelope.errorLanguage=en_US&payKey=AP-5S482348KH512131U';
@@ -209,7 +210,6 @@ function buildRequest($classDef )
 		{
 			$newClass = $classDef['validatedType'];
 			$req = new $newClass();		
-			$i= 0;
 			foreach ($classDef['members'] as $member)
 			{
             //    if(array_key_exists(0, $member)) {
@@ -217,17 +217,20 @@ function buildRequest($classDef )
              //   }
 				if(isset($member['value']))
 				{
-					$req->$member['Name'] = $member['value'];
-					$i++;
+					if(isset($member['index'])) {
+						$req->{$member['Name']}[$member['index']] = $member['value'];
+					}
+					else{
+						$req->$member['Name'] = $member['value'];
+					}
 				}
 				else if( $classDef['type'] == 'complex' &&  !empty($classDef['members']))
 				{
-                    if(isset($classDef['members'][$i]['index'])) {
-                        $req->{$member['Name']}[$classDef['members'][$i]['index']] = buildRequest($classDef['members'][$i]);
+                    if(isset($member['index'])) {
+                        $req->{$member['Name']}[$member['index']] = buildRequest($member);
                     } else {
-                        $req->$member['Name'] = buildRequest($classDef['members'][$i]);
+                        $req->$member['Name'] = buildRequest($member);
                     }
-					$i++;
 				}
 
 			}
@@ -254,16 +257,30 @@ function buildType($jsonType, $classVals)
             $key = $matches[1];
         }        
 		$j=0;        
-		while(lcfirst($key) != $jsonType[$j]->Name)
+		while($key != $jsonType[$j]->Name)
 		{       
 			if( $jsonType[$j]->Name == null)
 				break;
 			$j++;
 
 		}
-		if(lcfirst($key) == $jsonType[$j]->Name)
+		if($key == $jsonType[$j]->Name)
 		{
-			$objGenArray[$i]['Name'] = ucfirst($key);
+			if(isset($jsonType[$j]->ValidatedName))
+			{
+				if($jsonType[$j]->Name != $jsonType[$j]->ValidatedName)
+				{
+					$objGenArray[$i]['Name'] = $jsonType[$j]->ValidatedName;
+				}
+				else
+				{
+					$objGenArray[$i]['Name'] = $key;
+				}
+			}
+			else 
+			{
+				$objGenArray[$i]['Name'] = $key;
+			}
 			$objGenArray[$i]['type'] =  $jsonType[$j]->Type;
 			$objGenArray[$i]['validatedType'] = $jsonType[$j]->ValidatedClass;
 			if(!empty($jsonType[$j]->Members))
@@ -278,11 +295,12 @@ function buildType($jsonType, $classVals)
 			else
 			{
                 if(isset($idx)) {
+                	$objGenArray[$i]['value'] = $val;
+                	$objGenArray[$i]['index'] = $idx;
                 } else {
                     $objGenArray[$i]['value'] = $val;
                 }
 			}
-			//$objGenArray['value'] = $val;
 			$i++;
 		}
 

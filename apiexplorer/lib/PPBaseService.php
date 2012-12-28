@@ -5,6 +5,8 @@ require_once 'PPAPIService.php';
 class PPBaseService {
 
 	private $serviceName;
+	private $serviceBinding;
+	private $handlers;
 
    /*
     * Setters and getters for Third party authentication (Permission Services)
@@ -13,7 +15,12 @@ class PPBaseService {
 	protected $tokenSecret;
 	protected $lastRequest;
 	protected $lastResponse;
-	public $resHeader;
+	protected $resHeader;
+	
+	public function getResHeader()
+	{
+		return $this->resHeader;
+	}
     public function getLastRequest() {
 		return $this->lastRequest;
 	}
@@ -30,47 +37,70 @@ class PPBaseService {
 	public function getAccessToken() {
 		return $this->accessToken;
 	}
-	public function setAccessToken($accessToken) {
+	/**
+	 * @deprecated
+	 * For using third party token permissions, 
+	 * create a ICredential object and pass it to the
+	 * call() method instead. 
+	 *
+	 *<pre>
+	 * $service = new *Service();
+	 * $cred = new PPSignatureCredential("username", "password", "signature");
+	 * $cred->setThirdPartyAuthorization(new PPTokenAuthorization("accessToken", "tokenSecret"));
+	 * $service->SomeOperation($reqObject, $cred); 
+	 *</pre>	 
+	 */
+ 	public function setAccessToken($accessToken) {
 		$this->accessToken = $accessToken;
 	}
 	public function getTokenSecret() {
 		return $this->tokenSecret;
 	}
+	/**
+	 * @deprecated
+	 * For using third party token permissions, 
+	 * create a ICredential object and pass it to the
+	 * call() method instead. 
+	 *
+	 *<pre>
+	 * $service = new *Service();
+	 * $cred = new PPSignatureCredential("username", "password", "signature");
+	 * $cred->setThirdPartyAuthorization(new PPTokenAuthorization("accessToken", "tokenSecret"));
+	 * $service->SomeOperation($reqObject, $cred); 
+	 *</pre>	 
+	 */
 	public function setTokenSecret($tokenSecret) {
 		$this->tokenSecret = $tokenSecret;
 	}
 
-	public function __construct($serviceName) {
+	public function __construct($serviceName, $serviceBinding, $handlers=array()) {
 		$this->serviceName = $serviceName;
+		$this->serviceBinding = $serviceBinding;
+		$this->handlers = $handlers;
 	}
 
 	public function getServiceName() {
 		return $this->serviceName;
 	}
-	public function getResHeader()
-	{
-		return $this->resHeader;
-	}
-	
-	public function call($method, $requestObject, $apiUsername = null) {
-		$params = $this->marshall($requestObject);
-		$service = new PPAPIService();
-		$service->setServiceName($this->serviceName);
 
+	/**
+	 * 
+	 * @param string $method - API method to call
+	 * @param object $requestObject Request object 
+	 * @param mixed $apiCredential - Optional API credential - can either be
+	 * 		a username configured in sdk_config.ini or a ICredential object
+	 *      created dynamically 		
+	 */
+	public function call($port, $method, $requestObject, $apiCredential = null) {		
+		$service = new PPAPIService($port, $this->serviceName, 
+				$this->serviceBinding, $this->handlers);		
+		$ret = $service->makeRequest($method, $requestObject, $apiCredential,
+				$this->accessToken, $this->tokenSecret);
+		$this->lastRequest = $ret['request'];
+		$ret['response'] = array_reverse($ret['response']);
+		$this->lastResponse = $ret['response'][0];
+		$this->resHeader = $ret['response'][1];
 		
-		
-		
-		$res = $service->makeRequest($method, $params, $apiUsername ,$this->accessToken, $this->tokenSecret);
-		$res = array_reverse($res);
-		$this->lastResponse = $res[0];
-		$this->resHeader = $res[1];
-		$this->lastRequest = $service->params;
 		return $this->lastResponse;
 	}
-
-    private function marshall($object) {
-		$transformer = new PPObjectTransformer();
-		return $transformer->toString($object);
-	}
 }
-?>

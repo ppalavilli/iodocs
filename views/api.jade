@@ -67,14 +67,10 @@ ul(id='endpoints')
     - each endpoint in apiDefinition.endpoints
         li.endpoint
             h3.title
-                span.name=endpoint.name
-                ul.actions
-                    li.list-methods
-                        a(href='#') List Methods
-                    li.expand-methods
-                        a(href='#') Expand Methods
+                span.name=endpoint.name                
             - if (endpoint.methods.length)
             ul.methods.hidden
+                 script(src=appContext + '/javascripts/loader.js')
                 - each method in endpoint.methods
                     - var httpmethod =method.HTTPMethod.toLowerCase()
                     - if (method.RequiresOAuth ==='Y' || method.RequiresOAuth ===true)
@@ -127,6 +123,7 @@ ul(id='endpoints')
                                                 - else if(parameter.Type !='complex')
                                                         -if(required == 'true')
                                                             - var id = 'required'
+                                                            - var className = 'required'
                                                         -else 
                                                             - var id = 'optional'
                                                         li.title(id=id)
@@ -142,13 +139,14 @@ ul(id='endpoints')
                                                                                 option(value=choice, selected=true) #{choice}
                                                                             - else
                                                                                 option(value=choice) #{choice}
-                                                                        span.Type (#{parameter.Type})
+                                                                    span.Type #{className}
                                                             - else if (parameter.Type =='boolean')
                                                                     select(name='params[' + ((elemName == 'undefined'|| elemName.trim() === '') ? '' : elemName + '.') + parameter.Name + ']', placeholder=className, class='apiInput')
                                                                         - if (parameter.Default =='')
                                                                             option(value='') 
                                                                         - each choice in ["true", "false"]
                                                                             option(value=choice) #{choice}
+                                                                        span.Type (#{className})
                                                             - else
                                                                 input(type='text',name='params[' + ((elemName == 'undefined' || elemName.trim() === '') ? '' : elemName + '.') + parameter.Name + ']', value=parameter.Default, placeholder=className, class='apiInput')
                                                                 span.Type (#{parameter.Type})
@@ -221,4 +219,4 @@ ul(id='endpoints')
                                         a(href='#', class='add-headers') Add Header
                                     // Create header fields and button to add/remove headers.
                             - if (!method['read-only'])
-                                input(type='submit', id=method.MethodName, value='Try it', class="pushbutton1 btn btn-primary")
+                                input(type='submit', id='submit', value='Try it', class="pushbutton1 btn btn-primary")
