@@ -67,14 +67,10 @@ ul(id='endpoints')
     - each endpoint in apiDefinition.endpoints
         li.endpoint
             h3.title
-                span.name=endpoint.name
-                ul.actions
-                    li.list-methods
-                        a(href='#') List Methods
-                    li.expand-methods
-                        a(href='#') Expand Methods
+                span.name=endpoint.name                
             - if (endpoint.methods.length)
             ul.methods.hidden
+                 script(src=appContext + '/javascripts/loader.js')
                 - each method in endpoint.methods
                     - var httpmethod =method.HTTPMethod.toLowerCase()
                     - if (method.RequiresOAuth ==='Y' || method.RequiresOAuth ===true)
@@ -223,4 +219,4 @@ ul(id='endpoints')
                                         a(href='#', class='add-headers') Add Header
                                     // Create header fields and button to add/remove headers.
                             - if (!method['read-only'])
-                                input(type='submit', id=method.MethodName, value='Try it', class="pushbutton1 btn btn-primary")
+                                input(type='submit', id='submit', value='Try it', class="pushbutton1 btn btn-primary")

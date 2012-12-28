@@ -72,6 +72,14 @@ function test()
 //$filteredParamArr = $paramArr;
 if($service == 'PayPalAPIs')
 {
+    $path = 'lib';
+	set_include_path(get_include_path() . PATH_SEPARATOR . $path);
+	require_once 'services/PayPalAPIInterfaceService/PayPalAPIInterfaceServiceService.php';
+	require_once 'auth/PPSignatureCredential.php';
+	require_once 'PPConfigManager.php';
+    
+    $config = PPConfigManager::getInstance();
+	$url = $config->get('service.EndPoint.PayPalAPI');
 
 	$file = file_get_contents('./PayPalAPIs.json');
 	$digest = json_decode($file);
@@ -83,7 +91,7 @@ if($service == 'PayPalAPIs')
 	$mrg = array();    
     if(empty($filteredParamArr))
     {
-        echo 'https://api.sandbox.paypal.com/2.0/#SEPERATOR#null#SEPERATOR#input parameters are not set#SEPERATOR#null#SEPERATOR#null';
+        echo "$url#SEPERATOR#null#SEPERATOR#input parameters are not set#SEPERATOR#null#SEPERATOR#null";
         exit;
     }
     
@@ -114,21 +122,10 @@ if($service == 'PayPalAPIs')
 
 	$objArray = buildType(array($jsonType), $classVals);
 
-	$path = 'lib';
-	set_include_path(get_include_path() . PATH_SEPARATOR . $path);
-	require_once 'services/PayPalAPIInterfaceService/PayPalAPIInterfaceServiceService.php';
-	require_once 'auth/PPSignatureCredential.php';
-	require_once 'PPConfigManager.php';
-	
 	$credential = new PPSignatureCredential($apiUserName, $apiPassword, $apiSignature);
 	$request = buildRequest($objArray[0]);
-
 	$service = new PayPalAPIInterfaceServiceService();
-
 	$resp = $service->$operation($request,$credential);
-	
-	$config = PPConfigManager::getInstance();
-	$url = $config->get('service.EndPoint.PayPalAPI');
 	$params = $service->getLastRequest();
 	$response = $service->getLastResponse();
 	$resHeader =  $service->getResHeader();

@@ -27,7 +27,7 @@
         "apiSignature": "AFcWxV21C7fd0v3bYYYRCpSSRl31A7yDhhsPUU2XhtMoZXsWHFxu-RWy"
 	},
     "PayPalAPIs":{
-		"name": "PayPal APIs",
+		"name": "PayPal - Merchant APIs",
         "protocol": "http",
         "baseURL": "localhost",
         "publicPath": "/apiexplorer/PayPal.php",
@@ -39,7 +39,7 @@
         "apiSignature": "AFcWxV21C7fd0v3bYYYRCpSSRl31A7yDhhsPUU2XhtMoZXsWHFxu-RWy"
 	},
     "Invoice":{
-		"name": "Invoice APIs",
+		"name": "PayPal - Invoice APIs",
         "protocol": "http",
         "baseURL": "apiproxy.herokuapp.com",
         "publicPath": "/PayPal.php",
@@ -52,7 +52,7 @@
         "apiSignature": "AFcWxV21C7fd0v3bYYYRCpSSRl31A7yDhhsPUU2XhtMoZXsWHFxu-RWy"
 	},
     "Permissions":{
-		"name": "Permissions APIs",
+		"name": "PayPal - Permissions APIs",
         "protocol": "http",
         "baseURL": "apiproxy.herokuapp.com",
         "needsProxy": true,

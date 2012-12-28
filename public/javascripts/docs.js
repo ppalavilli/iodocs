@@ -281,18 +281,39 @@
         if($(this).attr('enctype') == 'application/json') {
         	params.push({ name: 'params[jsonParam]', value: form2JSON(params)});
     	}
-    
+        
+      // set up spinner for try it
+            var opts = {
+              lines: 13, // The number of lines to draw
+              length: 4, // The length of each line
+              width: 2, // The line thickness
+              radius: 3, // The radius of the inner circle
+              corners: 1, // Corner roundness (0..1)
+              rotate: 0, // The rotation offset
+              color: '#000', // #rgb or #rrggbb
+              speed: 1, // Rounds per second
+              trail: 60, // Afterglow percentage
+              shadow: false, // Whether to render a shadow
+              hwaccel: false, // Whether to use hardware acceleration
+              className: 'spinner', // The CSS class to assign to the spinner
+              zIndex: 2e9, // The z-index (defaults to 2000000000)
+              top: 'auto', // Top position relative to parent in px
+              left: 'auto', // Left position relative to parent in px
+            };
+            var spinner = new Spinner(opts).spin();
         // Setup results container
         var resultContainer = $('.result', self);
         if (resultContainer.length === 0) {
             resultContainer = $(document.createElement('div')).attr('class', 'result');
-            $(self).append(resultContainer);
+            $(self).append(resultContainer);        
         }
+        //display spinner whole waiting for result
         
         if ($('div.response_panel', resultContainer).length !== 0) {
         	resultContainer.empty();
         }
-
+        $(this).find('.result').append(spinner.el);
+        $('.spinner').css('margin-left','35px');
         //console.log(params);
         $("input[type=submit]", self).attr("disabled", "disabled");
         $.post('/processReq', params, function(result, text) {
@@ -313,6 +334,7 @@
         })
         // Complete, runs on error and success
         .complete(function(result, text) {
+            spinner.stop();
             var response = JSON.parse(result.responseText);
             var idPrefix = apiMethodName.replace(/[{}\/]/g, "_") + httpMethod;
             var template_data = {reqbody_id: idPrefix + '-reqbody', reqheaders_id: idPrefix + '-reqheaders', respheaders_id: idPrefix + '-respheaders', 
